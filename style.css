@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Marvel:ital,wght@0,400;0,700;1,400;1,700&family=Righteous&display=swap');
+:root {
+  font-family: 'Marvel', sans-serif;
+  /* colores */
+  --color-texto: #f2e5ff;
+  --shadow: #231f1f;
+  --not-enfasis: #796ea6;
+  --enfasis: #80007f;
+  --shadow-red: #a21f258d;
+  --red2: #e5101e;
+  --red: #b00710;
+  --background-color: #231f1f;
+
+  /* espacios*/
+  --s: 0.5rem;
+  --m: 1rem;
+  --l: 1.5rem;
+  --xl: 2rem;
+  --xxl: 3rem;
+  --br-s: 8px;
+  --br-m: 20px;
+  --br-l: 50%;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--background-color);
+  color: var(--color-texto);
+}
+a {
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}

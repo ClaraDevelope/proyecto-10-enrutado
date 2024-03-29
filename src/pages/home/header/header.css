@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Marvel:ital,wght@0,400;0,700;1,400;1,700&family=Righteous&display=swap');
+:root {
+  font-family: 'Marvel', sans-serif;
+  /* colores */
+  --color-texto: #f2e5ff;
+  --shadow: #231f1f;
+  --not-enfasis: #796ea6;
+  --enfasis: #80007f;
+  --shadow-red: #a21f258d;
+  --red2: #e5101e;
+  --red: #b00710;
+  --background-color: #231f1f;
+
+  /* espacios*/
+  --s: 0.5rem;
+  --m: 1rem;
+  --l: 1.5rem;
+  --xl: 2rem;
+  --xxl: 3rem;
+  --br-s: 8px;
+  --br-m: 20px;
+  --br-l: 50%;
+}
+
+header {
+  background-color: var(--shadow-red);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: var(--m);
+  box-shadow: 2px 3px 5px 0px var(--shadow-red);
+}
+h1 {
+  font-size: var(--xxl);
+  color: var(--red2);
+  padding: var(--s);
+}
+ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--s);
+}
+ul > li > a {
+  color: var(--color-texto);
+  font-size: var(--l);
+  font-weight: bold;
+}
+.login-button {
+  font-family: 'Marvel', sans-serif;
+  font-size: var(--l);
+  font-weight: bold;
+  border: none;
+  border-radius: var(--br-s);
+  padding: var(--s);
+  background-color: var(--red);
+  color: var(--color-texto);
+  box-shadow: 2px 3px 5px 0px var(--background-color);
+  cursor: pointer;
+}
