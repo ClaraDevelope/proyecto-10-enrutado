@@ -25,8 +25,17 @@ const form = (elementoPadre, eventoId) => {
     const nombre = formData.get('nombre')
     const email = formData.get('email')
 
+    if (nombre.trim() === '' || !isValidEmail(email)) {
+      alert('Por favor, complete todos los campos correctamente.')
+      return
+    }
+
     submit(nombre, email, eventoId, form)
   })
+}
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
 }
 
 const submit = async (nombre, email, eventoId, form) => {

@@ -1,3 +1,4 @@
+import { Login } from '../../login-register/loginRegister'
 import { registroAsistente } from '../asistentes/registroAsistente'
 import './home.css'
 export const Home = async () => {
@@ -107,6 +108,8 @@ const printEvento = (evento) => {
   buttonAsistenciaSinRegistro.addEventListener('click', () =>
     registroAsistente(evento)
   )
+  const buttonAsistenciaUsuario = info.querySelector('.registro-boton')
+  buttonAsistenciaUsuario.addEventListener('click', Login)
   divEvento.append(titulo, divCartel, info)
   main.append(divEvento)
 }
