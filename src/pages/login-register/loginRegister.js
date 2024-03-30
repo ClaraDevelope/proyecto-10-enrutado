@@ -1,3 +1,4 @@
+import { Home } from '../home/main/home'
 import './loginRegister.css'
 
 const submitLogin = async (nombreUsuario, password, form) => {
@@ -22,7 +23,7 @@ const submitLogin = async (nombreUsuario, password, form) => {
       console.log('Datos de la respuesta:', data)
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
-      // Redirigir a la página de inicio o realizar otra acción
+      usuarioLogueado()
     } else {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
@@ -80,6 +81,10 @@ const form = (elementoPadre) => {
   submitButton.innerText = 'Iniciar sesión'
   formLogin.append(userNameInput, passwordInput, submitButton)
   elementoPadre.append(formLogin)
+}
+
+const usuarioLogueado = () => {
+  Home()
 }
 
 export const Login = () => {
