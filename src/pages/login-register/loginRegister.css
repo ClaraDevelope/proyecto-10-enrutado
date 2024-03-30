@@ -22,7 +22,7 @@
   --br-m: 20px;
   --br-l: 50%;
 }
-.registro-asistencia-container {
+.form-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,59 +30,40 @@
   gap: var(--l);
 }
 
-.registro-asistencia-container > p {
-  width: 400px;
-  text-align: center;
-  font-size: var(--br-m);
+h2 {
+  font-size: var(--xl);
 }
 
-.form-asistente {
+.form-login {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: var(--m);
+  gap: var(--l);
 }
 
-.form-asistente input {
+.form-login > input {
   font-size: var(--m);
   border-radius: 4px;
   padding: 10px;
   outline: none;
   margin-bottom: 10px;
 }
-.form-asistente input:focus {
+
+.form-login input:focus {
   border-color: var(--red2);
   box-shadow: 0 0 5px var(--red2);
 }
-.form-asistente input::placeholder {
+.form-login input::placeholder {
   color: var(--background-color);
 }
-
-.submit,
-.volver {
-  font-size: var(--m);
-  -webkit-text-stroke: 0.5px var(--color-texto);
-  padding: 10px;
-  background-color: var(--shadow-red);
-  color: var(--color-texto);
-  border-radius: var(--br-s);
-  border: none;
-  box-shadow: 4px 6px 6px 2px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-}
-.submit:hover,
-.volver:hover {
-  scale: 1.05;
-  background-color: var(--red2);
-}
-.registro-hecho {
-  width: 400px;
-  text-align: center;
+.parrafo-registro {
   font-size: var(--br-m);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: var(--m);
+}
+.anchor {
+  color: var(--red);
+  transition: ease-in-out 0.2s;
+}
+.anchor:hover {
+  color: var(--red2);
 }

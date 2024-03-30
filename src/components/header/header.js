@@ -1,4 +1,5 @@
 import { Home } from '../../pages/home/main/home'
+import { Login } from '../../pages/login-register/loginRegister'
 import './header.css'
 export const Header = () => {
   const header = document.querySelector('header')
@@ -16,11 +17,9 @@ export const Header = () => {
     const inicioLink = document.getElementById('inicio-link')
     inicioLink.addEventListener('click', Home)
   })
+  const loginButton = listHeader.querySelector('#login-button')
+  loginButton.addEventListener('click', Login)
   header.append(divtitle, listHeader)
-}
-
-export const goToFormLogin = () => {
-  const button = document.querySelector('#login-button')
 }
 
 export const HeaderUsuario = () => {

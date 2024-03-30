@@ -1,3 +1,4 @@
+import { Home } from '../main/home'
 import './registroAsistente.css'
 
 const form = (elementoPadre, eventoId) => {
@@ -68,6 +69,11 @@ const submit = async (nombre, email, eventoId, form) => {
     mensajeRegistro.className = 'registro-hecho'
     mensajeRegistro.innerText =
       '¡Enhorabuena! Te has registrado con éxito para nuestro emocionante evento. En breve, recibirás todos los detalles del evento en tu correo electrónico. ¡Mantente atento a tu bandeja de entrada y prepárate para disfrutar de una experiencia inolvidable!'
+    const volverBoton = document.createElement('button')
+    volverBoton.className = 'volver'
+    volverBoton.innerText = 'Volver a los eventos'
+    volverBoton.addEventListener('click', Home)
+    mensajeRegistro.append(volverBoton)
     main.append(mensajeRegistro)
   } catch (error) {
     console.error('Error en la solicitud:', error)
