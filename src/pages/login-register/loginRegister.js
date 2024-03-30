@@ -19,21 +19,23 @@ const submitLogin = async (nombreUsuario, password, form) => {
 
     if (response.status === 200) {
       const data = await response.json()
+      console.log('Datos de la respuesta:', data)
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
       // Redirigir a la página de inicio o realizar otra acción
-    } else if (response.status === 400) {
-      const pError = document.createElement('p')
-      pError.classList.add('error')
-      pError.textContent = 'Nombre de usuario o contraseña incorrectos'
-      pError.style.color = 'red'
-      form.append(pError)
     } else {
-      console.error('Error al iniciar sesión')
-      // Manejar otros posibles errores
+      console.error('Error en la solicitud:', response.status)
+      const errorMessage = await response.text()
+      console.error('Mensaje de error:', errorMessage)
+      throw new Error('Error al iniciar sesión')
     }
   } catch (error) {
     console.error('Error en la solicitud:', error)
+    const pError = document.createElement('p')
+    pError.classList.add('error')
+    pError.textContent = error.message || 'Error al iniciar sesión'
+    pError.style.color = 'red'
+    form.append(pError)
   }
 }
 
@@ -80,10 +82,8 @@ const form = (elementoPadre) => {
   elementoPadre.append(formLogin)
 }
 
-export const Login = async () => {
+export const Login = () => {
   const main = document.querySelector('main')
   main.innerHTML = ''
   formLogin(main)
 }
-
-// https://proyecto-10-backend.vercel.app/api/v1/auth/login
