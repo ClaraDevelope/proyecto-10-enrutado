@@ -35,7 +35,8 @@ const submitLogin = async (nombreUsuario, password, form) => {
     const pError = document.createElement('p')
     pError.classList.add('error')
     pError.textContent = error.message || 'Error al iniciar sesión'
-    pError.style.color = 'red'
+    pError.style.color = 'blue'
+    pError.style.fontSize = '20px'
     form.append(pError)
   }
 }

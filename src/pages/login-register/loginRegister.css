@@ -51,8 +51,10 @@ h2 {
 }
 
 .form-login input:focus {
-  border-color: var(--red2);
-  box-shadow: 0 0 5px var(--red2);
+  /* border-color: var(--red2);
+  box-shadow: 0 0 5px var(--red2); */
+  border-color: var(--blue);
+  box-shadow: 0 0 5px var(--blue);
 }
 .form-login input::placeholder {
   color: var(--background-color);
