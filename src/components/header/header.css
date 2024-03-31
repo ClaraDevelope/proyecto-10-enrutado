@@ -97,3 +97,8 @@ ul > li > a:hover::after {
 #login-button:hover::after {
   transform: scale(1, 1);
 }
+
+.header-usuario > li {
+  margin-right: var(--br-m);
+  text-align: center;
+}

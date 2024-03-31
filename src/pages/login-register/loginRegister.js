@@ -1,3 +1,4 @@
+import { HeaderUsuario } from '../../components/header/header'
 import { Home } from '../home/main/home'
 import './loginRegister.css'
 
@@ -85,6 +86,7 @@ const form = (elementoPadre) => {
 }
 
 const usuarioLogueado = () => {
+  HeaderUsuario()
   Home()
 }
 

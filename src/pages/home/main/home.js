@@ -113,31 +113,3 @@ const printEvento = (evento) => {
   divEvento.append(titulo, divCartel, info)
   main.append(divEvento)
 }
-
-// const printEvento = (evento) => {
-//   // Tu código existente ...
-
-//   // Verificar si el usuario está autenticado
-// const usuarioAutenticado = usuario && usuario.token;
-
-// // Si el usuario está autenticado, mostrar solo el botón para asistir como usuario registrado
-// if (usuarioAutenticado) {
-//   info.innerHTML = `
-//     <!-- Otras partes de tu contenido ... -->
-//     <div class= "button-container">
-//       <button class="registro-boton">▶ Asistir como usuario registrado</button>
-//     </div>
-//   `;
-// } else {
-//   // Si el usuario no está autenticado, mostrar ambos botones
-//   info.innerHTML = `
-//     <!-- Otras partes de tu contenido ... -->
-//     <div class= "button-container">
-//       <button class="asistencia">▶ Asistir sin registro</button>
-//       <button class="registro-boton">▶ Asistir como usuario registrado</button>
-//     </div>
-//   `;
-// }
-
-//   // Tu código existente ...
-// }

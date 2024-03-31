@@ -28,11 +28,12 @@ export const HeaderUsuario = () => {
   const title = document.createElement('h1')
   title.innerText = 'FandomFiesta'
   const listHeaderUsuario = document.createElement('ul')
-  listHeader.innerHTML = `
-  <li><a>Inicio</a></li>
-  <li><a>Mis eventos</a></li>
-  <li><a>Mi perfil</a></li>
-  <li><a>Cerrar sesión</a></li>
+  listHeaderUsuario.className = 'header-usuario'
+  listHeaderUsuario.innerHTML = `
+  <li><a href='#Home'>Inicio</a></li>
+  <li><a href="#misEventos">Mis eventos</a></li>
+  <li><a href="#perfil">Mi perfil</a></li>
+  <li><a href="#bye">Cerrar sesión</a></li>
   `
   header.append(title, listHeaderUsuario)
 }
