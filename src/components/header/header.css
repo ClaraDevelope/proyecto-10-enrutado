@@ -27,11 +27,10 @@ header {
   width: 100%;
   background-color: var(--shadow-red);
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  padding: var(--s);
-  box-shadow: 2px 3px 5px 0px var(--shadow-red);
+  /* box-shadow: 2px 3px 5px 0px var(--shadow-red); */
 }
 /* .title-container {
   background-color: #000000;
@@ -41,12 +40,13 @@ h1 {
   font-size: 3.5rem;
   color: #ffffff;
   color: var(--black);
-  padding: var(--s);
+  padding: 0 20px;
   -webkit-text-stroke: 3px var(--color-texto);
   text-shadow: 3px 3px 0 #000, -3px 3px 0 #000, -3px -3px 0 #000,
     3px -3px 0 #000;
 }
 ul {
+  padding: var(--br-m);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,11 +72,12 @@ ul > li > a:hover::after {
 }
 
 #login-button {
-  font-size: var(--l);
+  font-size: 21px;
   font-weight: bold;
   border: none;
   border-radius: var(--br-s);
-  padding: var(--s);
+  padding: 5px 10px;
+
   background-color: var(--red);
   color: var(--color-texto);
   box-shadow: 2px 3px 5px 0px var(--background-color);
