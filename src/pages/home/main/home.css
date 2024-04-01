@@ -100,7 +100,8 @@ h3 {
 }
 .info-boton,
 .asistencia,
-.registro-boton {
+.registro-boton,
+.asistenciaUsuario {
   padding: var(--br-s);
   border: none;
   font-size: var(--br-m);

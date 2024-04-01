@@ -1,5 +1,5 @@
 import { Home } from '../../pages/home/main/home'
-import { Login } from '../../pages/login-register/loginRegister'
+import { Login, usuarioLogueado } from '../../pages/login/login'
 import './header.css'
 export const Header = () => {
   const header = document.querySelector('header')
@@ -33,7 +33,18 @@ export const HeaderUsuario = () => {
   <li><a href='#Home'>Inicio</a></li>
   <li><a href="#misEventos">Mis eventos</a></li>
   <li><a href="#perfil">Mi perfil</a></li>
-  <li><a href="#bye">Cerrar sesión</a></li>
+  <li><a class="bye" href="#bye">Cerrar sesión</a></li>
   `
+  const logoutButton = listHeaderUsuario.querySelector('.bye')
+  logoutButton.addEventListener('click', () => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      console.log('El usuario ya está desconectado.')
+      return
+    }
+    localStorage.removeItem('token')
+    window.location.href = '/'
+  })
+
   header.append(title, listHeaderUsuario)
 }

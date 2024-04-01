@@ -1,9 +1,10 @@
 import { API_URL } from '../../../main'
 import { HeaderUsuario } from '../../components/header/header'
 import { Home } from '../home/main/home'
-import './loginRegister.css'
+import { printRegister } from '../register/register'
+import './login.css'
 
-const submitLogin = async (nombreUsuario, password, form) => {
+export const submitLogin = async (nombreUsuario, password, form) => {
   const datos = JSON.stringify({ nombreUsuario, password })
 
   const opciones = {
@@ -22,7 +23,9 @@ const submitLogin = async (nombreUsuario, password, form) => {
       console.log('Datos de la respuesta:', data)
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
-      usuarioLogueado()
+      HeaderUsuario()
+      Home()
+      usuarioLogueado(data)
     } else {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
@@ -49,7 +52,10 @@ const formLogin = (elementoPadre) => {
   form(formLoginContainer)
   const pRegistro = document.createElement('p')
   pRegistro.className = 'parrafo-registro'
-  pRegistro.innerHTML = `Si aún no tienes cuenta, <a class="anchor" href="#Registro">haz click aquí para registrarte</a>`
+  pRegistro.innerHTML = `Si aún no tienes cuenta, <a class="anchor-registro" href="#Registro">haz click aquí para registrarte</a>`
+
+  const anchorRegistro = pRegistro.querySelector('.anchor-registro')
+  anchorRegistro.addEventListener('click', printRegister)
   formLoginContainer.append(pRegistro)
   elementoPadre.append(formLoginContainer)
 
@@ -83,10 +89,13 @@ const form = (elementoPadre) => {
   elementoPadre.append(formLogin)
 }
 
-export const usuarioLogueado = () => {
-  HeaderUsuario()
-  Home()
-  return true
+export const usuarioLogueado = (data) => {
+  if (data && data.token) {
+    console.log(data.token)
+    return true
+  } else {
+    return false
+  }
 }
 
 export const Login = () => {
