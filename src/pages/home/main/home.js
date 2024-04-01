@@ -1,4 +1,5 @@
-import { Login } from '../../login-register/loginRegister'
+import { API_URL } from '../../../../main'
+import { Login, usuarioLogueado } from '../../login-register/loginRegister'
 import { registroAsistente } from '../asistentes/registroAsistente'
 import './home.css'
 export const Home = async () => {
@@ -14,9 +15,7 @@ export const Home = async () => {
   loader.appendChild(loaderImg)
   main.appendChild(loader)
 
-  const res = await fetch(
-    'https://proyecto-10-backend.vercel.app/api/v1/eventos/'
-  )
+  const res = await fetch(API_URL + '/eventos/')
   const eventos = await res.json()
 
   main.removeChild(loader)
@@ -99,17 +98,37 @@ const printEvento = (evento) => {
         <p class="publi">Regístrate en nuestra web para obtener beneficios exclusivos: participa en sorteos, organiza tus eventos y obtén un 5% de descuento en todas tus reservas.</p>
         <p class="precio">Precio sin registro: ${precio}€</p>
         <p class="precio">Precio para usuarios registrados: ${precioUsuarios}€</p>
-        <div class= "button-container">
-         <button class="asistencia">▶ Asistir sin registro</button>
-         <button class="registro-boton">▶ Asistir como usuario registrado</button>
-       </div>
+        <div class= "button-container"></div>
     `
-  const buttonAsistenciaSinRegistro = info.querySelector('.asistencia')
-  buttonAsistenciaSinRegistro.addEventListener('click', () =>
-    registroAsistente(evento)
-  )
-  const buttonAsistenciaUsuario = info.querySelector('.registro-boton')
+
+  const buttonAsistencia = document.createElement('button')
+  buttonAsistencia.textContent = '▶ Asistir sin registro'
+  buttonAsistencia.className = 'asistencia'
+  buttonAsistencia.addEventListener('click', () => registroAsistente(evento))
+
+  const buttonContainer = info.querySelector('.button-container')
+  buttonContainer.appendChild(buttonAsistencia)
+
+  const buttonAsistenciaUsuario = document.createElement('button')
+  buttonAsistenciaUsuario.textContent = '▶ Asistir como usuario registrado'
+  buttonAsistenciaUsuario.className = 'registro-boton'
   buttonAsistenciaUsuario.addEventListener('click', Login)
+  buttonContainer.appendChild(buttonAsistenciaUsuario)
+
+  if (usuarioLogueado) {
+    const buttonContainer = info.querySelector('.button-container')
+    buttonContainer.removeChild(buttonAsistencia)
+    buttonContainer.removeChild(buttonAsistenciaUsuario)
+
+    const buttonAsistirUsuarioLogueado = document.createElement('button')
+    buttonAsistirUsuarioLogueado.textContent = '▶ Asistir'
+    buttonAsistirUsuarioLogueado.className = 'asistencia'
+    buttonAsistirUsuarioLogueado.addEventListener('click', () =>
+      tuFuncionPersonalizada()
+    )
+    buttonContainer.appendChild(buttonAsistirUsuarioLogueado)
+  }
+
   divEvento.append(titulo, divCartel, info)
   main.append(divEvento)
 }

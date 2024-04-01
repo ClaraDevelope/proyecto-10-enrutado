@@ -1,3 +1,4 @@
+import { API_URL } from '../../../main'
 import { HeaderUsuario } from '../../components/header/header'
 import { Home } from '../home/main/home'
 import './loginRegister.css'
@@ -14,10 +15,7 @@ const submitLogin = async (nombreUsuario, password, form) => {
   }
 
   try {
-    const response = await fetch(
-      'https://proyecto-10-backend.vercel.app/api/v1/auth/login',
-      opciones
-    )
+    const response = await fetch(API_URL + '/auth/login', opciones)
 
     if (response.status === 200) {
       const data = await response.json()
@@ -85,9 +83,10 @@ const form = (elementoPadre) => {
   elementoPadre.append(formLogin)
 }
 
-const usuarioLogueado = () => {
+export const usuarioLogueado = () => {
   HeaderUsuario()
   Home()
+  return true
 }
 
 export const Login = () => {

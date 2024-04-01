@@ -1,3 +1,4 @@
+import { API_URL } from '../../../../main'
 import { Home } from '../main/home'
 import './registroAsistente.css'
 
@@ -51,7 +52,7 @@ const submit = async (nombre, email, eventoId, form) => {
 
   try {
     const response = await fetch(
-      `https://proyecto-10-backend.vercel.app/api/v1/asistentes/eventos/${eventoId}/confirmar`,
+      API_URL + `/asistentes/eventos/${eventoId}/confirmar`,
       opciones
     )
 
