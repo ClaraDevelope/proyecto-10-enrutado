@@ -1,4 +1,5 @@
-import { Login, usuarioLogueado } from '../../login/login'
+import { API_URL, User } from '../../../utils/variables'
+import { Login } from '../../login/login'
 import { registroAsistente } from '../asistentes/registroAsistente'
 import './home.css'
 export const Home = async () => {
@@ -14,9 +15,7 @@ export const Home = async () => {
   loader.appendChild(loaderImg)
   main.appendChild(loader)
 
-  const res = await fetch(
-    'https://proyecto-10-backend.vercel.app/api/v1/eventos/'
-  )
+  const res = await fetch(API_URL + '/eventos/')
   const eventos = await res.json()
 
   main.removeChild(loader)
@@ -113,23 +112,19 @@ const printEvento = (evento) => {
   const buttonAsistenciaUsuario = info.querySelector('.registro-boton')
   buttonAsistenciaUsuario.addEventListener('click', Login)
   divEvento.append(titulo, divCartel, info)
-
-  if (usuarioLogueado == true) {
-    const buttonContainer = info.querySelector('.button-container')
-    buttonContainer.removeChild(buttonAsistenciaSinRegistro)
-    buttonContainer.removeChild(buttonAsistenciaUsuario)
-
-    const buttonAsistirUsuarioLogueado = document.createElement('button')
-    buttonAsistirUsuarioLogueado.textContent = '▶ Asistir'
-    buttonAsistirUsuarioLogueado.className = 'asistencia'
-    buttonAsistirUsuarioLogueado.addEventListener('click', () =>
-      tuFuncionPersonalizada()
-    )
-    buttonContainer.appendChild(buttonAsistirUsuarioLogueado)
-  }
   main.append(divEvento)
   divEvento.append(titulo, divCartel, info)
   main.append(divEvento)
+  if (User) {
+    console.log(User)
+    const buttonContainer = document.querySelector('.button-container')
+    buttonContainer.removeChild(buttonAsistenciaSinRegistro)
+    buttonContainer.removeChild(buttonAsistenciaUsuario)
+    const buttonAsistirUsuarioLogueado = document.createElement('button')
+    buttonAsistirUsuarioLogueado.textContent = '▶ Asistir'
+    buttonAsistirUsuarioLogueado.className = 'asistencia'
+    buttonContainer.appendChild(buttonAsistirUsuarioLogueado)
+  }
 }
 
 // const printUsuarioLogueado = (usuarioLogueado) => {

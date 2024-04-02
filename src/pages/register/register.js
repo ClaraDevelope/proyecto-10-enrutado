@@ -1,4 +1,4 @@
-import { API_URL } from '../../../main'
+import { API_URL } from '../../utils/variables'
 import { Login } from '../login/login'
 import './register.css'
 

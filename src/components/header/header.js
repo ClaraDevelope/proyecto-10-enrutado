@@ -1,5 +1,5 @@
 import { Home } from '../../pages/home/main/home'
-import { Login, usuarioLogueado } from '../../pages/login/login'
+import { Login } from '../../pages/login/login'
 import './header.css'
 export const Header = () => {
   const header = document.querySelector('header')

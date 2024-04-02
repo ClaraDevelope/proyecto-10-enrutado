@@ -1,4 +1,4 @@
-import { API_URL } from '../../../../main'
+import { API_URL } from '../../../utils/variables'
 import { Home } from '../main/home'
 import './registroAsistente.css'
 

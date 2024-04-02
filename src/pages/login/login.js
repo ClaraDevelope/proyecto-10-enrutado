@@ -1,5 +1,5 @@
-import { API_URL } from '../../../main'
 import { HeaderUsuario } from '../../components/header/header'
+import { API_URL } from '../../utils/variables'
 import { Home } from '../home/main/home'
 import { printRegister } from '../register/register'
 import './login.css'
@@ -22,10 +22,10 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       const data = await response.json()
       console.log('Datos de la respuesta:', data)
       localStorage.setItem('token', data.token)
-      localStorage.setItem('user', JSON.stringify(data.user))
+      console.log('Objeto de usuario almacenado:', data.usuario)
+      localStorage.setItem('user', JSON.stringify(data.usuario))
       HeaderUsuario()
       Home()
-      usuarioLogueado(data)
     } else {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
@@ -87,15 +87,6 @@ const form = (elementoPadre) => {
   submitButton.innerText = 'Iniciar sesión'
   formLogin.append(userNameInput, passwordInput, submitButton)
   elementoPadre.append(formLogin)
-}
-
-export const usuarioLogueado = (data) => {
-  if (data && data.token) {
-    console.log(data.token)
-    return true
-  } else {
-    return false
-  }
 }
 
 export const Login = () => {
