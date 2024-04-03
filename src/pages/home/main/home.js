@@ -124,38 +124,69 @@ const printEvento = (evento) => {
     buttonAsistirUsuarioLogueado.textContent = '▶ Asistir'
     buttonAsistirUsuarioLogueado.className = 'asistencia'
     buttonContainer.appendChild(buttonAsistirUsuarioLogueado)
+    buttonAsistirUsuarioLogueado.addEventListener('click', () => {
+      registroAsistenteUsuario(evento)
+    })
+  }
+}
+const registroAsistenteUsuario = (evento) => {
+  const eventoId = evento._id
+  const nombreUsuario = JSON.parse(
+    localStorage.getItem('user', JSON.stringify())
+  ).nombreUsuario
+  const email = JSON.parse(localStorage.getItem('user', JSON.stringify())).email
+  console.log(eventoId)
+  console.log(nombreUsuario)
+  console.log(email)
+  llamadaAsistenteUsuario(eventoId, nombreUsuario, email)
+}
+const llamadaAsistenteUsuario = async (eventoId, nombreUsuario, email) => {
+  const datos = JSON.stringify({ nombre: nombreUsuario, email: email })
+
+  const opciones = {
+    method: 'POST',
+    body: datos,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  }
+
+  try {
+    const response = await fetch(
+      API_URL + `/auth/eventos/${eventoId}/confirmar`,
+      opciones
+    )
+
+    if (response.status === 200) {
+      const data = await response.json()
+      console.log(data)
+      mensajeExito()
+    } else {
+      console.error('Error en la solicitud:', response.status)
+      const errorMessage = await response.text()
+      console.error('Mensaje de error:', errorMessage)
+      throw new Error('Error al iniciar sesión')
+    }
+  } catch (error) {
+    console.error('Error en la solicitud:', error)
+    const pError = document.createElement('p')
+    pError.classList.add('error')
+    pError.textContent = error.message || 'Error al iniciar sesión'
+    pError.style.color = 'blue'
+    pError.style.fontSize = '20px'
+    form.append(pError)
   }
 }
 
-// const printUsuarioLogueado = (usuarioLogueado) => {
-//   const info = document.querySelector('.info')
-//   const buttonContainer = info.querySelector('.button-container')
-//   const buttonAsistenciaSinRegistro =
-//     buttonContainer.querySelector('.asistencia')
-//   const buttonAsistenciaUsuario =
-//     buttonContainer.querySelector('.registro-boton')
-//   buttonContainer.removeChild(buttonAsistenciaSinRegistro)
-//   buttonContainer.removeChild(buttonAsistenciaUsuario)
-// }
-
-// if (usuarioLogueado) {
-//   printUsuarioLogueado(usuarioLogueado)
-// }
-
-// if (usuarioLogueado) {
-//   console.log(data)
-//   const buttonContainer = info.querySelector('.button-container')
-//   const buttonAsistencia = buttonContainer.querySelector('.asistencia')
-//   const buttonAsistenciaUsuario =
-//     buttonContainer.querySelector('.registro-boton')
-//   buttonContainer.removeChild(buttonAsistencia)
-//   buttonContainer.removeChild(buttonAsistenciaUsuario)
-
-//   const buttonAsistirUsuarioLogueado = document.createElement('button')
-//   buttonAsistirUsuarioLogueado.textContent = '▶ Asistir'
-//   buttonAsistirUsuarioLogueado.className = 'asistenciaUsuario'
-//   buttonAsistirUsuarioLogueado.addEventListener('click', () =>
-//     tuFuncionPersonalizada()
-//   )
-//   buttonContainer.appendChild(buttonAsistirUsuarioLogueado)
-// }
+const mensajeExito = () => {
+  const main = document.querySelector('main')
+  main.innerHTML = ''
+  const mensaje = document.createElement('p')
+  mensaje.innerText = '¡Enhorabuena! te has inscrito correctamente en el evento'
+  mensaje.style.width = '300px'
+  mensaje.style.fontSize = '18px'
+  mensaje.style.alignSelf = 'center'
+  mensaje.style.textAlign = 'center'
+  main.append(mensaje)
+}
