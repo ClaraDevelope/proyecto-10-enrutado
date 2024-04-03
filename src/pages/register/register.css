@@ -43,14 +43,16 @@
   align-items: center;
   gap: var(--m);
 }
-.registro-container > form > input {
+.registro-container > form > input,
+#miFormulario > input {
   width: 60%;
   outline: none;
   padding: var(--br-s);
   border: none;
   border-radius: 8px;
 }
-.registro-container > form > input:focus {
+.registro-container > form > input:focus,
+#miFormulario > input:focus {
   border-color: var(--blue);
   box-shadow: 0 0 5px var(--blue);
 }

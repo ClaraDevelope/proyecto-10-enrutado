@@ -66,7 +66,8 @@
 .login-button {
   font-size: var(--m);
   -webkit-text-stroke: 0.5px var(--color-texto);
-  padding: 10px;
+  margin: var(--br-m);
+  padding: 8px 20px;
   background-color: var(--shadow-red);
   color: var(--color-texto);
   border-radius: var(--br-s);

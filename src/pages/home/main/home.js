@@ -1,4 +1,4 @@
-import { API_URL, User } from '../../../utils/variables'
+import { API_URL, User, datosUsuario } from '../../../utils/variables'
 import { Login } from '../../login/login'
 import { registroAsistente } from '../asistentes/registroAsistente'
 import './home.css'
@@ -69,7 +69,6 @@ const infoEvento = async (e) => {
 
   printEvento(evento)
 }
-
 const printEvento = (evento) => {
   const main = document.querySelector('main')
   const divEvento = document.createElement('div')
@@ -131,10 +130,8 @@ const printEvento = (evento) => {
 }
 const registroAsistenteUsuario = (evento) => {
   const eventoId = evento._id
-  const nombreUsuario = JSON.parse(
-    localStorage.getItem('user', JSON.stringify())
-  ).nombreUsuario
-  const email = JSON.parse(localStorage.getItem('user', JSON.stringify())).email
+  const nombreUsuario = datosUsuario.nombreUsuario
+  const email = datosUsuario.email
   console.log(eventoId)
   console.log(nombreUsuario)
   console.log(email)

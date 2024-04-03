@@ -31,7 +31,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+/* #app {
+  height: 100svh;
+} */
 html {
   background-color: var(--background-color);
   color: var(--color-texto);

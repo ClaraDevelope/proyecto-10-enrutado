@@ -1,5 +1,6 @@
 import { Home } from '../../pages/home/main/home'
 import { Login } from '../../pages/login/login'
+import { renderPerfil } from '../../pages/usuario/usuario'
 import './header.css'
 export const HeaderRender = (User) => {
   if (User) {
@@ -44,11 +45,15 @@ export const HeaderUsuario = () => {
   listHeaderUsuario.innerHTML = `
   <li><a href='#Home' id='inicio-link'>Inicio</a></li>
   <li><a href="#misEventos">Mis eventos</a></li>
-  <li><a href="#perfil">Mi perfil</a></li>
+  <li><a href="#perfil" id= 'mi-perfil'>Mi perfil</a></li>
   <li><a class="bye" href="#bye">Cerrar sesión</a></li>
   `
   const inicioLink = listHeaderUsuario.querySelector('#inicio-link')
   inicioLink.addEventListener('click', Home)
+
+  const perfilLink = listHeaderUsuario.querySelector('#mi-perfil')
+  perfilLink.addEventListener('click', renderPerfil)
+
   const logoutButton = listHeaderUsuario.querySelector('.bye')
   logoutButton.addEventListener('click', () => {
     const token = localStorage.getItem('token')
