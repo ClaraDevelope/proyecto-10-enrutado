@@ -1,6 +1,18 @@
 import { Home } from '../../pages/home/main/home'
 import { Login } from '../../pages/login/login'
 import './header.css'
+export const HeaderRender = (User) => {
+  if (User) {
+    const header = document.querySelector('header')
+    header.innerHTML = ''
+    HeaderUsuario()
+  } else {
+    const header = document.querySelector('header')
+    header.innerHTML = ''
+    Header()
+  }
+}
+
 export const Header = () => {
   const header = document.querySelector('header')
   const divtitle = document.createElement('div')
@@ -30,11 +42,13 @@ export const HeaderUsuario = () => {
   const listHeaderUsuario = document.createElement('ul')
   listHeaderUsuario.className = 'header-usuario'
   listHeaderUsuario.innerHTML = `
-  <li><a href='#Home'>Inicio</a></li>
+  <li><a href='#Home' id='inicio-link'>Inicio</a></li>
   <li><a href="#misEventos">Mis eventos</a></li>
   <li><a href="#perfil">Mi perfil</a></li>
   <li><a class="bye" href="#bye">Cerrar sesión</a></li>
   `
+  const inicioLink = listHeaderUsuario.querySelector('#inicio-link')
+  inicioLink.addEventListener('click', Home)
   const logoutButton = listHeaderUsuario.querySelector('.bye')
   logoutButton.addEventListener('click', () => {
     const token = localStorage.getItem('token')

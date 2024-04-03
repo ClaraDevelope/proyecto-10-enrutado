@@ -1,5 +1,6 @@
-import { Header } from './src/components/header/header'
+import { HeaderRender } from './src/components/header/header'
 import { Home } from './src/pages/home/main/home'
+import { User } from './src/utils/variables'
 import './style.css'
 const Main = () => {
   const app = document.querySelector('#app')
@@ -9,7 +10,6 @@ const Main = () => {
       <footer></footer>
     `
 }
-
 Main()
-Header()
+HeaderRender(User)
 Home()
