@@ -1,3 +1,4 @@
+import { printEventos } from '../../pages/eventos/eventos'
 import { Home } from '../../pages/home/main/home'
 import { Login } from '../../pages/login/login'
 import { renderPerfil } from '../../pages/usuario/usuario'
@@ -44,7 +45,7 @@ export const HeaderUsuario = () => {
   listHeaderUsuario.className = 'header-usuario'
   listHeaderUsuario.innerHTML = `
   <li><a href='#Home' id='inicio-link'>Inicio</a></li>
-  <li><a href="#misEventos">Mis eventos</a></li>
+  <li><a href="#misEventos" id='mis-eventos'>Mis eventos</a></li>
   <li><a href="#perfil" id= 'mi-perfil'>Mi perfil</a></li>
   <li><a class="bye" href="#bye">Cerrar sesión</a></li>
   `
@@ -53,6 +54,9 @@ export const HeaderUsuario = () => {
 
   const perfilLink = listHeaderUsuario.querySelector('#mi-perfil')
   perfilLink.addEventListener('click', renderPerfil)
+
+  const eventosLink = listHeaderUsuario.querySelector('#mis-eventos')
+  eventosLink.addEventListener('click', printEventos)
 
   const logoutButton = listHeaderUsuario.querySelector('.bye')
   logoutButton.addEventListener('click', () => {

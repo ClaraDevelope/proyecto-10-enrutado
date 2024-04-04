@@ -54,22 +54,28 @@ const formEdit = () => {
 <input id='transparent' type="file" name="img" accept="image/*">
 <button class='submit' id='editar-button'>Editar</button>
 `
+  formulario.addEventListener('submit', datosEdicion)
   main.append(formulario)
-  const editButton = formulario.querySelector('#editar-button')
-  editButton.addEventListener('click', () => {
-    datosEdicion()
-  })
 }
 
-const datosEdicion = () => {
+const datosEdicion = async (event) => {
+  event.preventDefault()
+
+  const form = document.getElementById('miFormulario')
   const userId = datosUsuario._id
-  const nombreUsuario = datosUsuario.nombreUsuario
-  const password = datosUsuario.password
-  const email = datosUsuario.email
-  const img = datosUsuario.img
-  editarDatos(userId, nombreUsuario, password, email, img)
+
+  const nombreUsuario = form.querySelector('input[name="nombreUsuario"]').value
+  const password = form.querySelector('input[name="password"]').value
+  const email = form.querySelector('input[name="email"]').value
+  const img = form.querySelector('input[name="img"]').value
+
+  try {
+    await editarDatos(userId, nombreUsuario, password, email, img, form)
+  } catch (error) {
+    console.error('Error al editar datos:', error)
+  }
 }
-// NO FUNCIONA LA EDICIÓN DE DATOS
+
 const editarDatos = async (
   userId,
   nombreUsuario,
@@ -79,9 +85,8 @@ const editarDatos = async (
   form
 ) => {
   const datos = JSON.stringify({ nombreUsuario, email, password, img })
-
   const opciones = {
-    method: 'PUT',
+    method: 'PATCH',
     body: datos,
     headers: {
       'Content-Type': 'application/json',
@@ -91,16 +96,15 @@ const editarDatos = async (
 
   try {
     const response = await fetch(API_URL + `/auth/${userId}`, opciones)
-
-    if (response.status === 200) {
-      const data = await response.json()
-      console.log('Datos de la respuesta:', data)
-    } else {
-      console.error('Error en la solicitud:', response.status)
-      const errorMessage = await response.text()
-      console.error('Mensaje de error:', errorMessage)
-      throw new Error('Error al registrarte')
-    }
+    const data = await response.json()
+    console.log('Datos de la respuesta:', data)
+    // if (response.status === 200) {
+    //   const data = await response.json()
+    //   console.log('Datos de la respuesta:', data)
+    // } else {
+    //   console.error('Error en la solicitud:', response.status)
+    //   console.log(Error)
+    // }
   } catch (error) {
     console.error('Error en la solicitud:', error)
     const pError = document.createElement('p')
