@@ -13,19 +13,19 @@ export const printEventos = async () => {
 
 const pintarEvento = (elementoPadre) => {
   const eventos = datosUsuario.eventosOrganizados
-  const eventoContainer = document.createElement('div')
-  eventoContainer.className = 'evento'
+
   for (const evento of eventos) {
-    mostrarEvento(evento)
+    const eventoContainer = document.createElement('div')
+    eventoContainer.className = 'evento'
+    elementoPadre.append(eventoContainer)
+    mostrarEvento(evento, eventoContainer)
   }
-  elementoPadre.append(eventoContainer)
 }
 
-const mostrarEvento = async (eventoId) => {
+const mostrarEvento = async (eventoId, elementoPadre) => {
   try {
     const response = await fetch(API_URL + `/eventos/${eventoId}`)
     const evento = await response.json()
-    console.log(evento)
     const titulo = document.createElement('h3')
     const divCartel = document.createElement('div')
     divCartel.className = 'img-container'
@@ -44,12 +44,50 @@ const mostrarEvento = async (eventoId) => {
     const fechaFormateada = `${dia}/${mes}/${año}`
 
     info.innerHTML = `
-        <p class="fecha">${fechaFormateada}</p>
-        <p class="ubicacion">${evento.ubicacion}</p>`
+    <p class="fecha">${fechaFormateada}</p>
+    <p class="ubicacion">${evento.ubicacion}</p>
+    <div class='button-container'>
+        <button class='asistencia' id='ver-asistentes'>Ver asistentes</button>
+        <button class='info-boton' id='editar-evento'>Editar evento</button>
+    </div>
+`
+    const buttonAsistentes = info.querySelector('#ver-asistentes')
+    buttonAsistentes.addEventListener('click', () => {
+      verAsistentes(evento)
+    })
 
-    const eventoContainer = document.querySelector('.evento')
-    eventoContainer.append(titulo, divCartel, info)
+    elementoPadre.append(titulo, divCartel, info)
   } catch (error) {
     console.error('Error al mostrar evento:', error)
   }
 }
+
+const verAsistentes = async (evento) => {
+  const main = document.querySelector('main')
+  main.innerHTML = ''
+
+  let count = 0
+
+  const asistentesContainer = document.createElement('ul')
+  asistentesContainer.className = 'asistentes-container'
+
+  for (const asistente of evento.asistentes) {
+    const datos = await fetch(API_URL + `/asistentes/${asistente}`)
+    const datosAsistente = await datos.json()
+
+    const asistenteP = document.createElement('li')
+    asistenteP.innerText = datosAsistente.nombre
+    asistentesContainer.append(asistenteP)
+
+    count++
+  }
+
+  const numeroAsistentes = document.createElement('span')
+  numeroAsistentes.className = 'span'
+  numeroAsistentes.innerText = `Total de asistentes: ${count}`
+  asistentesContainer.append(numeroAsistentes)
+
+  main.append(asistentesContainer)
+}
+
+const formModificarEventos = () => {}

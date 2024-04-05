@@ -23,6 +23,7 @@ export const Header = () => {
   title.innerText = 'FandomFiesta'
   divtitle.append(title)
   const listHeader = document.createElement('ul')
+  listHeader.className = 'header'
   listHeader.innerHTML = `
   <li><a href='#Home' id="inicio-link">Inicio</a></li>
   <li><button id='login-button'>Entrar ⁄ Registrarse</button></li>

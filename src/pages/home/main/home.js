@@ -62,9 +62,7 @@ export const pintarEventos = (eventos, elementoPadre) => {
 const infoEvento = async (e) => {
   const main = document.querySelector('main')
   main.innerHTML = ''
-  const res = await fetch(
-    `https://proyecto-10-backend.vercel.app/api/v1/eventos/${e}`
-  )
+  const res = await fetch(API_URL + `/eventos/${e}`)
   const evento = await res.json()
 
   printEvento(evento)

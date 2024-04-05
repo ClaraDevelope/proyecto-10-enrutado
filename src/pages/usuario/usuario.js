@@ -97,7 +97,8 @@ const editarDatos = async (
   try {
     const response = await fetch(API_URL + `/auth/${userId}`, opciones)
     const data = await response.json()
-    console.log('Datos de la respuesta:', data)
+    console.log(data)
+    // console.log('Datos de la respuesta:', data)
     // if (response.status === 200) {
     //   const data = await response.json()
     //   console.log('Datos de la respuesta:', data)
