@@ -7,7 +7,13 @@ export const printEventos = async () => {
 
   const eventosContainer = document.createElement('div')
   eventosContainer.className = 'tus-eventos'
-  main.append(eventosContainer)
+  const divContainer = document.createElement('div')
+  divContainer.className = 'flex-container'
+  const createButton = document.createElement('button')
+  createButton.className = 'create-button'
+  createButton.innerText = 'Crear nuevo evento'
+  divContainer.append(eventosContainer, createButton)
+  main.append(divContainer)
   pintarEvento(eventosContainer)
 }
 
@@ -55,6 +61,10 @@ const mostrarEvento = async (eventoId, elementoPadre) => {
     buttonAsistentes.addEventListener('click', () => {
       verAsistentes(evento)
     })
+    const editarButton = info.querySelector('#editar-evento')
+    editarButton.addEventListener('click', () => {
+      formEditarEventos(eventoId)
+    })
 
     elementoPadre.append(titulo, divCartel, info)
   } catch (error) {
@@ -90,4 +100,77 @@ const verAsistentes = async (evento) => {
   main.append(asistentesContainer)
 }
 
-const formModificarEventos = () => {}
+const formEditarEventos = (eventoId) => {
+  const main = document.querySelector('main')
+  main.innerHTML = ''
+
+  const userId = datosUsuario._id
+
+  const formulario = document.createElement('form')
+  formulario.id = 'form-evento'
+  formulario.innerHTML = ` 
+  <h2 class='title-edit'>Edita tu evento</h2>
+<label class='start' for="titulo">Título del evento:</label>
+<input type="text" name="titulo">
+<label class='start' for="fecha">Fecha:</label>
+<input type="date" class="date" name="fecha">
+<label class='start'>Ubicación:</label>
+<input type="string" class="ubicacion" name="ubicación">
+<label class='start' for="descripcion">Descripción:</label>
+<input type="string"  name="descripcion">
+<label class='start' for="precio">Precio:</label>
+<input type="number"  name="precio">
+<label class='start' for="cartel">Cartel:</label>
+<input id='transparent' type="file" name="cartel" accept="image/*">
+<button class='submit' id='editar-button'>Editar</button>
+`
+  formulario.addEventListener('submit', (event) => {
+    event.preventDefault()
+    editarEvento(eventoId, userId)
+  })
+
+  main.append(formulario)
+}
+
+const editarEvento = async (eventoId, userId) => {
+  try {
+    const form = document.getElementById('form-evento')
+    const formData = new FormData(form)
+    const titulo = formData.get('titulo')
+    const fecha = formData.get('fecha')
+    const ubicacion = formData.get('ubicación')
+    const descripcion = formData.get('descripcion')
+    const precio = formData.get('precio')
+    const cartel = formData.get('cartel').name
+
+    const data = {
+      titulo,
+      fecha,
+      ubicacion,
+      descripcion,
+      precio,
+      cartel
+    }
+
+    const response = await fetch(
+      `${API_URL}/eventos/${eventoId}/auth/${userId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(data)
+      }
+    )
+    console.log(cartel)
+
+    if (!response.ok) {
+      throw new Error('Error al editar el evento')
+    }
+
+    console.log('Evento editado exitosamente')
+  } catch (error) {
+    console.error('Error al editar el evento:', error)
+  }
+}

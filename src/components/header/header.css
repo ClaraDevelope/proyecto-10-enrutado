@@ -30,7 +30,6 @@ header {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  /* box-shadow: 2px 3px 5px 0px var(--shadow-red); */
 }
 .header {
   list-style: none;
@@ -104,4 +103,10 @@ ul > li > a:hover::after {
 .header-usuario > li {
   margin-right: var(--br-m);
   text-align: center;
+}
+
+@media screen and (max-width: 784px) {
+  header {
+    justify-content: center;
+  }
 }

@@ -41,13 +41,13 @@ const formEdit = () => {
   const formulario = document.createElement('form')
   formulario.id = 'miFormulario'
   formulario.innerHTML = ` 
-  <h2 id='title-edit'>Edita tus datos</h2>
+  <h2 class='title-edit'>Edita tus datos</h2>
 <label class='start' for="nombreUsuario">Nombre de usuario:</label>
 <input type="text" name="nombreUsuario">
 <label class='start' for="password">Nueva contraseña:</label>
 <input type="password" class="password" name="password">
 <label class='start'>Repite contraseña:</label>
-<input type="password" class="confirm-password" name="password">
+<input type="password" class="confirm-password" name="confirmPassword">
 <label class='start' for="email">Correo electrónico:</label>
 <input type="email"  name="email">
 <label class='start' for="img">Imagen:</label>
@@ -64,55 +64,51 @@ const datosEdicion = async (event) => {
   const form = document.getElementById('miFormulario')
   const userId = datosUsuario._id
 
-  const nombreUsuario = form.querySelector('input[name="nombreUsuario"]').value
-  const password = form.querySelector('input[name="password"]').value
-  const email = form.querySelector('input[name="email"]').value
-  const img = form.querySelector('input[name="img"]').value
-
   try {
-    await editarDatos(userId, nombreUsuario, password, email, img, form)
+    await editarDatosPerfil(userId, form)
   } catch (error) {
-    console.error('Error al editar datos:', error)
+    console.error('Error al editar datos del perfil:', error)
   }
 }
 
-const editarDatos = async (
-  userId,
-  nombreUsuario,
-  password,
-  email,
-  img,
-  form
-) => {
-  const datos = JSON.stringify({ nombreUsuario, email, password, img })
-  const opciones = {
-    method: 'PATCH',
-    body: datos,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    }
-  }
-
+const editarDatosPerfil = async (userId) => {
   try {
-    const response = await fetch(API_URL + `/auth/${userId}`, opciones)
-    const data = await response.json()
-    console.log(data)
-    // console.log('Datos de la respuesta:', data)
-    // if (response.status === 200) {
-    //   const data = await response.json()
-    //   console.log('Datos de la respuesta:', data)
-    // } else {
-    //   console.error('Error en la solicitud:', response.status)
-    //   console.log(Error)
-    // }
+    const form = document.getElementById('miFormulario')
+    const formData = new FormData(form)
+    const nombreUsuario = formData.get('nombreUsuario')
+    const password = formData.get('password')
+    const confirmPassword = formData.get('confirmPassword')
+    const email = formData.get('email')
+    const img = formData.get('img').name
+
+    if (password !== confirmPassword) {
+      console.error('Las contraseñas no coinciden')
+      console.log(password, confirmPassword)
+      return
+    }
+
+    const data = {
+      nombreUsuario,
+      password,
+      email,
+      img
+    }
+
+    const response = await fetch(`${API_URL}/auth/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(data)
+    })
+
+    if (!response.ok) {
+      throw new Error('Error al editar los datos del perfil')
+    }
+
+    console.log('Datos del perfil editados exitosamente')
   } catch (error) {
-    console.error('Error en la solicitud:', error)
-    const pError = document.createElement('p')
-    pError.classList.add('error')
-    pError.textContent = error.message || 'Error al registrarte'
-    pError.style.color = 'blue'
-    pError.style.fontSize = '20px'
-    form.append(pError)
+    console.error('Error al editar los datos del perfil:', error)
   }
 }

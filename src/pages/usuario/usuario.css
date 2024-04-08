@@ -55,7 +55,7 @@
   align-items: start;
   gap: var(--l);
 }
-#title-edit {
+.title-edit {
   font-size: var(--xl);
   color: var(--red);
 }
@@ -77,6 +77,7 @@
 }
 #miFormulario > input {
   -webkit-text-stroke: 0.5px var(--black);
+  text-align: center;
 }
 .start {
   padding: 5px;
