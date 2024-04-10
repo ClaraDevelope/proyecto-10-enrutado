@@ -12,6 +12,9 @@ export const printEventos = async () => {
   const createButton = document.createElement('button')
   createButton.className = 'create-button'
   createButton.innerText = 'Crear nuevo evento'
+
+  createButton.addEventListener('click', formCrearEvento)
+
   divContainer.append(eventosContainer, createButton)
   main.append(divContainer)
   pintarEvento(eventosContainer)
@@ -159,6 +162,7 @@ const editarEvento = async (eventoId, userId) => {
       {
         method: 'PATCH',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`
         },
         body: formDataToSend
@@ -173,4 +177,38 @@ const editarEvento = async (eventoId, userId) => {
   } catch (error) {
     console.error('Error al editar el evento:', error)
   }
+}
+
+const formCrearEvento = () => {
+  const main = document.querySelector('main')
+
+  const form = document.createElement('form')
+  form.id = 'eventoForm'
+
+  form.innerHTML = `
+      <h2>Crea un nuevo evento</h2>
+      <label for="titulo">Título:</label>
+      <input type="text" id="titulo" name="titulo" required><br>
+      
+      <label for="fecha">Fecha:</label>
+      <input type="date" id="fecha" name="fecha" required><br>
+      
+      <label for="ubicacion">Ubicación:</label>
+      <input type="text" id="ubicacion" name="ubicacion" required><br>
+      
+      <label for="descripcion">Descripción:</label><br>
+      <textarea id="descripcion" name="descripcion" required></textarea><br>
+      
+      <label for="precio">Precio:</label>
+      <input type="number" id="precio" name="precio" required><br>
+      
+      <label for="cartel">Cartel:</label>
+      <input type="file" id="cartel" name="cartel" accept="image/*" required><br>
+      
+      <button type="submit">Enviar</button>
+  `
+
+  // form.addEventListener('submit', enviarFormulario);
+
+  main.appendChild(form)
 }

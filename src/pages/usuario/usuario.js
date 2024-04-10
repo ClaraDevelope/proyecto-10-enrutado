@@ -71,31 +71,31 @@ const datosEdicion = async (event) => {
   }
 }
 
-const editarDatosPerfil = async (usuarioId) => {
+const editarDatosPerfil = async (usuarioId, form) => {
   try {
-    const form = document.getElementById('miFormulario')
     const formData = new FormData(form)
     const nombreUsuario = formData.get('nombreUsuario')
     const password = formData.get('password')
     const email = formData.get('email')
     const img = formData.get('img')
 
-    const formDataToSend = new FormData()
-    formDataToSend.append('nombreUsuario', nombreUsuario)
-    formDataToSend.append('password', password)
-    formDataToSend.append('email', email)
-
-    if (img instanceof File) {
-      formDataToSend.append('img', img)
+    const data = {
+      nombreUsuario,
+      password,
+      email,
+      img
     }
 
-    const response = await fetch(`${API_URL}/auth/${usuarioId}`, {
+    const opciones = {
       method: 'PATCH',
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       },
-      body: formDataToSend
-    })
+      body: JSON.stringify(data)
+    }
+
+    const response = await fetch(`${API_URL}/auth/${usuarioId}`, opciones)
 
     if (!response.ok) {
       throw new Error('Error al editar el usuario')
