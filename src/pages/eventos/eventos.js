@@ -141,29 +141,29 @@ const editarEvento = async (eventoId, userId) => {
     const ubicacion = formData.get('ubicación')
     const descripcion = formData.get('descripcion')
     const precio = formData.get('precio')
-    const cartel = formData.get('cartel').name
+    const cartel = formData.get('cartel')
 
-    const data = {
-      titulo,
-      fecha,
-      ubicacion,
-      descripcion,
-      precio,
-      cartel
+    const formDataToSend = new FormData()
+    formDataToSend.append('titulo', titulo)
+    formDataToSend.append('fecha', fecha)
+    formDataToSend.append('ubicacion', ubicacion)
+    formDataToSend.append('descripcion', descripcion)
+    formDataToSend.append('precio', precio)
+
+    if (cartel instanceof File) {
+      formDataToSend.append('cartel', cartel)
     }
 
     const response = await fetch(
       `${API_URL}/eventos/${eventoId}/auth/${userId}`,
       {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify(data)
+        body: formDataToSend
       }
     )
-    console.log(cartel)
 
     if (!response.ok) {
       throw new Error('Error al editar el evento')

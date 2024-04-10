@@ -71,44 +71,38 @@ const datosEdicion = async (event) => {
   }
 }
 
-const editarDatosPerfil = async (userId) => {
+const editarDatosPerfil = async (usuarioId) => {
   try {
     const form = document.getElementById('miFormulario')
     const formData = new FormData(form)
     const nombreUsuario = formData.get('nombreUsuario')
     const password = formData.get('password')
-    const confirmPassword = formData.get('confirmPassword')
     const email = formData.get('email')
-    const img = formData.get('img').name
+    const img = formData.get('img')
 
-    if (password !== confirmPassword) {
-      console.error('Las contraseñas no coinciden')
-      console.log(password, confirmPassword)
-      return
+    const formDataToSend = new FormData()
+    formDataToSend.append('nombreUsuario', nombreUsuario)
+    formDataToSend.append('password', password)
+    formDataToSend.append('email', email)
+
+    if (img instanceof File) {
+      formDataToSend.append('img', img)
     }
 
-    const data = {
-      nombreUsuario,
-      password,
-      email,
-      img
-    }
-
-    const response = await fetch(`${API_URL}/auth/${userId}`, {
-      method: 'PUT',
+    const response = await fetch(`${API_URL}/auth/${usuarioId}`, {
+      method: 'PATCH',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`
       },
-      body: JSON.stringify(data)
+      body: formDataToSend
     })
 
     if (!response.ok) {
-      throw new Error('Error al editar los datos del perfil')
+      throw new Error('Error al editar el usuario')
     }
 
-    console.log('Datos del perfil editados exitosamente')
+    console.log('Usuario editado exitosamente')
   } catch (error) {
-    console.error('Error al editar los datos del perfil:', error)
+    console.error('Error al editar el usuario:', error)
   }
 }
