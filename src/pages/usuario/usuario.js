@@ -96,12 +96,13 @@ const editarDatosPerfil = async (usuarioId, form) => {
     }
 
     const response = await fetch(`${API_URL}/auth/${usuarioId}`, opciones)
+    const respuestaFinal = await response.json()
 
     if (!response.ok) {
-      throw new Error('Error al editar el usuario')
+      console.log('Error al editar el usuario')
     }
 
-    console.log('Usuario editado exitosamente')
+    console.log('Usuario editado exitosamente' + respuestaFinal)
   } catch (error) {
     console.error('Error al editar el usuario:', error)
   }

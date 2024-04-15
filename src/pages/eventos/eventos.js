@@ -118,25 +118,17 @@ const formEditarEventos = (eventoId) => {
 <label class='start' for="fecha">Fecha:</label>
 <input type="date" class="date" name="fecha">
 <label class='start'>Ubicación:</label>
-<input type="string" class="ubicacion" name="ubicación">
+<input type="text" class="ubicacion" name="ubicación">
 <label class='start' for="descripcion">Descripción:</label>
-<input type="string"  name="descripcion">
+<input type="text" name="descripcion">
 <label class='start' for="precio">Precio:</label>
-<input type="number"  name="precio">
+<input type="number" name="precio">
 <label class='start' for="cartel">Cartel:</label>
 <input id='transparent' type="file" name="cartel" accept="image/*">
 <button class='submit' id='editar-button'>Editar</button>
 `
-  formulario.addEventListener('submit', (event) => {
+  formulario.addEventListener('submit', async (event) => {
     event.preventDefault()
-    editarEvento(eventoId, userId)
-  })
-
-  main.append(formulario)
-}
-
-const editarEvento = async (eventoId, userId) => {
-  try {
     const form = document.getElementById('form-evento')
     const formData = new FormData(form)
     const titulo = formData.get('titulo')
@@ -145,35 +137,69 @@ const editarEvento = async (eventoId, userId) => {
     const descripcion = formData.get('descripcion')
     const precio = formData.get('precio')
     const cartel = formData.get('cartel')
+    editarEvento(
+      eventoId,
+      userId,
+      titulo,
+      fecha,
+      ubicacion,
+      descripcion,
+      precio,
+      cartel,
+      form
+    )
+  })
 
-    const formDataToSend = new FormData()
-    formDataToSend.append('titulo', titulo)
-    formDataToSend.append('fecha', fecha)
-    formDataToSend.append('ubicacion', ubicacion)
-    formDataToSend.append('descripcion', descripcion)
-    formDataToSend.append('precio', precio)
+  main.append(formulario)
+}
 
+const editarEvento = async (
+  eventoId,
+  userId,
+  titulo,
+  fecha,
+  ubicacion,
+  descripcion,
+  precio,
+  cartel,
+  formData
+) => {
+  const datos = JSON.stringify({
+    titulo,
+    fecha,
+    ubicacion,
+    descripcion,
+    precio
+  })
+
+  const opciones = {
+    method: 'PATCH',
+    body: datos,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  }
+
+  try {
     if (cartel instanceof File) {
-      formDataToSend.append('cartel', cartel)
+      formData.append('cartel', cartel)
     }
 
     const response = await fetch(
-      `${API_URL}/eventos/${eventoId}/auth/${userId}`,
-      {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-        body: formDataToSend
-      }
+      API_URL + `/eventos/${eventoId}/auth/${userId}`,
+      opciones
     )
 
+    console.log(opciones)
+
+    const respuestaFinal = await response.json()
+
     if (!response.ok) {
-      throw new Error('Error al editar el evento')
+      console.log('error al editar el evento')
     }
 
-    console.log('Evento editado exitosamente')
+    console.log('Evento editado exitosamente:' + respuestaFinal)
   } catch (error) {
     console.error('Error al editar el evento:', error)
   }
