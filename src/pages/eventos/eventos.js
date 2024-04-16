@@ -130,20 +130,20 @@ const formEditarEventos = (eventoId) => {
   formulario.addEventListener('submit', async (event) => {
     event.preventDefault()
     const formData = new FormData()
-    formData.append('titulo', formulario.querySelector('#titulo').value)
-    formData.append('fecha', formulario.querySelector('#fecha').value)
-    formData.append('ubicacion', formulario.querySelector('#ubicacion').value)
-    formData.append(
-      'descripcion',
-      formulario.querySelector('#descripcion').value
-    )
-    formData.append('precio', formulario.querySelector('#precio').value)
-    formData.append('cartel', cartel)
-    // const cartelInput = formulario.querySelector('#cartel')
-    // if (cartelInput.files.length > 0) {
-    //   formData.append('cartel', cartelInput.files[0])
-    // }
-    editarEvento(eventoId, userId, formData)
+    formData.append('titulo', document.getElementById('titulo').value)
+    formData.append('fecha', document.getElementById('fecha').value)
+    formData.append('ubicacion', document.getElementById('ubicacion').value)
+    formData.append('descripcion', document.getElementById('descripcion').value)
+    formData.append('precio', document.getElementById('precio').value)
+    const cartelInput = document.getElementById('cartel')
+    if (cartelInput.files.length > 0) {
+      formData.append('cartel', cartelInput.files[0])
+    }
+    try {
+      await editarEvento(eventoId, userId, formData)
+    } catch (error) {
+      console.error('Error al editar el evento:', error)
+    }
   })
 
   main.append(formulario)
@@ -158,7 +158,10 @@ const editarEvento = async (eventoId, userId, formData) => {
       Authorization: `Bearer ${localStorage.getItem('token')}`
     }
   }
-
+  console.log(formData)
+  for (const [key, value] of formData.entries()) {
+    console.log(key + ': ' + value)
+  }
   try {
     const response = await fetch(
       API_URL + `/eventos/${eventoId}/auth/${userId}`,
@@ -167,11 +170,11 @@ const editarEvento = async (eventoId, userId, formData) => {
 
     const respuestaFinal = await response.json()
 
-    console.log(respuestaFinal)
+    console.log(response)
     if (!response.ok) {
-      console.log('error al editar el evento')
+      console.log('error al editar el evento', response.status)
     } else {
-      console.log('Evento editado exitosamente:' + respuestaFinal)
+      console.log('Evento editado exitosamente:', respuestaFinal)
     }
   } catch (error) {
     console.error('Error al editar el evento:', error)
