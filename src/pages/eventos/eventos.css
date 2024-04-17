@@ -37,7 +37,8 @@
   align-items: center;
   gap: var(--m);
 }
-.create-button {
+.create-button,
+.eliminar {
   font-size: 21px;
   font-weight: bold;
   border: none;
@@ -50,7 +51,8 @@
   cursor: pointer;
   transition: all 0.3s;
 }
-.create-button:hover {
+.create-button:hover,
+.eliminar:hover {
   scale: 1.02;
   filter: brightness(1.2);
 }
@@ -74,15 +76,17 @@
   -webkit-text-stroke: 0.5px var(--red);
 }
 
-#form-evento {
+#form-evento,
+#eventoForm {
   width: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: var(--s);
+  /* gap: var(--s); */
 }
-#form-evento > input {
+#form-evento > input,
+#eventoForm > input {
   -webkit-text-stroke: 0.5px var(--black);
   width: 60%;
   outline: none;
@@ -91,6 +95,12 @@
   border-radius: 8px;
   max-height: 38px;
   text-align: center;
+}
+
+#eventoForm > textarea {
+  border-radius: 8px;
+  width: 60%;
+  height: 50px;
 }
 @media screen and (max-width: 1000px) {
   .flex-container {
