@@ -1,5 +1,4 @@
 import { API_URL } from '../../utils/variables'
-import { Login } from '../login/login'
 import './register.css'
 
 const submitRegister = async (nombreUsuario, email, password, img, form) => {
@@ -51,9 +50,11 @@ const createForm = (elementoPadre) => {
   const inputContraseña = document.createElement('input')
   inputContraseña.type = 'password'
   inputContraseña.name = 'password'
+  inputContraseña.className = 'password'
   inputContraseña.placeholder = 'Contraseña'
   const inputConfirmContraseña = document.createElement('input')
   inputConfirmContraseña.type = 'password'
+  inputConfirmContraseña.className = 'confirm-password'
   inputConfirmContraseña.placeholder = 'Repite la contraseña'
   const pImage = document.createElement('p')
   pImage.className = 'paragraph'
@@ -75,6 +76,17 @@ const createForm = (elementoPadre) => {
     inputImage,
     submitButton
   )
+
+  inputConfirmContraseña.addEventListener('input', () => {
+    const password = inputContraseña.value
+    const confirmPassword = inputConfirmContraseña.value
+
+    if (password !== confirmPassword) {
+      inputConfirmContraseña.setCustomValidity('Las contraseñas no coinciden')
+    } else {
+      inputConfirmContraseña.setCustomValidity('')
+    }
+  })
   elementoPadre.append(form)
 }
 
@@ -105,21 +117,7 @@ export const printRegister = () => {
 }
 
 const bienvenida = (data) => {
-  const registroContainer = document.querySelector('.registro-container')
-  registroContainer.innerHTML = ''
-  const bienvenidaContainer = document.querySelector('div')
-  bienvenidaContainer.className = 'container-bienvenida'
-  const pBienvenida = document.createElement('p')
-  pBienvenida.className = 'bienvenida'
-  pBienvenida.innerText = `¡Se ha registrado ${data.nombreUsuario}con éxito! 
-  Inicia sesión para empezar a disfrutar de todo lo que te ofrece la comunidad.`
-  const loginButton = document.createElement('button')
-  loginButton.className = 'login-button'
-  loginButton.innerText = 'Iniciar sesión'
-  loginButton.addEventListener('click', Login)
-  bienvenidaContainer.append(pBienvenida, loginButton)
-  registroContainer.append(bienvenidaContainer)
+  alert(
+    `¡Se ha registrado ${data.nombreUsuario} con éxito! Inicia sesión para empezar a disfrutar de todo lo que te ofrece la comunidad.`
+  )
 }
-
-// submit:
-// if(!inputConfirmContraseña.value === inputContraseña.value){}else{}

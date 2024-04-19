@@ -56,35 +56,33 @@ const submit = async (nombre, email, eventoId, form) => {
       opciones
     )
 
-    if (response.status === 400) {
-      const pError = document.createElement('p')
-      pError.classList.add('error')
-      pError.textContent = 'Ha ocurrido un error al registrar al asistente'
-      pError.style = 'color: red'
-      form.append(pError)
-      return
+    if (response.ok) {
+      console.log('¡Registro realizado con éxito!')
+      const main = document.querySelector('main')
+      main.innerHTML = ''
+      const mensajeRegistro = document.createElement('p')
+      mensajeRegistro.className = 'registro-hecho'
+      mensajeRegistro.innerText =
+        '¡Enhorabuena! Te has registrado con éxito para nuestro emocionante evento. En breve, recibirás todos los detalles del evento en tu correo electrónico. ¡Mantente atento a tu bandeja de entrada y prepárate para disfrutar de una experiencia inolvidable!'
+      const volverBoton = document.createElement('button')
+      volverBoton.className = 'volver'
+      volverBoton.innerText = 'Volver a los eventos'
+      volverBoton.addEventListener('click', Home)
+      mensajeRegistro.append(volverBoton)
+      main.append(mensajeRegistro)
+    } else {
+      const pError = form.querySelector('.error')
+      if (!pError) {
+        const pError = document.createElement('p')
+        pError.classList.add('error')
+        pError.textContent = 'Ya estás registrado en este evento'
+        pError.style.color = 'blue'
+        pError.style.fontSize = '20px'
+        form.append(pError)
+      } else {
+        pError.textContent = 'Ya estás registrado en este evento'
+      }
     }
-
-    const pError = document.querySelector('.error')
-    if (pError) {
-      pError.remove()
-    }
-
-    const respuestaFinal = await response.json()
-
-    console.log('¡Registro realizado!')
-    const main = document.querySelector('main')
-    main.innerHTML = ''
-    const mensajeRegistro = document.createElement('p')
-    mensajeRegistro.className = 'registro-hecho'
-    mensajeRegistro.innerText =
-      '¡Enhorabuena! Te has registrado con éxito para nuestro emocionante evento. En breve, recibirás todos los detalles del evento en tu correo electrónico. ¡Mantente atento a tu bandeja de entrada y prepárate para disfrutar de una experiencia inolvidable!'
-    const volverBoton = document.createElement('button')
-    volverBoton.className = 'volver'
-    volverBoton.innerText = 'Volver a los eventos'
-    volverBoton.addEventListener('click', Home)
-    mensajeRegistro.append(volverBoton)
-    main.append(mensajeRegistro)
   } catch (error) {
     console.error('Error en la solicitud:', error)
   }

@@ -10,7 +10,7 @@ const perfilUsuario = (elementoPadre) => {
   perfilContainer.className = 'perfil-container'
   const principalData = document.createElement('div')
   principalData.className = 'img-name'
-  principalData.innerHTML = `<div class='imgPerfil-container'><img src=${
+  principalData.innerHTML = `<div class='imgPerfil-container'><img loading= 'lazy' src=${
     datosUsuario.img ? datosUsuario.img : './usuario.png'
   } alt="perfil-img"></img></div>
   <h2>${datosUsuario.nombreUsuario}</h2>
@@ -27,7 +27,7 @@ const perfilUsuario = (elementoPadre) => {
  <button class='submit' id='edit-button'>Editar</button>
   `
   const editButton = secondaryData.querySelector('#edit-button')
-  editButton.addEventListener('click', (datosUsuario) => {
+  editButton.addEventListener('click', () => {
     formEdit()
   })
 
@@ -54,6 +54,20 @@ const formEdit = () => {
 <input id='transparent' type="file" name="img" accept="image/*">
 <button class='submit' id='editar-button'>Editar</button>
 `
+  const passwordInput = formulario.querySelector('.password')
+  const confirmPasswordInput = formulario.querySelector('.confirm-password')
+
+  confirmPasswordInput.addEventListener('input', () => {
+    const password = passwordInput.value
+    const confirmPassword = confirmPasswordInput.value
+
+    if (password !== confirmPassword) {
+      confirmPasswordInput.setCustomValidity('Las contraseñas no coinciden')
+    } else {
+      confirmPasswordInput.setCustomValidity('')
+    }
+  })
+
   formulario.addEventListener('submit', datosEdicion)
   main.append(formulario)
 }

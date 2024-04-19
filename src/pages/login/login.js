@@ -35,12 +35,14 @@ export const submitLogin = async (nombreUsuario, password, form) => {
     }
   } catch (error) {
     console.error('Error en la solicitud:', error)
-    const pError = document.createElement('p')
-    pError.classList.add('error')
-    pError.textContent = error.message || 'Error al iniciar sesión'
-    pError.style.color = 'blue'
-    pError.style.fontSize = '20px'
-    form.append(pError)
+    if (!form.querySelector('.error')) {
+      const pError = document.createElement('p')
+      pError.classList.add('error')
+      pError.textContent = error.message || 'Error al iniciar sesión'
+      pError.style.color = 'blue'
+      pError.style.fontSize = '20px'
+      form.append(pError)
+    }
   }
 }
 

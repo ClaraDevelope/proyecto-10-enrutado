@@ -12,6 +12,7 @@ export const Home = async () => {
   loaderImg.src =
     'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXE1N3FldGM1dG9pODVweDY5cm1uM2Y0ZmQyc2I3b2t6aWU5MnVyOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/YDC5HjHcfFk8lgxXQm/giphy.gif'
   loaderImg.alt = 'Cargando...'
+  loaderImg.loading = 'lazy'
   loader.appendChild(loaderImg)
   main.appendChild(loader)
 
@@ -32,6 +33,7 @@ export const pintarEventos = (eventos, elementoPadre) => {
     divCartel.className = 'img-container'
     const cartel = document.createElement('img')
     cartel.alt = 'cartel-evento'
+    cartel.loading = 'lazy'
     divCartel.append(cartel)
     const info = document.createElement('div')
     info.className = 'info'
@@ -76,6 +78,7 @@ const printEvento = (evento) => {
   divCartel.className = 'img-container'
   const cartel = document.createElement('img')
   cartel.alt = 'cartel-evento'
+  cartel.loading = 'lazy'
   divCartel.append(cartel)
   const info = document.createElement('div')
   info.className = 'info'
@@ -161,16 +164,25 @@ const llamadaAsistenteUsuario = async (eventoId, nombreUsuario, email) => {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
       console.error('Mensaje de error:', errorMessage)
-      throw new Error('Error al iniciar sesión')
+      const pError = document.createElement('p')
+      pError.classList.add('error')
+      pError.textContent = 'Ya estás inscrito en este evento'
+      pError.style.color = 'blue'
+      pError.style.fontSize = '20px'
+      const main = document.querySelector('main')
+      main.innerHTML = ''
+      main.append(pError)
     }
   } catch (error) {
     console.error('Error en la solicitud:', error)
     const pError = document.createElement('p')
     pError.classList.add('error')
-    pError.textContent = error.message || 'Error al iniciar sesión'
+    pError.textContent = 'Ya estás inscrito en este evento'
     pError.style.color = 'blue'
     pError.style.fontSize = '20px'
-    form.append(pError)
+    const main = document.querySelector('main')
+    main.innerHTML = ''
+    main.append(pError)
   }
 }
 

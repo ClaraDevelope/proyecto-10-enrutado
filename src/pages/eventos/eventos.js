@@ -40,6 +40,7 @@ const mostrarEvento = async (eventoId, elementoPadre) => {
     divCartel.className = 'img-container'
     const cartel = document.createElement('img')
     cartel.alt = 'cartel-evento'
+    cartel.loading = 'lazy'
     divCartel.append(cartel)
     const info = document.createElement('div')
     info.className = 'info'
