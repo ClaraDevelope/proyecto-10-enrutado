@@ -9,7 +9,7 @@ export const datosUsuario = JSON.parse(
 )
 export let datosActualizadosUsuario = null
 
-const usuarioId = datosUsuario.id
+const usuarioId = datosUsuario._id
 const llamadaDatosUsuario = async (usuarioId) => {
   console.log(usuarioId)
   const opciones = {
