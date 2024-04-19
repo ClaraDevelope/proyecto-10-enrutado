@@ -1,4 +1,8 @@
-import { API_URL, datosUsuario } from '../../utils/variables'
+import {
+  API_URL,
+  datosActualizadosUsuario,
+  datosUsuario
+} from '../../utils/variables'
 import './usuario.css'
 export const renderPerfil = () => {
   const main = document.querySelector('main')
@@ -11,18 +15,20 @@ const perfilUsuario = (elementoPadre) => {
   const principalData = document.createElement('div')
   principalData.className = 'img-name'
   principalData.innerHTML = `<div class='imgPerfil-container'><img loading= 'lazy' src=${
-    datosUsuario.img ? datosUsuario.img : './usuario.png'
+    datosActualizadosUsuario.img
+      ? datosActualizadosUsuario.img
+      : './usuario.png'
   } alt="perfil-img"></img></div>
-  <h2>${datosUsuario.nombreUsuario}</h2>
+  <h2>${datosActualizadosUsuario.nombreUsuario}</h2>
   `
   const secondaryData = document.createElement('div')
   secondaryData.className = 'secondary-data'
   secondaryData.innerHTML = `<div>
-  <label class='info-label'>Nombre de usuario:</label><p>${datosUsuario.nombreUsuario}</p>
+  <label class='info-label'>Nombre de usuario:</label><p>${datosActualizadosUsuario.nombreUsuario}</p>
   </div>
  <div> <label class='info-label'>Contraseña:</label><p>*******</p></div>
  <div>
- <label class='info-label'>Email:</label><p>${datosUsuario.email}</p>
+ <label class='info-label'>Email:</label><p>${datosActualizadosUsuario.email}</p>
  </div>
  <button class='submit' id='edit-button'>Editar</button>
   `
@@ -76,47 +82,39 @@ const datosEdicion = async (event) => {
   event.preventDefault()
 
   const form = document.getElementById('miFormulario')
+  const formData = new FormData(form)
   const userId = datosUsuario._id
 
   try {
-    await editarDatosPerfil(userId, form)
+    await editarDatosPerfil(userId, formData)
   } catch (error) {
     console.error('Error al editar datos del perfil:', error)
   }
 }
 
-const editarDatosPerfil = async (usuarioId, form) => {
+const editarDatosPerfil = async (usuarioId, formData) => {
+  const opciones = {
+    method: 'PATCH',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    },
+    body: formData
+  }
+  for (const [key, value] of formData.entries()) {
+    console.log(key + ': ' + value)
+  }
   try {
-    const formData = new FormData(form)
-    const nombreUsuario = formData.get('nombreUsuario')
-    const password = formData.get('password')
-    const email = formData.get('email')
-    const img = formData.get('img')
-
-    const data = {
-      nombreUsuario,
-      password,
-      email,
-      img
-    }
-
-    const opciones = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      },
-      body: JSON.stringify(data)
-    }
-
     const response = await fetch(`${API_URL}/auth/${usuarioId}`, opciones)
-    const respuestaFinal = await response.json()
 
-    if (!response.ok) {
-      console.log('Error al editar el usuario')
+    console.log(response)
+
+    if (response.ok) {
+      console.log('Usuario editado exitosamente')
+      alert('¡Editado con éxito!')
+      window.location.reload()
+    } else {
+      console.error('Error al editar el usuario:', error.message)
     }
-
-    console.log('Usuario editado exitosamente' + respuestaFinal)
   } catch (error) {
     console.error('Error al editar el usuario:', error)
   }

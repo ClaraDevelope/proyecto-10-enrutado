@@ -37,6 +37,9 @@
   align-items: center;
   gap: var(--m);
 }
+.create-button {
+  margin-right: 50px;
+}
 .create-button,
 .eliminar {
   font-size: 21px;
@@ -95,6 +98,7 @@
   border-radius: 8px;
   max-height: 38px;
   text-align: center;
+  font-size: 16px;
 }
 
 #eventoForm > textarea {
@@ -107,5 +111,8 @@
     flex-direction: column-reverse;
     align-items: center;
     gap: 50px;
+  }
+  .create-button {
+    margin-right: 0;
   }
 }
