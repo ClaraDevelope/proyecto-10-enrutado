@@ -17,7 +17,7 @@ const perfilUsuario = (elementoPadre) => {
   principalData.innerHTML = `<div class='imgPerfil-container'><img loading= 'lazy' src=${
     datosActualizadosUsuario.img
       ? datosActualizadosUsuario.img
-      : './usuario.png'
+      : './assets/usuario.png'
   } alt="perfil-img"></img></div>
   <h2>${datosActualizadosUsuario.nombreUsuario}</h2>
   `
