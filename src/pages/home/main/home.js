@@ -116,7 +116,6 @@ const printEvento = (evento) => {
   divEvento.append(titulo, divCartel, info)
   main.append(divEvento)
   if (User) {
-    console.log(User)
     const buttonContainer = document.querySelector('.button-container')
     buttonContainer.removeChild(buttonAsistenciaSinRegistro)
     buttonContainer.removeChild(buttonAsistenciaUsuario)
