@@ -10,8 +10,7 @@ export const Home = async () => {
   loader.className = 'loader'
   const loaderImg = document.createElement('img')
   loaderImg.src =
-    'https://cdn.pixabay.com/animation/2023/08/11/21/18/21-18-05-265_512.gif'
-  // 'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXE1N3FldGM1dG9pODVweDY5cm1uM2Y0ZmQyc2I3b2t6aWU5MnVyOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/YDC5HjHcfFk8lgxXQm/giphy.gif'
+    'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXE1N3FldGM1dG9pODVweDY5cm1uM2Y0ZmQyc2I3b2t6aWU5MnVyOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/YDC5HjHcfFk8lgxXQm/giphy.gif'
   loaderImg.alt = 'Cargando...'
   loaderImg.loading = 'lazy'
   loader.appendChild(loaderImg)
