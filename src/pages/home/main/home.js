@@ -5,7 +5,6 @@ import './home.css'
 export const Home = async () => {
   const main = document.querySelector('main')
   main.innerHTML = ''
-
   const loader = document.createElement('div')
   loader.className = 'loader'
   const loaderImg = document.createElement('img')

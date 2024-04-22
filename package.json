@@ -10,5 +10,8 @@
   },
   "devDependencies": {
     "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "page.js": "^4.13.3"
   }
 }
