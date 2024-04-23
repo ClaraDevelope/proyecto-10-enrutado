@@ -2,7 +2,6 @@ import { printEventos } from '../../pages/eventos/eventos'
 import { Home } from '../../pages/home/main/home'
 import { Login } from '../../pages/login/login'
 import { renderPerfil } from '../../pages/usuario/usuario'
-import { navigateTo } from '../../utils/router'
 import './header.css'
 export const HeaderRender = (User) => {
   if (User) {
@@ -31,10 +30,10 @@ export const Header = () => {
   `
   document.addEventListener('DOMContentLoaded', function () {
     const inicioLink = document.getElementById('inicio-link')
-    inicioLink.addEventListener('click', () => navigateTo('/inicio'))
+    inicioLink.addEventListener('click', Home)
   })
   const loginButton = listHeader.querySelector('#login-button')
-  loginButton.addEventListener('click', () => navigateTo('/login'))
+  loginButton.addEventListener('click', Login)
   header.append(divtitle, listHeader)
 }
 
@@ -52,13 +51,13 @@ export const HeaderUsuario = () => {
   <li><a class="bye" href="#bye">Cerrar sesión</a></li>
   `
   const inicioLink = listHeaderUsuario.querySelector('#inicio-link')
-  inicioLink.addEventListener('click', () => navigateTo('/inicio'))
+  inicioLink.addEventListener('click', Home)
 
   const perfilLink = listHeaderUsuario.querySelector('#mi-perfil')
-  perfilLink.addEventListener('click', () => navigateTo('/usuario/perfil'))
+  perfilLink.addEventListener('click', renderPerfil)
 
   const eventosLink = listHeaderUsuario.querySelector('#mis-eventos')
-  eventosLink.addEventListener('click', () => navigateTo('/mis-eventos'))
+  eventosLink.addEventListener('click', printEventos)
 
   const logoutButton = listHeaderUsuario.querySelector('.bye')
   logoutButton.addEventListener('click', () => {
