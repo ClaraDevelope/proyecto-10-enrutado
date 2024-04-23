@@ -25,7 +25,8 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       localStorage.setItem('token', data.token)
       console.log('Objeto de usuario almacenado:', data.usuario)
       localStorage.setItem('user', JSON.stringify(data.usuario))
-      window.location.reload()
+      // window.location.reload()
+      window.location.href = '/inicio'
       HeaderUsuario()
       Home()
     } else {
