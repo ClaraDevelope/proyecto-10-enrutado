@@ -24,10 +24,13 @@ router.on('/inicio', () => {
 router.on('/login', () => {
   Login()
 })
+// router.on('/login/registro', () => {
+//   document.addEventListener('DOMContentLoaded', () => {
+//     printRegister()
+//   })
+// })
 router.on('/login/registro', () => {
-  document.addEventListener('DOMContentLoaded', () => {
-    printRegister()
-  })
+  printRegister()
 })
 
 router.on('/evento/:id', async (params) => {
