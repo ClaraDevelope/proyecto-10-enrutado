@@ -34,11 +34,16 @@ export const pintarEventos = (eventos, elementoPadre) => {
     const cartel = document.createElement('img')
     cartel.alt = 'cartel-evento'
     cartel.loading = 'lazy'
+    if (evento.cartel) {
+      cartel.src = evento.cartel
+    } else {
+      cartel.src =
+        'https://i.pinimg.com/564x/56/72/b1/5672b13718380e6eaea917bfadc49de7.jpg'
+    }
     divCartel.append(cartel)
     const info = document.createElement('div')
     info.className = 'info'
     titulo.textContent = evento.titulo
-    cartel.src = evento.cartel
     const fecha = new Date(evento.fecha)
     const dia = fecha.getDate()
     const mes = fecha.getMonth() + 1

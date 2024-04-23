@@ -5,8 +5,12 @@ import {
   registroAsistenteUsuario
 } from '../pages/home/main/home'
 import { Login } from '../pages/login/login'
-import { printEventos } from '../pages/eventos/eventos'
-import { renderPerfil } from '../pages/usuario/usuario'
+import {
+  formEditarEventos,
+  printEventos,
+  verAsistentes
+} from '../pages/eventos/eventos'
+import { formEdit, renderPerfil } from '../pages/usuario/usuario'
 import { printRegister } from '../pages/register/register'
 import { encontrarEventoPorId } from './variables'
 import { registroAsistente } from '../pages/home/asistentes/registroAsistente'
@@ -65,6 +69,20 @@ router.on('/:id/confirmar-asistencia-sin-registro', async (params) => {
 router.on('/:id/confirmar-asistencia', async (params) => {
   const evento = params.data
   registroAsistenteUsuario(evento)
+})
+
+router.on('/editar-perfil', () => {
+  formEdit()
+})
+router.on('/:id/asistentes', async (params) => {
+  const eventoId = params.data.id
+  const evento = await encontrarEventoPorId(eventoId)
+  verAsistentes(evento)
+})
+
+router.on('/:id/editar', (params) => {
+  const eventoId = params.data.id
+  formEditarEventos(eventoId)
 })
 
 document.addEventListener('DOMContentLoaded', () => {

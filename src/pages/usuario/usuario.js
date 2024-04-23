@@ -1,3 +1,4 @@
+import router from '../../utils/navigo'
 import {
   API_URL,
   datosActualizadosUsuario,
@@ -34,14 +35,14 @@ const perfilUsuario = (elementoPadre) => {
   `
   const editButton = secondaryData.querySelector('#edit-button')
   editButton.addEventListener('click', () => {
-    formEdit()
+    router.navigate('/editar-perfil')
   })
 
   perfilContainer.append(principalData, secondaryData)
   elementoPadre.append(perfilContainer)
 }
 
-const formEdit = () => {
+export const formEdit = () => {
   const main = document.querySelector('main')
   main.innerHTML = ''
   const formulario = document.createElement('form')

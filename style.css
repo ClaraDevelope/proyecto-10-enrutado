@@ -31,13 +31,18 @@
   padding: 0;
   box-sizing: border-box;
 }
-/* #app {
-  min-height: 100svh;
-} */
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 html {
   background-color: var(--background-color);
   color: var(--color-texto);
 }
+/* body {
+  min-height: 100svh;
+} */
 a {
   text-decoration: none;
 }

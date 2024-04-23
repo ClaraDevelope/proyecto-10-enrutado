@@ -1,5 +1,4 @@
 footer {
+  margin-top: auto;
   padding: var(--s);
-  bottom: 0;
-  text-align: center;
 }

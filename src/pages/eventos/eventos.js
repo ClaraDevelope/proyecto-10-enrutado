@@ -1,3 +1,4 @@
+import router from '../../utils/navigo'
 import {
   API_URL,
   datosActualizadosUsuario,
@@ -68,11 +69,13 @@ const mostrarEvento = async (eventoId, elementoPadre) => {
 `
     const buttonAsistentes = info.querySelector('#ver-asistentes')
     buttonAsistentes.addEventListener('click', () => {
-      verAsistentes(evento)
+      eventoId = evento._id
+      router.navigate(`/${eventoId}/asistentes`)
     })
     const editarButton = info.querySelector('#editar-evento')
     editarButton.addEventListener('click', () => {
-      formEditarEventos(eventoId)
+      eventoId = evento._id
+      router.navigate(`/${eventoId}/editar`)
     })
 
     const eliminarButton = info.querySelector('#eliminar-evento')
@@ -103,24 +106,28 @@ const eliminarEvento = async (eventoId) => {
     console.log('error al eliminar el evento', error.message)
   }
 }
-const verAsistentes = async (evento) => {
+export const verAsistentes = async (evento) => {
   const main = document.querySelector('main')
   main.innerHTML = ''
-
+  console.log(evento)
   let count = 0
 
   const asistentesContainer = document.createElement('ul')
   asistentesContainer.className = 'asistentes-container'
 
   for (const asistente of evento.asistentes) {
-    const datos = await fetch(API_URL + `/asistentes/${asistente}`)
-    const datosAsistente = await datos.json()
-
-    const asistenteP = document.createElement('li')
-    asistenteP.innerText = datosAsistente.nombre
-    asistentesContainer.append(asistenteP)
-
-    count++
+    try {
+      const datos = await fetch(API_URL + `/asistentes/${asistente}`)
+      const datosAsistente = await datos.json()
+      if (datosAsistente && datosAsistente.nombre) {
+        const asistenteP = document.createElement('li')
+        asistenteP.innerText = datosAsistente.nombre
+        asistentesContainer.append(asistenteP)
+        count++
+      }
+    } catch (error) {
+      console.error('Error al procesar datos del asistente:', error)
+    }
   }
 
   const numeroAsistentes = document.createElement('span')
@@ -131,7 +138,7 @@ const verAsistentes = async (evento) => {
   main.append(asistentesContainer)
 }
 
-const formEditarEventos = (eventoId) => {
+export const formEditarEventos = (eventoId) => {
   const main = document.querySelector('main')
   main.innerHTML = ''
 
