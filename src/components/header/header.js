@@ -2,6 +2,7 @@ import { printEventos } from '../../pages/eventos/eventos'
 import { Home } from '../../pages/home/main/home'
 import { Login } from '../../pages/login/login'
 import { renderPerfil } from '../../pages/usuario/usuario'
+import router from '../../utils/navigo'
 import './header.css'
 export const HeaderRender = (User) => {
   if (User) {
@@ -25,16 +26,31 @@ export const Header = () => {
   const listHeader = document.createElement('ul')
   listHeader.className = 'header'
   listHeader.innerHTML = `
-  <li><a href='#Home' id="inicio-link">Inicio</a></li>
-  <li><button id='login-button'>Entrar ⁄ Registrarse</button></li>
+  <li><a href='/inicio' id="inicio-link">Inicio</a></li>
+  <li><button id='login-button' data-route='/login'>Entrar ⁄ Registrarse</button></li>
   `
-  document.addEventListener('DOMContentLoaded', function () {
-    const inicioLink = document.getElementById('inicio-link')
-    inicioLink.addEventListener('click', Home)
-  })
-  const loginButton = listHeader.querySelector('#login-button')
-  loginButton.addEventListener('click', Login)
   header.append(divtitle, listHeader)
+
+  // Manejar el evento click en el botón de inicio de sesión/registro
+  // Manejar el evento click en el botón de inicio de sesión/registro
+  const loginButton = listHeader.querySelector('#login-button')
+  loginButton.addEventListener('click', (event) => {
+    event.preventDefault()
+    router.navigate('/login')
+  })
+
+  // Manejar el evento click en el enlace de inicio
+  const inicioLink = listHeader.querySelector('a[href="/inicio"]')
+  inicioLink.addEventListener('click', (event) => {
+    event.preventDefault()
+    router.navigate('/inicio')
+  })
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   const inicioLink = document.getElementById('inicio-link')
+  //   inicioLink.addEventListener('click', Home)
+  // })
+  // const loginButton = listHeader.querySelector('#login-button')
+  // loginButton.addEventListener('click', Login)
 }
 
 export const HeaderUsuario = () => {
@@ -45,30 +61,54 @@ export const HeaderUsuario = () => {
   const listHeaderUsuario = document.createElement('ul')
   listHeaderUsuario.className = 'header-usuario'
   listHeaderUsuario.innerHTML = `
-  <li><a href='#Home' id='inicio-link'>Inicio</a></li>
-  <li><a href="#misEventos" id='mis-eventos'>Mis eventos</a></li>
-  <li><a href="#perfil" id= 'mi-perfil'>Mi perfil</a></li>
-  <li><a class="bye" href="#bye">Cerrar sesión</a></li>
+  <li><a href='/inicio' id='inicio-link'>Inicio</a></li>
+  <li><a href="/mis-eventos" id='mis-eventos'>Mis eventos</a></li>
+  <li><a href="/perfil" id= 'mi-perfil'>Mi perfil</a></li>
+  <li><a class="bye" href="/bye">Cerrar sesión</a></li>
   `
+  // const inicioLink = listHeaderUsuario.querySelector('#inicio-link')
+  // inicioLink.addEventListener('click', Home)
+
+  // const perfilLink = listHeaderUsuario.querySelector('#mi-perfil')
+  // perfilLink.addEventListener('click', renderPerfil)
+
+  // const eventosLink = listHeaderUsuario.querySelector('#mis-eventos')
+  // eventosLink.addEventListener('click', printEventos)
+
   const inicioLink = listHeaderUsuario.querySelector('#inicio-link')
-  inicioLink.addEventListener('click', Home)
+  inicioLink.addEventListener('click', (event) => {
+    event.preventDefault()
+    router.navigate('/inicio')
+  })
 
   const perfilLink = listHeaderUsuario.querySelector('#mi-perfil')
-  perfilLink.addEventListener('click', renderPerfil)
+  perfilLink.addEventListener('click', (event) => {
+    event.preventDefault()
+    router.navigate('/perfil')
+  })
 
   const eventosLink = listHeaderUsuario.querySelector('#mis-eventos')
-  eventosLink.addEventListener('click', printEventos)
+  eventosLink.addEventListener('click', (event) => {
+    event.preventDefault()
+    router.navigate('/mis-eventos')
+  })
 
   const logoutButton = listHeaderUsuario.querySelector('.bye')
-  logoutButton.addEventListener('click', () => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      console.log('El usuario ya está desconectado.')
-      return
-    }
-    localStorage.removeItem('token')
-    window.location.href = '/'
+  logoutButton.addEventListener('click', (event) => {
+    event.preventDefault()
+    router.navigate('/bye')
   })
+
+  // const logoutButton = listHeaderUsuario.querySelector('.bye')
+  // logoutButton.addEventListener('click', () => {
+  //   const token = localStorage.getItem('token')
+  //   if (!token) {
+  //     console.log('El usuario ya está desconectado.')
+  //     return
+  //   }
+  //   localStorage.removeItem('token')
+  //   window.location.href = '/'
+  // })
 
   header.append(title, listHeaderUsuario)
 }

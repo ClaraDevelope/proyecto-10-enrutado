@@ -25,7 +25,7 @@ const llamadaDatosUsuario = async (usuarioId) => {
       throw new Error('Error al obtener los datos del usuario')
     }
     datosActualizadosUsuario = await response.json()
-    console.log(datosActualizadosUsuario)
+    // console.log(datosActualizadosUsuario)
     return datosActualizadosUsuario
   } catch (error) {
     console.error('Ha habido un error:', error)
@@ -33,3 +33,19 @@ const llamadaDatosUsuario = async (usuarioId) => {
   }
 }
 llamadaDatosUsuario(usuarioId)
+
+export const encontrarEventoPorId = async (eventoId) => {
+  try {
+    const response = await fetch(API_URL + `/eventos/${eventoId}`)
+    if (response.ok) {
+      const evento = await response.json()
+      return evento
+    } else {
+      console.error('No se pudo encontrar el evento')
+      return null
+    }
+  } catch (error) {
+    console.error('Error al buscar el evento:', error)
+    return null
+  }
+}

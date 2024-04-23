@@ -1,3 +1,4 @@
+import router from '../../../utils/navigo'
 import { API_URL, User, datosUsuario } from '../../../utils/variables'
 import { Login } from '../../login/login'
 import { registroAsistente } from '../asistentes/registroAsistente'
@@ -52,7 +53,13 @@ export const pintarEventos = (eventos, elementoPadre) => {
     `
 
     const infoBoton = info.querySelector('.info-boton')
-    infoBoton.addEventListener('click', (e) => infoEvento(evento._id))
+    infoBoton.dataset.eventId = evento._id
+    infoBoton.addEventListener('click', (e) => {
+      const eventoId = e.target.dataset.eventId
+      const ruta = `/evento/${eventoId}`
+      router.navigate(ruta)
+    })
+    // infoBoton.addEventListener('click', (e) => infoEvento(evento._id))
 
     divEvento.append(titulo, divCartel, info)
     divEventos.append(divEvento)
@@ -60,12 +67,12 @@ export const pintarEventos = (eventos, elementoPadre) => {
 
   elementoPadre.append(divEventos)
 }
-const infoEvento = async (e) => {
+
+export const infoEvento = async (e) => {
   const main = document.querySelector('main')
   main.innerHTML = ''
-  const res = await fetch(API_URL + `/eventos/${e}`)
+  const res = await fetch(API_URL + `/eventos/${e._id}`)
   const evento = await res.json()
-
   printEvento(evento)
 }
 const printEvento = (evento) => {
@@ -105,11 +112,18 @@ const printEvento = (evento) => {
        </div>
     `
   const buttonAsistenciaSinRegistro = info.querySelector('.asistencia')
-  buttonAsistenciaSinRegistro.addEventListener('click', () =>
-    registroAsistente(evento)
-  )
+  buttonAsistenciaSinRegistro.addEventListener('click', () => {
+    const ruta = `/${evento._id}/confirmar-asistencia-sin-registro`
+    router.navigate(ruta)
+  })
+  // buttonAsistenciaSinRegistro.addEventListener('click', () =>
+  //   registroAsistente(evento)
+  // )
   const buttonAsistenciaUsuario = info.querySelector('.registro-boton')
-  buttonAsistenciaUsuario.addEventListener('click', Login)
+  buttonAsistenciaUsuario.addEventListener('click', (e) => {
+    e.preventDefault()
+    router.navigate('/login')
+  })
   divEvento.append(titulo, divCartel, info)
   main.append(divEvento)
   divEvento.append(titulo, divCartel, info)
@@ -123,12 +137,14 @@ const printEvento = (evento) => {
     buttonAsistirUsuarioLogueado.className = 'asistencia'
     buttonContainer.appendChild(buttonAsistirUsuarioLogueado)
     buttonAsistirUsuarioLogueado.addEventListener('click', () => {
-      registroAsistenteUsuario(evento)
+      const ruta = `/${evento._id}/confirmar-asistencia`
+      router.navigate(ruta)
+      // registroAsistenteUsuario(evento)
     })
   }
 }
-const registroAsistenteUsuario = (evento) => {
-  const eventoId = evento._id
+export const registroAsistenteUsuario = (evento) => {
+  const eventoId = evento.id
   const nombreUsuario = datosUsuario.nombreUsuario
   const email = datosUsuario.email
   console.log(eventoId)

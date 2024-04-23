@@ -32,7 +32,7 @@
   box-sizing: border-box;
 }
 /* #app {
-  height: 100svh;
+  min-height: 100svh;
 } */
 html {
   background-color: var(--background-color);

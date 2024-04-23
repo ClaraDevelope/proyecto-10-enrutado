@@ -88,7 +88,7 @@ const submit = async (nombre, email, eventoId, form) => {
   }
 }
 
-export const registroAsistente = (evento) => {
+export const registroAsistente = (eventoId) => {
   const main = document.querySelector('main')
   main.innerHTML = ''
   const registroAsistenteContainer = document.createElement('div')
@@ -97,6 +97,6 @@ export const registroAsistente = (evento) => {
   p.innerText =
     '¡Apuntarse a este emocionante evento es muy sencillo! Todo lo que necesitas hacer es proporcionar tu nombre y tu correo electrónico en el formulario de registro que encontrarás más abajo. ¡Es así de fácil! Una vez completado, simplemente sigue las indicaciones que te enviaremos por correo electrónico y estarás listo para disfrutar de una experiencia inolvidable. ¡No te pierdas la oportunidad de ser parte de este evento increíble!'
   registroAsistenteContainer.append(p)
-  form(registroAsistenteContainer, evento._id)
+  form(registroAsistenteContainer, eventoId)
   main.append(registroAsistenteContainer)
 }

@@ -55,10 +55,12 @@ const formLogin = (elementoPadre) => {
   form(formLoginContainer)
   const pRegistro = document.createElement('p')
   pRegistro.className = 'parrafo-registro'
-  pRegistro.innerHTML = `Si aún no tienes cuenta, <a class="anchor-registro" href="#Registro">haz click aquí para registrarte</a>`
+  pRegistro.innerHTML = `Si aún no tienes cuenta, <a class="anchor-registro" href="/login/registro">haz click aquí para registrarte</a>`
 
   const anchorRegistro = pRegistro.querySelector('.anchor-registro')
-  anchorRegistro.addEventListener('click', printRegister)
+  anchorRegistro.addEventListener('click', () => {
+    router.navigate('/login/registro')
+  })
   formLoginContainer.append(pRegistro)
   elementoPadre.append(formLoginContainer)
 
@@ -92,8 +94,15 @@ const form = (elementoPadre) => {
   elementoPadre.append(formLogin)
 }
 
+// export const Login = () => {
+//   const main = document.querySelector('main')
+//   main.innerHTML = ''
+//   formLogin(main)
+// }
 export const Login = () => {
   const main = document.querySelector('main')
-  main.innerHTML = ''
-  formLogin(main)
+  if (main) {
+    main.innerHTML = ''
+    formLogin(main)
+  }
 }
