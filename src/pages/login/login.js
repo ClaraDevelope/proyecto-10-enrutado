@@ -1,5 +1,9 @@
 import { Landing } from '../../../main'
-import { HeaderRender, HeaderUsuario } from '../../components/header/header'
+import {
+  Header,
+  HeaderRender,
+  HeaderUsuario
+} from '../../components/header/header'
 import router from '../../utils/navigo'
 import { API_URL, User } from '../../utils/variables'
 import { Home } from '../home/main/home'
@@ -32,7 +36,7 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       // HeaderRender(User)
       // router.navigate('/inicio')
       if (data) {
-        HeaderRender(User)
+        HeaderUsuario()
         router.navigate('/inicio')
       }
 
