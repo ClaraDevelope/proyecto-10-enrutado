@@ -16,11 +16,9 @@ const perfilUsuario = (elementoPadre) => {
   const principalData = document.createElement('div')
   principalData.className = 'img-name'
   principalData.innerHTML = `<div class='imgPerfil-container'><img loading= 'lazy' src=${
-    datosActualizadosUsuario.img
-      ? datosActualizadosUsuario.img
-      : './assets/usuario.png'
+    datosUsuario.img ? datosUsuario.img : './assets/usuario.png'
   } alt="perfil-img"></img></div>
-  <h2>${datosActualizadosUsuario.nombreUsuario}</h2>
+  <h2>${datosUsuario.nombreUsuario}</h2>
   `
   const secondaryData = document.createElement('div')
   secondaryData.className = 'secondary-data'
