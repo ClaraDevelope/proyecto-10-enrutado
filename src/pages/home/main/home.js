@@ -69,7 +69,6 @@ export const pintarEventos = (eventos, elementoPadre) => {
       const ruta = `/evento/${eventoId}`
       router.navigate(ruta)
     })
-    // infoBoton.addEventListener('click', (e) => infoEvento(evento._id))
 
     divEvento.append(titulo, divCartel, info)
     divEventos.append(divEvento)
@@ -126,9 +125,7 @@ const printEvento = (evento) => {
     const ruta = `/${evento._id}/confirmar-asistencia-sin-registro`
     router.navigate(ruta)
   })
-  // buttonAsistenciaSinRegistro.addEventListener('click', () =>
-  //   registroAsistente(evento)
-  // )
+
   const buttonAsistenciaUsuario = info.querySelector('.registro-boton')
   buttonAsistenciaUsuario.addEventListener('click', (e) => {
     e.preventDefault()
@@ -149,7 +146,6 @@ const printEvento = (evento) => {
     buttonAsistirUsuarioLogueado.addEventListener('click', () => {
       const ruta = `/${evento._id}/confirmar-asistencia`
       router.navigate(ruta)
-      // registroAsistenteUsuario(evento)
     })
   }
 }

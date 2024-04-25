@@ -26,7 +26,7 @@ export const printEventos = async () => {
 }
 
 const pintarEvento = (elementoPadre) => {
-  const eventos = datosUsuario.eventosOrganizados
+  const eventos = datosActualizadosUsuario.eventosOrganizados
 
   for (const evento of eventos) {
     const eventoContainer = document.createElement('div')

@@ -7,7 +7,7 @@ export const User = !!token && usuarioData
 export const datosUsuario = JSON.parse(
   localStorage.getItem('user', JSON.stringify())
 )
-export let datosActualizadosUsuario
+export let datosActualizadosUsuario = null
 
 const usuarioId = datosUsuario?._id
 const llamadaDatosUsuario = async (usuarioId) => {
