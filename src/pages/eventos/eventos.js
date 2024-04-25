@@ -175,6 +175,7 @@ export const formEditarEventos = (eventoId) => {
     const form = document.querySelector('#form-evento')
     const formData = new FormData(form)
     const userId = datosUsuario._id
+    console.log(userId)
 
     try {
       await editarEvento(eventoId, userId, formData)
