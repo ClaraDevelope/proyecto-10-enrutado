@@ -147,6 +147,8 @@ const printEvento = (evento) => {
       const ruta = `/${evento._id}/confirmar-asistencia`
       router.navigate(ruta)
     })
+  } else {
+    return
   }
 }
 export const registroAsistenteUsuario = (evento) => {
