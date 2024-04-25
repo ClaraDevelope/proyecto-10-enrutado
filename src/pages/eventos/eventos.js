@@ -26,7 +26,10 @@ export const printEventos = async () => {
 }
 
 const pintarEvento = (elementoPadre) => {
-  const eventos = datosUsuario.eventosOrganizados
+  const eventos = localStorage.getItem(
+    'user',
+    JSON.stringify()
+  ).eventosOrganizados
 
   for (const evento of eventos) {
     console.log(evento)
