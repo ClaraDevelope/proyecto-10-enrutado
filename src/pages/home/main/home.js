@@ -3,6 +3,7 @@ import {
   API_URL,
   User,
   datosUsuario,
+  token,
   usuarioData
 } from '../../../utils/variables'
 import { Login } from '../../login/login'
@@ -135,7 +136,7 @@ const printEvento = (evento) => {
   main.append(divEvento)
   divEvento.append(titulo, divCartel, info)
   main.append(divEvento)
-  if (usuarioData) {
+  if (localStorage.getItem('token')) {
     const buttonContainer = document.querySelector('.button-container')
     buttonContainer.removeChild(buttonAsistenciaSinRegistro)
     buttonContainer.removeChild(buttonAsistenciaUsuario)

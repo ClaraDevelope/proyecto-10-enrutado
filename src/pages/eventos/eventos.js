@@ -29,6 +29,7 @@ const pintarEvento = (elementoPadre) => {
   const eventos = datosUsuario.eventosOrganizados
 
   for (const evento of eventos) {
+    console.log(evento)
     const eventoContainer = document.createElement('div')
     eventoContainer.className = 'evento'
     elementoPadre.append(eventoContainer)
