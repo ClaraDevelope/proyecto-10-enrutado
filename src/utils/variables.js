@@ -3,8 +3,15 @@ export const API_URL = 'https://proyecto-10-backend.vercel.app/api/v1'
 export const token = localStorage.getItem('token')
 export const usuarioData = localStorage.getItem('user', JSON.stringify())
 export const User = !!token && usuarioData
+export let datosUsuario = obtenerDatosUsuario()
+function obtenerDatosUsuario() {
+  return JSON.parse(localStorage.getItem('user')) || {}
+}
 
-export const datosUsuario = JSON.parse(localStorage.getItem('user'))
+export function actualizarDatosUsuario() {
+  datosUsuario = obtenerDatosUsuario()
+}
+// export const datosUsuario = JSON.parse(localStorage.getItem('user'))
 export let datosActualizadosUsuario = null
 
 const usuarioId = datosUsuario?._id

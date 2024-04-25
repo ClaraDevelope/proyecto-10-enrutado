@@ -5,7 +5,7 @@ import {
   HeaderUsuario
 } from '../../components/header/header'
 import router from '../../utils/navigo'
-import { API_URL, User } from '../../utils/variables'
+import { API_URL, User, actualizarDatosUsuario } from '../../utils/variables'
 import { Home } from '../home/main/home'
 import { printRegister } from '../register/register'
 import './login.css'
@@ -33,6 +33,7 @@ export const submitLogin = async (nombreUsuario, password, form) => {
 
       if (data) {
         HeaderUsuario()
+        actualizarDatosUsuario()
         router.navigate('/inicio')
       }
     } else {
