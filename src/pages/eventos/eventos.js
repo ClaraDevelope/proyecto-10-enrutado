@@ -48,12 +48,18 @@ export const printEventos = async () => {
 const pintarEvento = (elementoPadre) => {
   const eventos = datosUsuario.eventosOrganizados
 
-  for (const evento of eventos) {
-    console.log(evento)
-    const eventoContainer = document.createElement('div')
-    eventoContainer.className = 'evento'
-    elementoPadre.append(eventoContainer)
-    mostrarEvento(evento, eventoContainer)
+  if (
+    datosUsuario &&
+    datosUsuario.eventosOrganizados &&
+    datosUsuario.eventosOrganizados.length > 0
+  ) {
+    for (const evento of eventos) {
+      console.log(evento)
+      const eventoContainer = document.createElement('div')
+      eventoContainer.className = 'evento'
+      elementoPadre.append(eventoContainer)
+      mostrarEvento(evento, eventoContainer)
+    }
   }
 }
 
