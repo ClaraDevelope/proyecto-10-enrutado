@@ -2,7 +2,8 @@ import router from '../../utils/navigo'
 import {
   API_URL,
   datosActualizadosUsuario,
-  datosUsuario
+  datosUsuario,
+  usuarioData
 } from '../../utils/variables'
 import './eventos.css'
 
@@ -24,40 +25,37 @@ export const printEventos = async () => {
   main.append(divContainer)
   pintarEvento(eventosContainer)
 }
-const pintarEvento = (elementoPadre) => {
-  const usuarioData = JSON.parse(localStorage.getItem('user'))
-
-  if (
-    usuarioData &&
-    usuarioData.eventosOrganizados &&
-    usuarioData.eventosOrganizados.length > 0
-  ) {
-    for (const eventoId of usuarioData.eventosOrganizados) {
-      const eventoContainer = document.createElement('div')
-      eventoContainer.className = 'evento'
-      elementoPadre.append(eventoContainer)
-      mostrarEvento(eventoId, eventoContainer)
-    }
-  } else {
-    const mensaje = document.createElement('p')
-    mensaje.textContent = 'No tienes eventos organizados.'
-    elementoPadre.appendChild(mensaje)
-  }
-}
 // const pintarEvento = (elementoPadre) => {
-//   const eventos = localStorage.getItem(
-//     'user',
-//     JSON.stringify()
-//   ).eventosOrganizados
+//   const usuarioData = JSON.parse(localStorage.getItem('user'))
 
-//   for (const evento of eventos) {
-//     console.log(evento)
-//     const eventoContainer = document.createElement('div')
-//     eventoContainer.className = 'evento'
-//     elementoPadre.append(eventoContainer)
-//     mostrarEvento(evento, eventoContainer)
+//   if (
+//     usuarioData &&
+//     usuarioData.eventosOrganizados &&
+//     usuarioData.eventosOrganizados.length > 0
+//   ) {
+//     for (const eventoId of usuarioData.eventosOrganizados) {
+//       const eventoContainer = document.createElement('div')
+//       eventoContainer.className = 'evento'
+//       elementoPadre.append(eventoContainer)
+//       mostrarEvento(eventoId, eventoContainer)
+//     }
+//   } else {
+//     const mensaje = document.createElement('p')
+//     mensaje.textContent = 'No tienes eventos organizados.'
+//     elementoPadre.appendChild(mensaje)
 //   }
 // }
+const pintarEvento = (elementoPadre) => {
+  const eventos = usuarioData.eventosOrganizados
+
+  for (const evento of eventos) {
+    console.log(evento)
+    const eventoContainer = document.createElement('div')
+    eventoContainer.className = 'evento'
+    elementoPadre.append(eventoContainer)
+    mostrarEvento(evento, eventoContainer)
+  }
+}
 
 const mostrarEvento = async (eventoId, elementoPadre) => {
   try {

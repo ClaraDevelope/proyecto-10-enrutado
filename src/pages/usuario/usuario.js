@@ -39,40 +39,6 @@ const perfilUsuario = (elementoPadre) => {
   perfilContainer.append(principalData, secondaryData)
   elementoPadre.append(perfilContainer)
 }
-// const perfilUsuario = (elementoPadre) => {
-//   const usuarioData = JSON.parse(localStorage.getItem('user'))
-
-//   const perfilContainer = document.createElement('div')
-//   perfilContainer.className = 'perfil-container'
-
-//   const principalData = document.createElement('div')
-//   principalData.className = 'img-name'
-//   principalData.innerHTML = `<div class='imgPerfil-container'><img loading='lazy' src=${
-//     usuarioData.img ? usuarioData.img : './assets/usuario.png'
-//   } alt="perfil-img"></img></div>
-//   <h2>${usuarioData.nombreUsuario}</h2>`
-
-//   const secondaryData = document.createElement('div')
-//   secondaryData.className = 'secondary-data'
-//   secondaryData.innerHTML = `<div>
-//     <label class='info-label'>Nombre de usuario:</label><p>${usuarioData.nombreUsuario}</p>
-//     </div>
-//     <div>
-//       <label class='info-label'>Contraseña:</label><p>*******</p>
-//     </div>
-//     <div>
-//       <label class='info-label'>Email:</label><p>${usuarioData.email}</p>
-//     </div>
-//     <button class='submit' id='edit-button'>Editar</button>`
-
-//   const editButton = secondaryData.querySelector('#edit-button')
-//   editButton.addEventListener('click', () => {
-//     router.navigate('/editar-perfil')
-//   })
-
-//   perfilContainer.append(principalData, secondaryData)
-//   elementoPadre.append(perfilContainer)
-// }
 
 export const formEdit = () => {
   const main = document.querySelector('main')
