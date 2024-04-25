@@ -20,7 +20,7 @@ export const submitLogin = async (nombreUsuario, password, form) => {
   try {
     const response = await fetch(API_URL + '/auth/login', opciones)
 
-    if (response.status === 200) {
+    if (response.ok) {
       const data = await response.json()
       console.log('Datos de la respuesta:', data)
       localStorage.setItem('token', data.token)
@@ -31,14 +31,16 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       // headerUsuario()
       // HeaderRender(User)
       // router.navigate('/inicio')
-      Landing()
+      if (token) {
+        Landing()
+      }
+
       // Home()
       // no habria que poner la ruta?
     } else {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
       console.error('Mensaje de error:', errorMessage)
-      throw new Error('Error al iniciar sesión')
     }
   } catch (error) {
     console.error('Error en la solicitud:', error)
