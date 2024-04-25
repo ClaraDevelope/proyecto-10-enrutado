@@ -32,7 +32,7 @@ const llamadaDatosUsuario = async (usuarioId) => {
     throw error
   }
 }
-llamadaDatosUsuario(usuarioId)
+// llamadaDatosUsuario(usuarioId)
 
 export const encontrarEventoPorId = async (eventoId) => {
   try {
