@@ -45,23 +45,6 @@ const pintarEvento = (elementoPadre) => {
     elementoPadre.appendChild(mensaje)
   }
 }
-// const pintarEvento = (elementoPadre) => {
-//   const eventos = datosUsuario.eventosOrganizados
-
-//   if (
-//     datosUsuario &&
-//     datosUsuario.eventosOrganizados &&
-//     datosUsuario.eventosOrganizados.length > 0
-//   ) {
-//     for (const evento of eventos) {
-//       console.log(evento)
-//       const eventoContainer = document.createElement('div')
-//       eventoContainer.className = 'evento'
-//       elementoPadre.append(eventoContainer)
-//       mostrarEvento(evento, eventoContainer)
-//     }
-//   }
-// }
 
 const mostrarEvento = async (eventoId, elementoPadre) => {
   try {
