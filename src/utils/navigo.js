@@ -24,11 +24,7 @@ router.on('/inicio', () => {
 router.on('/login', () => {
   Login()
 })
-// router.on('/login/registro', () => {
-//   document.addEventListener('DOMContentLoaded', () => {
-//     printRegister()
-//   })
-// })
+
 router.on('/login/registro', () => {
   printRegister()
 })

@@ -30,18 +30,11 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       localStorage.setItem('token', data.token)
       console.log('Objeto de usuario almacenado:', data.usuario)
       localStorage.setItem('user', JSON.stringify(data.usuario))
-      // window.location.reload()
-      // window.location.href = '/inicio'
-      // headerUsuario()
-      // HeaderRender(User)
-      // router.navigate('/inicio')
+
       if (data) {
         HeaderUsuario()
         router.navigate('/inicio')
       }
-
-      // Home()
-      // no habria que poner la ruta?
     } else {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
@@ -60,36 +53,6 @@ export const submitLogin = async (nombreUsuario, password, form) => {
   }
 }
 
-// const formLogin = (elementoPadre) => {
-
-//   const formLoginContainer = document.createElement('div')
-//   formLoginContainer.className = 'form-container'
-//   const title = document.createElement('h2')
-//   title.innerText = 'Iniciar sesión'
-//   formLoginContainer.append(title)
-//   form(formLoginContainer)
-//   const pRegistro = document.createElement('p')
-//   pRegistro.className = 'parrafo-registro'
-//   pRegistro.innerHTML = `Si aún no tienes cuenta, <a class="anchor-registro" href="/login/registro">haz click aquí para registrarte</a>`
-
-//   const anchorRegistro = pRegistro.querySelector('.anchor-registro')
-//   anchorRegistro.addEventListener('click', () => {
-//     router.navigate('/login/registro')
-//   })
-//   formLoginContainer.append(pRegistro)
-//   elementoPadre.append(formLoginContainer)
-
-//   const formLogin = formLoginContainer.querySelector('.form-login')
-//   formLogin.addEventListener('submit', async (e) => {
-//     e.preventDefault()
-
-//     const formData = new FormData(formLogin)
-//     const nombreUsuario = formData.get('userName')
-//     const password = formData.get('password')
-
-//     await submitLogin(nombreUsuario, password, formLogin)
-//   })
-// }
 const formLogin = (elementoPadre) => {
   const renderForm = () => {
     const formLoginContainer = document.createElement('div')
@@ -143,11 +106,6 @@ const form = (elementoPadre) => {
   elementoPadre.append(formLogin)
 }
 
-// export const Login = () => {
-//   const main = document.querySelector('main')
-//   main.innerHTML = ''
-//   formLogin(main)
-// }
 export const Login = () => {
   const main = document.querySelector('main')
   if (main) {

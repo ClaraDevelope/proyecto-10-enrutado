@@ -31,26 +31,17 @@ export const Header = () => {
   `
   header.append(divtitle, listHeader)
 
-  // Manejar el evento click en el botón de inicio de sesión/registro
-  // Manejar el evento click en el botón de inicio de sesión/registro
   const loginButton = listHeader.querySelector('#login-button')
   loginButton.addEventListener('click', (event) => {
     event.preventDefault()
     router.navigate('/login')
   })
 
-  // Manejar el evento click en el enlace de inicio
   const inicioLink = listHeader.querySelector('a[href="/inicio"]')
   inicioLink.addEventListener('click', (event) => {
     event.preventDefault()
     router.navigate('/inicio')
   })
-  // document.addEventListener('DOMContentLoaded', function () {
-  //   const inicioLink = document.getElementById('inicio-link')
-  //   inicioLink.addEventListener('click', Home)
-  // })
-  // const loginButton = listHeader.querySelector('#login-button')
-  // loginButton.addEventListener('click', Login)
 }
 
 export const HeaderUsuario = () => {
@@ -66,14 +57,6 @@ export const HeaderUsuario = () => {
   <li><a href="/perfil" id= 'mi-perfil'>Mi perfil</a></li>
   <li><a class="bye" href="/bye">Cerrar sesión</a></li>
   `
-  // const inicioLink = listHeaderUsuario.querySelector('#inicio-link')
-  // inicioLink.addEventListener('click', Home)
-
-  // const perfilLink = listHeaderUsuario.querySelector('#mi-perfil')
-  // perfilLink.addEventListener('click', renderPerfil)
-
-  // const eventosLink = listHeaderUsuario.querySelector('#mis-eventos')
-  // eventosLink.addEventListener('click', printEventos)
 
   const inicioLink = listHeaderUsuario.querySelector('#inicio-link')
   inicioLink.addEventListener('click', (event) => {
@@ -98,17 +81,6 @@ export const HeaderUsuario = () => {
     event.preventDefault()
     router.navigate('/bye')
   })
-
-  // const logoutButton = listHeaderUsuario.querySelector('.bye')
-  // logoutButton.addEventListener('click', () => {
-  //   const token = localStorage.getItem('token')
-  //   if (!token) {
-  //     console.log('El usuario ya está desconectado.')
-  //     return
-  //   }
-  //   localStorage.removeItem('token')
-  //   window.location.href = '/'
-  // })
 
   header.append(title, listHeaderUsuario)
 }
