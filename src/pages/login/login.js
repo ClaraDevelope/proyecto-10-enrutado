@@ -1,6 +1,7 @@
-import { HeaderUsuario } from '../../components/header/header'
+import { Landing } from '../../../main'
+import { HeaderRender, HeaderUsuario } from '../../components/header/header'
 import router from '../../utils/navigo'
-import { API_URL } from '../../utils/variables'
+import { API_URL, User } from '../../utils/variables'
 import { Home } from '../home/main/home'
 import { printRegister } from '../register/register'
 import './login.css'
@@ -26,9 +27,13 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       console.log('Objeto de usuario almacenado:', data.usuario)
       localStorage.setItem('user', JSON.stringify(data.usuario))
       // window.location.reload()
-      window.location.href = '/inicio'
-      HeaderUsuario()
-      Home()
+      // window.location.href = '/inicio'
+      // headerUsuario()
+      // HeaderRender(User)
+      // router.navigate('/inicio')
+      Landing()
+      // Home()
+      // no habria que poner la ruta?
     } else {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
