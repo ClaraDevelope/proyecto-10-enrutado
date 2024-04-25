@@ -31,7 +31,7 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       // headerUsuario()
       // HeaderRender(User)
       // router.navigate('/inicio')
-      if (token) {
+      if (localStorage.setItem('token', data.token)) {
         Landing()
       }
 
