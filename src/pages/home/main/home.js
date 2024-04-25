@@ -1,5 +1,10 @@
 import router from '../../../utils/navigo'
-import { API_URL, User, datosUsuario } from '../../../utils/variables'
+import {
+  API_URL,
+  User,
+  datosUsuario,
+  usuarioData
+} from '../../../utils/variables'
 import { Login } from '../../login/login'
 import { registroAsistente } from '../asistentes/registroAsistente'
 import './home.css'
@@ -133,7 +138,7 @@ const printEvento = (evento) => {
   main.append(divEvento)
   divEvento.append(titulo, divCartel, info)
   main.append(divEvento)
-  if (User) {
+  if (usuarioData) {
     const buttonContainer = document.querySelector('.button-container')
     buttonContainer.removeChild(buttonAsistenciaSinRegistro)
     buttonContainer.removeChild(buttonAsistenciaUsuario)
