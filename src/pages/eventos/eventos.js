@@ -175,6 +175,7 @@ export const formEditarEventos = (eventoId) => {
     const form = document.querySelector('#form-evento')
     const formData = new FormData(form)
     const userId = datosUsuario._id
+
     try {
       await editarEvento(eventoId, userId, formData)
     } catch (error) {
@@ -247,6 +248,7 @@ const formCrearEvento = () => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
     const userId = datosUsuario._id
+    console.log(userId)
     const formData = new FormData(form)
     await enviarFormulario(userId, formData, form)
   })
