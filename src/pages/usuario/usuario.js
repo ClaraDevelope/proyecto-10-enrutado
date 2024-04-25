@@ -23,11 +23,11 @@ const perfilUsuario = (elementoPadre) => {
   const secondaryData = document.createElement('div')
   secondaryData.className = 'secondary-data'
   secondaryData.innerHTML = `<div>
-  <label class='info-label'>Nombre de usuario:</label><p>${datosActualizadosUsuario.nombreUsuario}</p>
+  <label class='info-label'>Nombre de usuario:</label><p>${datosUsuario.nombreUsuario}</p>
   </div>
  <div> <label class='info-label'>Contraseña:</label><p>*******</p></div>
  <div>
- <label class='info-label'>Email:</label><p>${datosActualizadosUsuario.email}</p>
+ <label class='info-label'>Email:</label><p>${datosUsuario.email}</p>
  </div>
  <button class='submit' id='edit-button'>Editar</button>
   `
