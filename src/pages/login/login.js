@@ -91,14 +91,13 @@ const formLogin = (elementoPadre) => {
     pRegistro.innerHTML = `Si aún no tienes cuenta, <a class="anchor-registro" href="/login/registro">haz click aquí para registrarte</a>`
     formLoginContainer.append(pRegistro)
     elementoPadre.append(formLoginContainer)
-
     const formLogin = formLoginContainer.querySelector('.form-login')
-    formLogin.addEventListener('submit', async (e) => {
+    formLogin.addEventListener('submit', (e) => {
       e.preventDefault()
       const formData = new FormData(formLogin)
       const nombreUsuario = formData.get('userName')
       const password = formData.get('password')
-      await submitLogin(nombreUsuario, password, formLogin)
+      submitLogin(nombreUsuario, password, formLogin)
     })
 
     const anchorRegistro = pRegistro.querySelector('.anchor-registro')
