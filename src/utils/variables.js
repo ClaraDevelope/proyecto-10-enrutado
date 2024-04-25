@@ -4,9 +4,7 @@ export const token = localStorage.getItem('token')
 export const usuarioData = localStorage.getItem('user', JSON.stringify())
 export const User = !!token && usuarioData
 
-export const datosUsuario = JSON.parse(
-  localStorage.getItem('user', JSON.stringify())
-)
+export const datosUsuario = JSON.parse(localStorage.getItem('user'))
 export let datosActualizadosUsuario = null
 
 const usuarioId = datosUsuario?._id

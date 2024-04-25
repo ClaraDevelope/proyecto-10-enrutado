@@ -32,7 +32,6 @@ const pintarEvento = (elementoPadre) => {
     usuarioData.eventosOrganizados &&
     usuarioData.eventosOrganizados.length > 0
   ) {
-    // Si hay eventos organizados, iteramos sobre ellos y los mostramos
     for (const eventoId of usuarioData.eventosOrganizados) {
       const eventoContainer = document.createElement('div')
       eventoContainer.className = 'evento'
@@ -40,7 +39,6 @@ const pintarEvento = (elementoPadre) => {
       mostrarEvento(eventoId, eventoContainer)
     }
   } else {
-    // Si no hay eventos organizados, mostramos un mensaje indicando que no hay eventos
     const mensaje = document.createElement('p')
     mensaje.textContent = 'No tienes eventos organizados.'
     elementoPadre.appendChild(mensaje)
