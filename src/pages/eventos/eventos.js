@@ -25,43 +25,43 @@ export const printEventos = async () => {
   main.append(divContainer)
   pintarEvento(eventosContainer)
 }
-// const pintarEvento = (elementoPadre) => {
-//   const usuarioData = JSON.parse(localStorage.getItem('user'))
-
-//   if (
-//     usuarioData &&
-//     usuarioData.eventosOrganizados &&
-//     usuarioData.eventosOrganizados.length > 0
-//   ) {
-//     for (const eventoId of usuarioData.eventosOrganizados) {
-//       const eventoContainer = document.createElement('div')
-//       eventoContainer.className = 'evento'
-//       elementoPadre.append(eventoContainer)
-//       mostrarEvento(eventoId, eventoContainer)
-//     }
-//   } else {
-//     const mensaje = document.createElement('p')
-//     mensaje.textContent = 'No tienes eventos organizados.'
-//     elementoPadre.appendChild(mensaje)
-//   }
-// }
 const pintarEvento = (elementoPadre) => {
-  const eventos = datosUsuario.eventosOrganizados
+  const usuarioData = JSON.parse(localStorage.getItem('user'))
 
   if (
-    datosUsuario &&
-    datosUsuario.eventosOrganizados &&
-    datosUsuario.eventosOrganizados.length > 0
+    usuarioData &&
+    usuarioData.eventosOrganizados &&
+    usuarioData.eventosOrganizados.length > 0
   ) {
-    for (const evento of eventos) {
-      console.log(evento)
+    for (const eventoId of usuarioData.eventosOrganizados) {
       const eventoContainer = document.createElement('div')
       eventoContainer.className = 'evento'
       elementoPadre.append(eventoContainer)
-      mostrarEvento(evento, eventoContainer)
+      mostrarEvento(eventoId, eventoContainer)
     }
+  } else {
+    const mensaje = document.createElement('p')
+    mensaje.textContent = 'No tienes eventos organizados.'
+    elementoPadre.appendChild(mensaje)
   }
 }
+// const pintarEvento = (elementoPadre) => {
+//   const eventos = datosUsuario.eventosOrganizados
+
+//   if (
+//     datosUsuario &&
+//     datosUsuario.eventosOrganizados &&
+//     datosUsuario.eventosOrganizados.length > 0
+//   ) {
+//     for (const evento of eventos) {
+//       console.log(evento)
+//       const eventoContainer = document.createElement('div')
+//       eventoContainer.className = 'evento'
+//       elementoPadre.append(eventoContainer)
+//       mostrarEvento(evento, eventoContainer)
+//     }
+//   }
+// }
 
 const mostrarEvento = async (eventoId, elementoPadre) => {
   try {
