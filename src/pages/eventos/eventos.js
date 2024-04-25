@@ -24,21 +24,42 @@ export const printEventos = async () => {
   main.append(divContainer)
   pintarEvento(eventosContainer)
 }
-
 const pintarEvento = (elementoPadre) => {
-  const eventos = localStorage.getItem(
-    'user',
-    JSON.stringify()
-  ).eventosOrganizados
+  const usuarioData = JSON.parse(localStorage.getItem('user'))
 
-  for (const evento of eventos) {
-    console.log(evento)
-    const eventoContainer = document.createElement('div')
-    eventoContainer.className = 'evento'
-    elementoPadre.append(eventoContainer)
-    mostrarEvento(evento, eventoContainer)
+  if (
+    usuarioData &&
+    usuarioData.eventosOrganizados &&
+    usuarioData.eventosOrganizados.length > 0
+  ) {
+    // Si hay eventos organizados, iteramos sobre ellos y los mostramos
+    for (const eventoId of usuarioData.eventosOrganizados) {
+      const eventoContainer = document.createElement('div')
+      eventoContainer.className = 'evento'
+      elementoPadre.append(eventoContainer)
+      mostrarEvento(eventoId, eventoContainer)
+    }
+  } else {
+    // Si no hay eventos organizados, mostramos un mensaje indicando que no hay eventos
+    const mensaje = document.createElement('p')
+    mensaje.textContent = 'No tienes eventos organizados.'
+    elementoPadre.appendChild(mensaje)
   }
 }
+// const pintarEvento = (elementoPadre) => {
+//   const eventos = localStorage.getItem(
+//     'user',
+//     JSON.stringify()
+//   ).eventosOrganizados
+
+//   for (const evento of eventos) {
+//     console.log(evento)
+//     const eventoContainer = document.createElement('div')
+//     eventoContainer.className = 'evento'
+//     elementoPadre.append(eventoContainer)
+//     mostrarEvento(evento, eventoContainer)
+//   }
+// }
 
 const mostrarEvento = async (eventoId, elementoPadre) => {
   try {
