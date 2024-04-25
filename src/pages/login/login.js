@@ -32,7 +32,8 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       // HeaderRender(User)
       // router.navigate('/inicio')
       if (data) {
-        Landing()
+        HeaderRender(User)
+        router.navigate('/inicio')
       }
 
       // Home()
