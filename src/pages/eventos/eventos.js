@@ -3,7 +3,8 @@ import {
   API_URL,
   datosActualizadosUsuario,
   datosUsuario,
-  usuarioData
+  usuarioData,
+  usuarioId
 } from '../../utils/variables'
 import './eventos.css'
 
@@ -174,7 +175,8 @@ export const formEditarEventos = (eventoId) => {
     event.preventDefault()
     const form = document.querySelector('#form-evento')
     const formData = new FormData(form)
-    const userId = datosUsuario._id
+    const userId = usuarioId
+    // const userId = datosUsuario._id
     console.log(userId)
 
     try {

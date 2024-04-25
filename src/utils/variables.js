@@ -14,7 +14,7 @@ export function actualizarDatosUsuario() {
 // export const datosUsuario = JSON.parse(localStorage.getItem('user'))
 export let datosActualizadosUsuario = null
 
-const usuarioId = datosUsuario?._id
+export const usuarioId = datosUsuario?._id
 const llamadaDatosUsuario = async (usuarioId) => {
   const opciones = {
     method: 'GET',
