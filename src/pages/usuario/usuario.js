@@ -115,7 +115,8 @@ const editarDatosPerfil = async (usuarioId, formData) => {
     if (response.ok) {
       console.log('Usuario editado exitosamente')
       alert('¡Editado con éxito!')
-      window.location.reload()
+      // window.location.reload()
+      router.navigate('/inicio')
     } else {
       console.error('Error al editar el usuario:', error.message)
     }
