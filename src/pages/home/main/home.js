@@ -146,17 +146,31 @@ const printEvento = (evento) => {
   divEvento.append(titulo, divCartel, info)
   main.append(divEvento)
   if (localStorage.getItem('token')) {
-    const buttonContainer = document.querySelector('.button-container')
-    buttonContainer.removeChild(buttonAsistenciaSinRegistro)
-    buttonContainer.removeChild(buttonAsistenciaUsuario)
-    const buttonAsistirUsuarioLogueado = document.createElement('button')
-    buttonAsistirUsuarioLogueado.textContent = '▶ Asistir'
-    buttonAsistirUsuarioLogueado.className = 'asistencia'
-    buttonContainer.appendChild(buttonAsistirUsuarioLogueado)
-    buttonAsistirUsuarioLogueado.addEventListener('click', () => {
-      const ruta = `/${evento._id}/confirmar-asistencia`
-      router.navigate(ruta)
-    })
+    if (
+      JSON.parse(localStorage.getItem('user')).eventosAsistencia.includes(
+        evento._id
+      )
+    ) {
+      const buttonContainer = document.querySelector('.button-container')
+      buttonContainer.removeChild(buttonAsistenciaSinRegistro)
+      buttonContainer.removeChild(buttonAsistenciaUsuario)
+      const asistenciaYaConfirmada = document.createElement('button')
+      asistenciaYaConfirmada.className = 'disabled'
+      asistenciaYaConfirmada.innerText = '✅ Ya asistes a este evento'
+      buttonContainer.append(asistenciaYaConfirmada)
+    } else {
+      const buttonContainer = document.querySelector('.button-container')
+      buttonContainer.removeChild(buttonAsistenciaSinRegistro)
+      buttonContainer.removeChild(buttonAsistenciaUsuario)
+      const buttonAsistirUsuarioLogueado = document.createElement('button')
+      buttonAsistirUsuarioLogueado.textContent = '▶ Asistir'
+      buttonAsistirUsuarioLogueado.className = 'asistencia'
+      buttonContainer.appendChild(buttonAsistirUsuarioLogueado)
+      buttonAsistirUsuarioLogueado.addEventListener('click', () => {
+        const ruta = `/${evento._id}/confirmar-asistencia`
+        router.navigate(ruta)
+      })
+    }
   } else {
     return
   }

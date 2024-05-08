@@ -122,6 +122,14 @@ h3 {
   background-color: var(--black);
 }
 
+.disabled {
+  background-color: #150f0f;
+  border: none;
+  color: var(--color-texto);
+  padding: var(--br-s);
+  border-radius: var(--br-s);
+  -webkit-text-stroke: 0.5px var(--color-texto);
+}
 .publi {
   font-size: 1.1rem;
   color: var(--black);
