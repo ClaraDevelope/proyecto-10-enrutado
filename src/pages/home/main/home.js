@@ -1,33 +1,42 @@
 import router from '../../../utils/navigo'
-import {
-  API_URL,
-  User,
-  datosUsuario,
-  token,
-  usuarioData
-} from '../../../utils/variables'
-import { Login } from '../../login/login'
-import { registroAsistente } from '../asistentes/registroAsistente'
+import { API_URL, datosUsuario, showLoader } from '../../../utils/variables'
 import './home.css'
+// export const Home = async () => {
+//   const main = document.querySelector('main')
+//   main.innerHTML = ''
+//   showLoader(main)
+//   const loader = document.createElement('div')
+//   loader.className = 'loader'
+//   const loaderImg = document.createElement('img')
+//   loaderImg.src =
+//     'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXE1N3FldGM1dG9pODVweDY5cm1uM2Y0ZmQyc2I3b2t6aWU5MnVyOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/YDC5HjHcfFk8lgxXQm/giphy.gif'
+//   loaderImg.alt = 'Cargando...'
+//   loaderImg.loading = 'lazy'
+//   loader.appendChild(loaderImg)
+//   main.appendChild(loader)
+
+//   const res = await fetch(API_URL + '/eventos/')
+//   const eventos = await res.json()
+
+//   main.removeChild(loader)
+//   pintarEventos(eventos, main)
+// }
 export const Home = async () => {
   const main = document.querySelector('main')
   main.innerHTML = ''
-  const loader = document.createElement('div')
-  loader.className = 'loader'
-  const loaderImg = document.createElement('img')
-  loaderImg.src =
-    'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXE1N3FldGM1dG9pODVweDY5cm1uM2Y0ZmQyc2I3b2t6aWU5MnVyOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/YDC5HjHcfFk8lgxXQm/giphy.gif'
-  loaderImg.alt = 'Cargando...'
-  loaderImg.loading = 'lazy'
-  loader.appendChild(loaderImg)
-  main.appendChild(loader)
+  showLoader(main)
 
-  const res = await fetch(API_URL + '/eventos/')
-  const eventos = await res.json()
-
-  main.removeChild(loader)
-  pintarEventos(eventos, main)
+  try {
+    const res = await fetch(API_URL + '/eventos/')
+    const eventos = await res.json()
+    main.innerHTML = ''
+    pintarEventos(eventos, main)
+  } catch (error) {
+    console.error('Error al cargar eventos:', error)
+    main.innerHTML = '<p>Ocurrió un error al cargar los eventos.</p>'
+  }
 }
+
 export const pintarEventos = (eventos, elementoPadre) => {
   const divEventos = document.createElement('div')
   divEventos.className = 'eventos-container'
@@ -187,25 +196,27 @@ const llamadaAsistenteUsuario = async (eventoId, nombreUsuario, email) => {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
       console.error('Mensaje de error:', errorMessage)
+      const divEvento = document.querySelector('.evento')
       const pError = document.createElement('p')
       pError.classList.add('error')
       pError.textContent = 'Ya estás inscrito en este evento'
-      pError.style.color = 'blue'
+      pError.style.color = '#49E6E9'
+      pError.style.fontWeight = 'bold'
       pError.style.fontSize = '20px'
-      const main = document.querySelector('main')
-      main.innerHTML = ''
-      main.append(pError)
+      pError.style.padding = '10px'
+      divEvento.appendChild(pError)
     }
   } catch (error) {
     console.error('Error en la solicitud:', error)
+    const divEvento = document.querySelector('.evento')
     const pError = document.createElement('p')
     pError.classList.add('error')
     pError.textContent = 'Ya estás inscrito en este evento'
-    pError.style.color = 'blue'
+    pError.style.color = '#49E6E9'
+    pError.style.fontWeight = 'bold'
     pError.style.fontSize = '20px'
-    const main = document.querySelector('main')
-    main.innerHTML = ''
-    main.append(pError)
+    pError.style.padding = '10px'
+    divEvento.appendChild(pError)
   }
 }
 

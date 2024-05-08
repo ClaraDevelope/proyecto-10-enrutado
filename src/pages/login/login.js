@@ -5,7 +5,12 @@ import {
   HeaderUsuario
 } from '../../components/header/header'
 import router from '../../utils/navigo'
-import { API_URL, User, actualizarDatosUsuario } from '../../utils/variables'
+import {
+  API_URL,
+  User,
+  actualizarDatosUsuario,
+  showLoader
+} from '../../utils/variables'
 import { Home } from '../home/main/home'
 import { printRegister } from '../register/register'
 import './login.css'
@@ -20,10 +25,11 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       'Content-Type': 'application/json'
     }
   }
-
+  const main = document.querySelector('main')
+  main.innerHTML = ''
+  showLoader(main)
   try {
     const response = await fetch(API_URL + '/auth/login', opciones)
-
     if (response.ok) {
       const data = await response.json()
       console.log('Datos de la respuesta:', data)
@@ -40,14 +46,42 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
       console.error('Mensaje de error:', errorMessage)
+
+      // Verificar si ya existe un mensaje de error con el mismo contenido
+      const existingError = [...form.querySelectorAll('.error')].find(
+        (errorElement) => {
+          return errorElement.getAttribute('data-message') === errorMessage
+        }
+      )
+
+      if (!existingError) {
+        const pError = document.createElement('p')
+        pError.classList.add('error')
+        pError.textContent = errorMessage
+        pError.setAttribute('data-message', errorMessage)
+        pError.style.color = '#49E6E9'
+        pError.style.fontWeight = 'bold'
+        pError.style.fontSize = '20px'
+        form.append(pError)
+      }
     }
   } catch (error) {
     console.error('Error en la solicitud:', error)
-    if (!form.querySelector('.error')) {
+    const errorMessage = 'Error al iniciar sesión'
+
+    const existingError = [...form.querySelectorAll('.error')].find(
+      (errorElement) => {
+        return errorElement.getAttribute('data-message') === errorMessage
+      }
+    )
+
+    if (!existingError) {
       const pError = document.createElement('p')
       pError.classList.add('error')
-      pError.textContent = error.message || 'Error al iniciar sesión'
-      pError.style.color = 'blue'
+      pError.textContent = errorMessage
+      pError.setAttribute('data-message', errorMessage)
+      pError.style.color = '#49E6E9'
+      pError.style.fontWeight = 'bold'
       pError.style.fontSize = '20px'
       form.append(pError)
     }

@@ -1,23 +1,38 @@
 import { API_URL } from '../../utils/variables'
+import { Login, submitLogin } from '../login/login'
 import './register.css'
 
 const submitRegister = async (nombreUsuario, email, password, img, form) => {
-  const datos = JSON.stringify({ nombreUsuario, email, password, img })
+  const formData = new FormData()
+  formData.append('nombreUsuario', nombreUsuario)
+  formData.append('email', email)
+  formData.append('password', password)
+  formData.append('img', img)
 
   const opciones = {
     method: 'POST',
-    body: datos,
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    body: formData
   }
+  // const datos = JSON.stringify({ nombreUsuario, email, password, img })
+  // console.log(datos)
 
+  // const opciones = {
+  //   method: 'POST',
+  //   body: datos,
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   }
+  // }
+  const main = document.querySelector('main')
+  main.innerHTML = ''
+  showLoader(main)
   try {
     const response = await fetch(API_URL + '/auth/register', opciones)
 
     if (response.status === 201) {
       const data = await response.json()
       console.log('Datos de la respuesta:', data)
+      form = document.querySelector('.form-register')
       bienvenida(data)
     } else {
       console.error('Error en la solicitud:', response.status)
@@ -31,7 +46,8 @@ const submitRegister = async (nombreUsuario, email, password, img, form) => {
       const pError = document.createElement('p')
       pError.classList.add('error')
       pError.textContent = error.message || 'Error al iniciar sesión'
-      pError.style.color = 'blue'
+      pError.style.color = '#49E6E9'
+      pError.style.fontWeight = 'bold'
       pError.style.fontSize = '20px'
       form.append(pError)
     }
@@ -115,11 +131,10 @@ export const printRegister = () => {
     const img = formData.get('img')
 
     await submitRegister(nombreUsuario, email, password, img, formElement)
+    await submitLogin(nombreUsuario, password, formElement)
   })
 }
 
 const bienvenida = (data) => {
-  alert(
-    `¡Se ha registrado ${data.nombreUsuario} con éxito! Inicia sesión para empezar a disfrutar de todo lo que te ofrece la comunidad.`
-  )
+  alert(`¡Se ha registrado ${data.nombreUsuario} con éxito!`)
 }

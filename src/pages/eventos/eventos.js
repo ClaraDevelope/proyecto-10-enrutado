@@ -3,9 +3,11 @@ import {
   API_URL,
   datosActualizadosUsuario,
   datosUsuario,
+  showLoader,
   usuarioData,
   usuarioId
 } from '../../utils/variables'
+import { infoEvento } from '../home/main/home'
 import './eventos.css'
 
 export const printEventos = async () => {
@@ -26,78 +28,164 @@ export const printEventos = async () => {
   main.append(divContainer)
   pintarEvento(eventosContainer)
 }
-const pintarEvento = (elementoPadre) => {
-  const usuarioData = JSON.parse(localStorage.getItem('user'))
 
+const pintarEvento = async (elementoPadre) => {
+  const usuarioData = JSON.parse(localStorage.getItem('user'))
   if (
     usuarioData &&
     usuarioData.eventosOrganizados &&
     usuarioData.eventosOrganizados.length > 0
   ) {
     for (const eventoId of usuarioData.eventosOrganizados) {
-      const eventoContainer = document.createElement('div')
-      eventoContainer.className = 'evento'
-      elementoPadre.append(eventoContainer)
-      mostrarEvento(eventoId, eventoContainer)
+      try {
+        const response = await fetch(API_URL + `/eventos/${eventoId}`)
+        if (response.ok) {
+          const evento = await response.json()
+          const eventoContainer = document.createElement('div')
+          eventoContainer.className = 'evento'
+          elementoPadre.append(eventoContainer)
+          mostrarEvento(eventoId, eventoContainer)
+        } else {
+          const index = usuarioData.eventosOrganizados.indexOf(eventoId)
+          if (index !== -1) {
+            usuarioData.eventosOrganizados.splice(index, 1)
+            localStorage.setItem('user', JSON.stringify(usuarioData))
+            elementoPadre.remove()
+          }
+        }
+      } catch (error) {
+        console.error('Error al obtener evento:', error)
+      }
     }
   } else {
     const mensaje = document.createElement('p')
     mensaje.textContent = 'No tienes eventos organizados.'
+    mensaje.style.fontSize = '20px'
+    mensaje.style.fontWeight = 'bold'
     elementoPadre.appendChild(mensaje)
   }
 }
-
 const mostrarEvento = async (eventoId, elementoPadre) => {
   try {
     const response = await fetch(API_URL + `/eventos/${eventoId}`)
-    const evento = await response.json()
-    const titulo = document.createElement('h3')
-    const divCartel = document.createElement('div')
-    divCartel.className = 'img-container'
-    const cartel = document.createElement('img')
-    cartel.alt = 'cartel-evento'
-    cartel.loading = 'lazy'
-    divCartel.append(cartel)
-    const info = document.createElement('div')
-    info.className = 'info'
-    titulo.textContent = evento.titulo
-    cartel.src = evento.cartel
-    const fecha = new Date(evento.fecha)
-    const dia = fecha.getDate()
-    const mes = fecha.getMonth() + 1
-    const año = fecha.getFullYear()
+    if (response.ok) {
+      const evento = await response.json()
+      if (evento) {
+        const titulo = document.createElement('h3')
+        const divCartel = document.createElement('div')
+        divCartel.className = 'img-container'
+        const cartel = document.createElement('img')
+        cartel.alt = 'cartel-evento'
+        cartel.loading = 'lazy'
+        divCartel.append(cartel)
+        const info = document.createElement('div')
+        info.className = 'info'
+        titulo.textContent = evento.titulo
+        cartel.src = evento.cartel
+        const fecha = new Date(evento.fecha)
+        const dia = fecha.getDate()
+        const mes = fecha.getMonth() + 1
+        const año = fecha.getFullYear()
 
-    const fechaFormateada = `${dia}/${mes}/${año}`
+        const fechaFormateada = `${dia}/${mes}/${año}`
 
-    info.innerHTML = `
-    <p class="fecha">${fechaFormateada}</p>
-    <p class="ubicacion">${evento.ubicacion}</p>
-    <div class='button-container'>
-        <button class='asistencia' id='ver-asistentes'>Ver asistentes</button>
-        <button class='info-boton' id='editar-evento'>Editar evento</button>
-        <button class='eliminar' id='eliminar-evento'>Eliminar</button>
-    </div>
-`
-    const buttonAsistentes = info.querySelector('#ver-asistentes')
-    buttonAsistentes.addEventListener('click', () => {
-      eventoId = evento._id
-      router.navigate(`/${eventoId}/asistentes`)
-    })
-    const editarButton = info.querySelector('#editar-evento')
-    editarButton.addEventListener('click', () => {
-      eventoId = evento._id
-      router.navigate(`/${eventoId}/editar`)
-    })
+        info.innerHTML = `
+          <p class="fecha">${fechaFormateada}</p>
+          <p class="ubicacion">${evento.ubicacion}</p>
+          <div class='button-container'>
+              <button class='asistencia' id='ver-asistentes'>Ver asistentes</button>
+              <button class='info-boton' id='editar-evento'>Editar evento</button>
+              <button class='eliminar' id='eliminar-evento'>Eliminar</button>
+          </div>
+        `
+        const buttonAsistentes = info.querySelector('#ver-asistentes')
+        buttonAsistentes.addEventListener('click', () => {
+          eventoId = evento._id
+          router.navigate(`/${eventoId}/asistentes`)
+        })
+        const editarButton = info.querySelector('#editar-evento')
+        editarButton.addEventListener('click', () => {
+          eventoId = evento._id
+          router.navigate(`/${eventoId}/editar`)
+        })
 
-    const eliminarButton = info.querySelector('#eliminar-evento')
-    eliminarButton.addEventListener('click', () => {
-      eliminarEvento(eventoId)
-    })
-    elementoPadre.append(titulo, divCartel, info)
+        const eliminarButton = info.querySelector('#eliminar-evento')
+        eliminarButton.addEventListener('click', () => {
+          eliminarEvento(eventoId)
+        })
+        elementoPadre.append(titulo, divCartel, info)
+      } else {
+        const usuarioData = JSON.parse(localStorage.getItem('user'))
+        const index = usuarioData.eventosOrganizados.indexOf(eventoId)
+        if (index !== -1) {
+          usuarioData.eventosOrganizados.splice(index, 1)
+          localStorage.setItem('user', JSON.stringify(usuarioData))
+        }
+      }
+    } else {
+      const usuarioData = JSON.parse(localStorage.getItem('user'))
+      const index = usuarioData.eventosOrganizados.indexOf(eventoId)
+      if (index !== -1) {
+        usuarioData.eventosOrganizados.splice(index, 1)
+        localStorage.setItem('user', JSON.stringify(usuarioData))
+      }
+    }
   } catch (error) {
     console.error('Error al mostrar evento:', error)
   }
 }
+
+// const mostrarEvento = async (eventoId, elementoPadre) => {
+//   try {
+//     const response = await fetch(API_URL + `/eventos/${eventoId}`)
+//     const evento = await response.json()
+//     const titulo = document.createElement('h3')
+//     const divCartel = document.createElement('div')
+//     divCartel.className = 'img-container'
+//     const cartel = document.createElement('img')
+//     cartel.alt = 'cartel-evento'
+//     cartel.loading = 'lazy'
+//     divCartel.append(cartel)
+//     const info = document.createElement('div')
+//     info.className = 'info'
+//     titulo.textContent = evento.titulo
+//     cartel.src = evento.cartel
+//     const fecha = new Date(evento.fecha)
+//     const dia = fecha.getDate()
+//     const mes = fecha.getMonth() + 1
+//     const año = fecha.getFullYear()
+
+//     const fechaFormateada = `${dia}/${mes}/${año}`
+
+//     info.innerHTML = `
+//     <p class="fecha">${fechaFormateada}</p>
+//     <p class="ubicacion">${evento.ubicacion}</p>
+//     <div class='button-container'>
+//         <button class='asistencia' id='ver-asistentes'>Ver asistentes</button>
+//         <button class='info-boton' id='editar-evento'>Editar evento</button>
+//         <button class='eliminar' id='eliminar-evento'>Eliminar</button>
+//     </div>
+// `
+//     const buttonAsistentes = info.querySelector('#ver-asistentes')
+//     buttonAsistentes.addEventListener('click', () => {
+//       eventoId = evento._id
+//       router.navigate(`/${eventoId}/asistentes`)
+//     })
+//     const editarButton = info.querySelector('#editar-evento')
+//     editarButton.addEventListener('click', () => {
+//       eventoId = evento._id
+//       router.navigate(`/${eventoId}/editar`)
+//     })
+
+//     const eliminarButton = info.querySelector('#eliminar-evento')
+//     eliminarButton.addEventListener('click', () => {
+//       eliminarEvento(eventoId)
+//     })
+//     elementoPadre.append(titulo, divCartel, info)
+//   } catch (error) {
+//     console.error('Error al mostrar evento:', error)
+//   }
+// }
 const eliminarEvento = async (eventoId) => {
   const opciones = {
     method: 'DELETE',
@@ -109,7 +197,14 @@ const eliminarEvento = async (eventoId) => {
     const response = await fetch(API_URL + `/eventos/${eventoId}`, opciones)
     if (response.ok) {
       console.log('evento eliminado correctamente')
+      const eventoContainer = document.getElementById(
+        `evento-container-${eventoId}`
+      )
+      if (eventoContainer) {
+        eventoContainer.remove()
+      }
       alert('evento eliminado!')
+      printEventos()
     } else {
       console.log('no se ha podiddo eliminar el evento')
     }
@@ -249,7 +344,7 @@ const formCrearEvento = () => {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
-    const userId = usuarioId
+    const userId = datosUsuario._id
     console.log(userId)
     const formData = new FormData(form)
     await enviarFormulario(userId, formData, form)
@@ -276,13 +371,16 @@ const enviarFormulario = async (userId, formData, form) => {
     if (response.status === 201) {
       const data = await response.json()
       console.log('Datos de la respuesta:', data)
-      const main = document.querySelector('main')
-      main.innerHTML = ''
-      const pExito = document.createElement('p')
-      pExito.innerText = 'Evento creado con éxito'
-      pExito.style.fontSize = '20px'
-      pExito.style.color = 'red'
-      main.append(pExito)
+      alert('Evento creado con éxito')
+      const res = await fetch(API_URL + `/eventos/${data.evento._id}`)
+      const evento = await res.json()
+      console.log(evento)
+      if (evento) {
+        const usuarioData = JSON.parse(localStorage.getItem('user'))
+        usuarioData.eventosOrganizados.push(evento._id)
+        localStorage.setItem('user', JSON.stringify(usuarioData))
+        printEventos()
+      }
     } else {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
@@ -293,7 +391,8 @@ const enviarFormulario = async (userId, formData, form) => {
     const pError = document.createElement('p')
     pError.classList.add('error')
     pError.textContent = error.message || 'Error al registrar el evento'
-    pError.style.color = 'blue'
+    pError.style.color = '#E86C7E'
+    pError.style.fontWeight = 'bold'
     pError.style.fontSize = '20px'
     form.append(pError)
   }

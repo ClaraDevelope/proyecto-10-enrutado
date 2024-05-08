@@ -6,6 +6,7 @@
   --shadow: #422424bf;
   --not-enfasis: #796ea6;
   --enfasis: #80007f;
+  --enfasis-2: #fa00fa;
   --shadow-red: #a21f258d;
   --red2: #e5101e;
   --red: #b00710;
@@ -62,10 +63,12 @@ h2 {
 .parrafo-registro {
   font-size: var(--br-m);
 }
-.aanchor-registro {
-  color: var(--red);
+.anchor-registro {
+  text-decoration: none;
+  font-weight: bold;
+  color: var(--red2);
   transition: ease-in-out 0.2s;
 }
 .anchor-registro:hover {
-  color: var(--red2);
+  color: var(--enfasis-2);
 }

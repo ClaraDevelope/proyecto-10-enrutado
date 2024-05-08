@@ -12,6 +12,7 @@ export const renderPerfil = () => {
 }
 const perfilUsuario = (elementoPadre) => {
   const usuarioData = JSON.parse(localStorage.getItem('user'))
+  console.log(usuarioData)
 
   const perfilContainer = document.createElement('div')
   perfilContainer.className = 'perfil-container'
@@ -95,7 +96,6 @@ const datosEdicion = async (event) => {
     console.error('Error al editar datos del perfil:', error)
   }
 }
-
 const editarDatosPerfil = async (usuarioId, formData) => {
   const opciones = {
     method: 'PATCH',
@@ -104,13 +104,9 @@ const editarDatosPerfil = async (usuarioId, formData) => {
     },
     body: formData
   }
-  for (const [key, value] of formData.entries()) {
-    console.log(key + ': ' + value)
-  }
+
   try {
     const response = await fetch(`${API_URL}/auth/${usuarioId}`, opciones)
-
-    console.log(response)
 
     if (response.ok) {
       const data = await response.json()
@@ -121,9 +117,59 @@ const editarDatosPerfil = async (usuarioId, formData) => {
         router.navigate('/inicio')
       }
     } else {
-      console.error('Error al editar el usuario:', error.message)
+      const errorMessage = await response.text()
+      console.error('Error al editar el usuario:', errorMessage)
+      const main = document.querySelector('main')
+      const pError = document.createElement('p')
+      pError.classList.add('error')
+      pError.textContent =
+        'Error al editar los datos del perfil: ' + errorMessage
+      pError.style.color = '#E86C7E'
+      pError.style.fontWeight = 'bold'
+      pError.style.fontSize = '20px'
+      main.appendChild(pError)
     }
   } catch (error) {
     console.error('Error al editar el usuario:', error)
+    const main = document.querySelector('main')
+    const pError = document.createElement('p')
+    pError.classList.add('error')
+    pError.textContent = 'Error al editar los datos del perfil'
+    pError.style.color = '#E86C7E'
+    pError.style.fontWeight = 'bold'
+    pError.style.fontSize = '20px'
+    main.appendChild(pError)
   }
 }
+
+// const editarDatosPerfil = async (usuarioId, formData) => {
+//   const opciones = {
+//     method: 'PATCH',
+//     headers: {
+//       Authorization: `Bearer ${localStorage.getItem('token')}`
+//     },
+//     body: formData
+//   }
+//   for (const [key, value] of formData.entries()) {
+//     console.log(key + ': ' + value)
+//   }
+//   try {
+//     const response = await fetch(`${API_URL}/auth/${usuarioId}`, opciones)
+
+//     console.log(response)
+
+//     if (response.ok) {
+//       const data = await response.json()
+//       console.log('Usuario editado exitosamente', data)
+//       alert('¡Editado con éxito!')
+//       // window.location.reload()
+//       if (data) {
+//         router.navigate('/inicio')
+//       }
+//     } else {
+//       console.error('Error al editar el usuario:', error.message)
+//     }
+//   } catch (error) {
+//     console.error('Error al editar el usuario:', error)
+//   }
+// }

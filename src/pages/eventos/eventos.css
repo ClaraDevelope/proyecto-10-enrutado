@@ -7,6 +7,7 @@
   --blue: #0161c8;
   --not-enfasis: #796ea6;
   --enfasis: #80007f;
+  --enfasis-2: #fa00fa;
   --shadow-red: #a21f258d;
   --red2: #e5101e;
   --red: #b00710;
@@ -103,6 +104,10 @@
 
 #eventoForm > textarea {
   border-radius: 8px;
+  font-size: 16px;
+  -webkit-text-stroke: 0.5px var(--black);
+  padding: var(--br-s);
+  text-align: center;
   width: 60%;
   height: 50px;
 }

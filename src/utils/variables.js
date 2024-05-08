@@ -1,5 +1,17 @@
 export const API_URL = 'https://proyecto-10-backend.vercel.app/api/v1'
 
+export const showLoader = (parentElement) => {
+  const loader = document.createElement('div')
+  loader.className = 'loader'
+  const loaderImg = document.createElement('img')
+  loaderImg.src =
+    'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXE1N3FldGM1dG9pODVweDY5cm1uM2Y0ZmQyc2I3b2t6aWU5MnVyOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/YDC5HjHcfFk8lgxXQm/giphy.gif'
+  loaderImg.alt = 'Cargando...'
+  loaderImg.loading = 'lazy'
+  loader.appendChild(loaderImg)
+  parentElement.appendChild(loader)
+}
+
 export const token = localStorage.getItem('token')
 export const usuarioData = localStorage.getItem('user', JSON.stringify())
 export const User = !!token && usuarioData
