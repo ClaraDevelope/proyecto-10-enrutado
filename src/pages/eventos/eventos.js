@@ -5,37 +5,11 @@ import {
   datosUsuario,
   showLoader,
   usuarioData,
-  usuarioId
+  usuarioId,
+  verificarYEliminarEventosInexistentes
 } from '../../utils/variables'
 import { infoEvento } from '../home/main/home'
 import './eventos.css'
-
-const verificarEventosInexistentes = async () => {
-  const usuarioData = JSON.parse(localStorage.getItem('user'))
-  for (const eventoId of usuarioData.eventosOrganizados) {
-    try {
-      const response = await fetch(API_URL + `/eventos/${eventoId}`)
-      if (!response.ok) {
-        const index = usuarioData.eventosOrganizados.indexOf(eventoId)
-        if (index !== -1) {
-          usuarioData.eventosOrganizados.splice(index, 1)
-          localStorage.setItem('user', JSON.stringify(usuarioData))
-        }
-        const eventoContainer = document.getElementById(
-          `evento-container-${eventoId}`
-        )
-        if (eventoContainer) {
-          eventoContainer.remove()
-        }
-      }
-    } catch (error) {
-      console.error('Error al verificar evento:', error)
-    }
-  }
-}
-
-window.addEventListener('load', verificarEventosInexistentes)
-
 export const printEventos = async () => {
   const main = document.querySelector('main')
   main.innerHTML = ''
@@ -52,7 +26,7 @@ export const printEventos = async () => {
 
   divContainer.append(eventosContainer, createButton)
   main.append(divContainer)
-  await verificarEventosInexistentes()
+
   pintarEvento(eventosContainer)
 }
 

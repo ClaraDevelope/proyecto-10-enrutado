@@ -11,35 +11,6 @@ export const showLoader = (parentElement) => {
   loader.appendChild(loaderImg)
   parentElement.appendChild(loader)
 }
-export // Función para verificar y eliminar eventos inexistentes del usuario al iniciar sesión
-const verificarYEliminarEventosInexistentes = async () => {
-  const usuarioData = JSON.parse(localStorage.getItem('user'))
-  if (
-    usuarioData &&
-    usuarioData.eventosOrganizados &&
-    usuarioData.eventosOrganizados.length > 0
-  ) {
-    const eventosExistentes = []
-    for (const eventoId of usuarioData.eventosOrganizados) {
-      try {
-        const response = await fetch(API_URL + `/eventos/${eventoId}`)
-        if (response.ok) {
-          eventosExistentes.push(eventoId)
-        }
-      } catch (error) {
-        console.error('Error al verificar evento:', error)
-      }
-    }
-    // Actualizar eventosOrganizados en el almacenamiento local
-    usuarioData.eventosOrganizados = eventosExistentes
-    localStorage.setItem('user', JSON.stringify(usuarioData))
-  }
-}
-
-// Llamada a la función para verificar y eliminar eventos inexistentes al iniciar sesión
-// Coloca esta llamada en tu lógica de inicio de sesión
-verificarYEliminarEventosInexistentes()
-
 export const token = localStorage.getItem('token')
 export const usuarioData = localStorage.getItem('user', JSON.stringify())
 export const User = !!token && usuarioData
@@ -78,7 +49,6 @@ const llamadaDatosUsuario = async (usuarioId) => {
   }
 }
 // llamadaDatosUsuario(usuarioId)
-
 export const encontrarEventoPorId = async (eventoId) => {
   try {
     const response = await fetch(API_URL + `/eventos/${eventoId}`)

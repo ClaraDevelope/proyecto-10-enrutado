@@ -9,8 +9,7 @@ import {
   API_URL,
   User,
   actualizarDatosUsuario,
-  showLoader,
-  verificarYEliminarEventosInexistentes
+  showLoader
 } from '../../utils/variables'
 import { Home } from '../home/main/home'
 import { printRegister } from '../register/register'
@@ -48,7 +47,6 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       const errorMessage = await response.text()
       console.error('Mensaje de error:', errorMessage)
 
-      // Verificar si ya existe un mensaje de error con el mismo contenido
       const existingError = [...form.querySelectorAll('.error')].find(
         (errorElement) => {
           return errorElement.getAttribute('data-message') === errorMessage
@@ -146,7 +144,6 @@ export const Login = () => {
   const main = document.querySelector('main')
   if (main) {
     main.innerHTML = ''
-    verificarYEliminarEventosInexistentes()
     formLogin(main)
   }
 }
