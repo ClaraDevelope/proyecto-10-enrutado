@@ -9,7 +9,8 @@ import {
   API_URL,
   User,
   actualizarDatosUsuario,
-  showLoader
+  showLoader,
+  verificarYEliminarEventosInexistentes
 } from '../../utils/variables'
 import { Home } from '../home/main/home'
 import { printRegister } from '../register/register'
@@ -145,6 +146,7 @@ export const Login = () => {
   const main = document.querySelector('main')
   if (main) {
     main.innerHTML = ''
+    verificarYEliminarEventosInexistentes()
     formLogin(main)
   }
 }

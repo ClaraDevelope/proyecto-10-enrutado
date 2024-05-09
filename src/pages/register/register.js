@@ -13,16 +13,6 @@ const submitRegister = async (nombreUsuario, email, password, img, form) => {
     method: 'POST',
     body: formData
   }
-  // const datos = JSON.stringify({ nombreUsuario, email, password, img })
-  // console.log(datos)
-
-  // const opciones = {
-  //   method: 'POST',
-  //   body: datos,
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   }
-  // }
   const main = document.querySelector('main')
   main.innerHTML = ''
   showLoader(main)
