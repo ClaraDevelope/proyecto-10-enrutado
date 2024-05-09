@@ -36,7 +36,8 @@ const submitRegister = async (nombreUsuario, email, password, img, form) => {
       const pError = document.createElement('p')
       pError.classList.add('error')
       pError.textContent = error.message || 'Error al iniciar sesión'
-      pError.style.color = '#49E6E9'
+      pError.style.color = '#960303'
+      pError.style.webkitTextStroke = '1px #960303'
       pError.style.fontWeight = 'bold'
       pError.style.fontSize = '20px'
       form.append(pError)

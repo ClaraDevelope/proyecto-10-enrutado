@@ -55,22 +55,22 @@
 .form-asistente input:focus {
   /* border-color: var(--red2);
   box-shadow: 0 0 5px var(--red2); */
-  border-color: var(--blue);
-  box-shadow: 0 0 5px var(--blue);
+  border-color: var(--enfasis);
+  box-shadow: 0 0 5px var(--enfasis);
 }
 .form-asistente input::placeholder {
-  color: var(--background-color);
+  color: var(--color-texto);
 }
 
 .submit,
 .volver,
 .login-button {
   font-size: var(--m);
-  -webkit-text-stroke: 0.5px var(--color-texto);
+  -webkit-text-stroke: 0.5px var(--background-color);
   margin: var(--br-m);
   padding: 8px 20px;
-  background-color: var(--shadow-red);
-  color: var(--color-texto);
+  background-color: var(--enfasis-2);
+  color: var(--background-color);
   border-radius: var(--br-s);
   border: none;
   box-shadow: 4px 6px 6px 2px rgba(0, 0, 0, 0.3);
@@ -80,7 +80,7 @@
 .volver:hover,
 .login-button:hover {
   scale: 1.05;
-  background-color: var(--red2);
+  background-color: var(--enfasis);
 }
 .registro-hecho {
   width: 400px;

@@ -49,15 +49,15 @@
   border-radius: var(--br-s);
   padding: 5px 10px;
 
-  background-color: var(--red);
-  color: var(--color-texto);
-  box-shadow: 2px 3px 5px 0px var(--background-color);
+  background-color: var(--enfasis);
+  color: var(--background-color);
+  box-shadow: 2px 3px 3px 0px var(--button-color);
   cursor: pointer;
   transition: all 0.3s;
 }
 .create-button:hover,
 .eliminar:hover {
-  scale: 1.02;
+  scale: 1.01;
   filter: brightness(1.2);
 }
 
@@ -87,6 +87,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: var(--shadow-red);
+  border-radius: var(--br-m);
   /* gap: var(--s); */
 }
 #form-evento > input,
@@ -101,10 +103,17 @@
   text-align: center;
   font-size: 16px;
 }
+#form-evento > input:focus,
+#eventoForm > input:focus,
+#eventoForm > textarea:focus {
+  border-color: var(--enfasis);
+  box-shadow: 0 0 5px var(--enfasis);
+}
 
 #eventoForm > textarea {
   border-radius: 8px;
   font-size: 16px;
+  outline: none;
   -webkit-text-stroke: 0.5px var(--black);
   padding: var(--br-s);
   text-align: center;

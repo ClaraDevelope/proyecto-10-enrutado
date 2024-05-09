@@ -25,9 +25,7 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       'Content-Type': 'application/json'
     }
   }
-  const main = document.querySelector('main')
-  main.innerHTML = ''
-  showLoader(main)
+
   try {
     const response = await fetch(API_URL + '/auth/login', opciones)
     if (response.ok) {
@@ -58,7 +56,8 @@ export const submitLogin = async (nombreUsuario, password, form) => {
         pError.classList.add('error')
         pError.textContent = errorMessage
         pError.setAttribute('data-message', errorMessage)
-        pError.style.color = '#49E6E9'
+        pError.style.color = '#960303'
+        pError.style.webkitTextStroke = '1px #960303'
         pError.style.fontWeight = 'bold'
         pError.style.fontSize = '20px'
         form.append(pError)
@@ -79,7 +78,8 @@ export const submitLogin = async (nombreUsuario, password, form) => {
       pError.classList.add('error')
       pError.textContent = errorMessage
       pError.setAttribute('data-message', errorMessage)
-      pError.style.color = '#49E6E9'
+      pError.style.color = '960303'
+      pError.style.webkitTextStroke = '1px #960303'
       pError.style.fontWeight = 'bold'
       pError.style.fontSize = '20px'
       form.append(pError)

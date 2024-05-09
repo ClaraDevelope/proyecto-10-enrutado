@@ -5,8 +5,7 @@ import {
   datosUsuario,
   showLoader,
   usuarioData,
-  usuarioId,
-  verificarYEliminarEventosInexistentes
+  usuarioId
 } from '../../utils/variables'
 import { infoEvento } from '../home/main/home'
 import './eventos.css'
@@ -339,7 +338,7 @@ const formCrearEvento = () => {
       <input type="number" id="precio" name="precio" required><br>
       
       <label for="cartel">Cartel:</label>
-      <input type="file" id="cartel" name="cartel" accept="image/*" required><br>
+      <input type="file" id="cartel" name="cartel" accept="image/*"required><br>
       
       <button class='submit' type="submit">Enviar</button>
   `

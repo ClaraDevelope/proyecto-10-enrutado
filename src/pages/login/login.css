@@ -54,21 +54,22 @@ h2 {
 .form-login input:focus {
   /* border-color: var(--red2);
   box-shadow: 0 0 5px var(--red2); */
-  border-color: var(--blue);
-  box-shadow: 0 0 5px var(--blue);
+  border-color: var(--enfasis);
+  box-shadow: 0 0 5px var(--enfasis);
 }
 .form-login input::placeholder {
-  color: var(--background-color);
+  color: var(--color-texto);
 }
 .parrafo-registro {
+  -webkit-text-stroke: 0.5px var(--color-texto);
   font-size: var(--br-m);
 }
 .anchor-registro {
   text-decoration: none;
   font-weight: bold;
-  color: var(--red2);
+  color: var(--blue);
   transition: ease-in-out 0.2s;
 }
 .anchor-registro:hover {
-  color: var(--enfasis-2);
+  color: var(--enfasis);
 }

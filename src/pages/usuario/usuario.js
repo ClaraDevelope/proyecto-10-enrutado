@@ -124,7 +124,8 @@ const editarDatosPerfil = async (usuarioId, formData) => {
       pError.classList.add('error')
       pError.textContent =
         'Error al editar los datos del perfil: ' + errorMessage
-      pError.style.color = '#E86C7E'
+      pError.style.color = '#960303'
+      pError.style.webkitTextStroke = '1px #960303'
       pError.style.fontWeight = 'bold'
       pError.style.fontSize = '20px'
       main.appendChild(pError)
@@ -135,7 +136,8 @@ const editarDatosPerfil = async (usuarioId, formData) => {
     const pError = document.createElement('p')
     pError.classList.add('error')
     pError.textContent = 'Error al editar los datos del perfil'
-    pError.style.color = '#E86C7E'
+    pError.style.color = '#960303'
+    pError.style.webkitTextStroke = '1px #960303'
     pError.style.fontWeight = 'bold'
     pError.style.fontSize = '20px'
     main.appendChild(pError)

@@ -2,15 +2,17 @@
 :root {
   --font-family: 'Marvel', sans-serif;
   /* colores */
-  --color-texto: #f2e5ff;
+  --color-texto: #19191a;
   --shadow: #422424bf;
+  --blue: #0161c8;
   --not-enfasis: #796ea6;
   --enfasis: #80007f;
-  --enfasis-2: #fa00fa;
-  --shadow-red: #a21f258d;
+  --enfasis-2: hwb(300 0% 2%);
+  --shadow-red: #3a047c4d;
   --red2: #e5101e;
-  --red: #b00710;
-  --background-color: #231f1f;
+  --red: #d0333b;
+  --background-color: #e3e3e3;
+  --button-color: #231f1f;
   --black: #000000;
 
   /* espacios*/
@@ -26,7 +28,8 @@
 
 header {
   width: 100%;
-  background-color: var(--shadow-red);
+  background-color: var(--red);
+  /* background-color: var(--shadow-red); */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,7 +48,7 @@ h1 {
   color: var(--black);
   padding: 0 20px;
   -webkit-text-stroke: 3px var(--color-texto);
-  text-shadow: 3px 3px 0 #000, -3px 3px 0 #000, -3px -3px 0 #000,
+  text-shadow: 3px 3px 0 #fffefe, -3px 3px 0 #8904d1, -3px -3px 0 #efebeb,
     3px -3px 0 #000;
 }
 ul {
@@ -81,9 +84,10 @@ ul > li > a:hover::after {
   border-radius: var(--br-s);
   padding: 5px 10px;
 
-  background-color: var(--red);
-  color: var(--color-texto);
-  box-shadow: 2px 3px 5px 0px var(--background-color);
+  background-color: var(--enfasis);
+  color: var(--background-color);
+  -webkit-text-stroke: 0.2px var(--background-color);
+  box-shadow: 2.5px 2px 4px 0px var(--black);
   cursor: pointer;
 }
 
@@ -91,7 +95,7 @@ ul > li > a:hover::after {
   content: '';
   display: block;
   height: 3px;
-  background-color: var(--color-texto);
+  background-color: var(--background-color);
   transform: scale(0, 1);
   transform-origin: center;
   transition: transform 0.25s;
