@@ -177,7 +177,7 @@ const llamadaAsistenteUsuario = async (eventoId, nombreUsuario, email) => {
       API_URL + `/auth/eventos/${eventoId}/confirmar`,
       opciones
     )
-
+    console.log(response)
     main.innerHTML = ''
     if (response.status === 200) {
       const data = await response.json()
@@ -224,7 +224,7 @@ const mostrarMensajeError = (mensaje) => {
   pError.style.fontWeight = 'bold'
   pError.style.fontSize = '20px'
   pError.style.padding = '10px'
-  divEvento.appendChild(pError)
+  divEvento.append(pError)
 }
 
 const mensajeExito = () => {

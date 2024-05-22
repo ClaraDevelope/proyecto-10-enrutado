@@ -7,35 +7,11 @@ export let datosUsuario = obtenerDatosUsuario()
 function obtenerDatosUsuario() {
   return JSON.parse(localStorage.getItem('user')) || {}
 }
-
 export function actualizarDatosUsuario() {
   datosUsuario = obtenerDatosUsuario()
 }
 export let datosActualizadosUsuario = null
-
 export const usuarioId = datosUsuario?._id
-const llamadaDatosUsuario = async (usuarioId) => {
-  const opciones = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`
-    }
-  }
-
-  try {
-    const response = await fetch(`${API_URL}/auth/${usuarioId}`, opciones)
-    if (!response.ok) {
-      throw new Error('Error al obtener los datos del usuario')
-    }
-    datosActualizadosUsuario = await response.json()
-    // console.log(datosActualizadosUsuario)
-    return datosActualizadosUsuario
-  } catch (error) {
-    console.error('Ha habido un error:', error)
-    throw error
-  }
-}
 export const encontrarEventoPorId = async (eventoId) => {
   try {
     const response = await fetch(API_URL + `/eventos/${eventoId}`)

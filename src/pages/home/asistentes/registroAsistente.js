@@ -45,7 +45,7 @@ const submit = async (nombre, email, eventoId, form) => {
   const main = document.querySelector('main')
   main.innerHTML = ''
   showLoader(main)
-
+  console.log(datos)
   const opciones = {
     method: 'POST',
     body: datos,
@@ -59,6 +59,8 @@ const submit = async (nombre, email, eventoId, form) => {
       API_URL + `/asistentes/eventos/${eventoId}/confirmar`,
       opciones
     )
+
+    console.log(response)
     main.innerHTML = ''
     if (response.ok) {
       console.log('¡Registro realizado con éxito!')
@@ -85,9 +87,10 @@ const submit = async (nombre, email, eventoId, form) => {
         pError.style.fontWeight = 'bold'
         pError.style.fontSize = '20px'
         form.append(pError)
-      } else {
-        pError.textContent = 'Ya estás registrado en este evento'
       }
+      //  else {
+      //   pError.textContent = 'Ya estás registrado en este evento'
+      // }
     }
   } catch (error) {
     console.error('Error en la solicitud:', error)
