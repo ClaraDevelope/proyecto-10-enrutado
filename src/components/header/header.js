@@ -1,7 +1,3 @@
-import { printEventos } from '../../pages/eventos/eventos'
-import { Home } from '../../pages/home/main/home'
-import { Login } from '../../pages/login/login'
-import { renderPerfil } from '../../pages/usuario/usuario'
 import router from '../../utils/navigo'
 import './header.css'
 export const HeaderRender = (User) => {

@@ -1,5 +1,6 @@
-import { API_URL, showLoader } from '../../utils/variables'
-import { Login, submitLogin } from '../login/login'
+import { showLoader } from '../../utils/showLoader'
+import { API_URL } from '../../utils/variables'
+import { submitLogin } from '../login/login'
 import './register.css'
 
 const submitRegister = async (nombreUsuario, email, password, img, form) => {
@@ -14,6 +15,7 @@ const submitRegister = async (nombreUsuario, email, password, img, form) => {
     body: formData
   }
   const main = document.querySelector('main')
+
   main.innerHTML = ''
   showLoader(main)
   try {

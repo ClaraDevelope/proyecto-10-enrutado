@@ -1,6 +1,7 @@
 import { API_URL } from '../../../utils/variables'
 import { Home } from '../main/home'
 import './registroAsistente.css'
+import { showLoader } from '../../../utils/showLoader'
 
 const form = (elementoPadre, eventoId) => {
   const form = document.createElement('form')
@@ -41,6 +42,9 @@ const isValidEmail = (email) => {
 
 const submit = async (nombre, email, eventoId, form) => {
   const datos = JSON.stringify({ nombre, email })
+  const main = document.querySelector('main')
+  main.innerHTML = ''
+  showLoader(main)
 
   const opciones = {
     method: 'POST',
@@ -55,7 +59,7 @@ const submit = async (nombre, email, eventoId, form) => {
       API_URL + `/asistentes/eventos/${eventoId}/confirmar`,
       opciones
     )
-
+    main.innerHTML = ''
     if (response.ok) {
       console.log('¡Registro realizado con éxito!')
       const main = document.querySelector('main')

@@ -1,26 +1,7 @@
 import router from '../../../utils/navigo'
-import { API_URL, datosUsuario, showLoader } from '../../../utils/variables'
+import { API_URL, User, datosUsuario } from '../../../utils/variables'
+import { showLoader } from '../../../utils/showLoader'
 import './home.css'
-// export const Home = async () => {
-//   const main = document.querySelector('main')
-//   main.innerHTML = ''
-//   showLoader(main)
-//   const loader = document.createElement('div')
-//   loader.className = 'loader'
-//   const loaderImg = document.createElement('img')
-//   loaderImg.src =
-//     'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXE1N3FldGM1dG9pODVweDY5cm1uM2Y0ZmQyc2I3b2t6aWU5MnVyOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/YDC5HjHcfFk8lgxXQm/giphy.gif'
-//   loaderImg.alt = 'Cargando...'
-//   loaderImg.loading = 'lazy'
-//   loader.appendChild(loaderImg)
-//   main.appendChild(loader)
-
-//   const res = await fetch(API_URL + '/eventos/')
-//   const eventos = await res.json()
-
-//   main.removeChild(loader)
-//   pintarEventos(eventos, main)
-// }
 export const Home = async () => {
   const main = document.querySelector('main')
   main.innerHTML = ''
@@ -49,31 +30,24 @@ export const pintarEventos = (eventos, elementoPadre) => {
     const cartel = document.createElement('img')
     cartel.alt = 'cartel-evento'
     cartel.loading = 'lazy'
-    if (evento.cartel) {
-      cartel.src = evento.cartel
-    } else {
-      cartel.src =
-        'https://i.pinimg.com/564x/56/72/b1/5672b13718380e6eaea917bfadc49de7.jpg'
-    }
+    cartel.src = evento.cartel
+      ? evento.cartel
+      : 'https://i.pinimg.com/564x/56/72/b1/5672b13718380e6eaea917bfadc49de7.jpg'
     divCartel.append(cartel)
     const info = document.createElement('div')
     info.className = 'info'
     titulo.textContent = evento.titulo
     const fecha = new Date(evento.fecha)
-    const dia = fecha.getDate()
-    const mes = fecha.getMonth() + 1
-    const año = fecha.getFullYear()
-
-    const fechaFormateada = `${dia}/${mes}/${año}`
-
+    const fechaFormateada = `${fecha.getDate()}/${
+      fecha.getMonth() + 1
+    }/${fecha.getFullYear()}`
     info.innerHTML = `
         <p class="fecha">${fechaFormateada}</p>
         <p class="ubicacion">${evento.ubicacion}</p>
-        <button class="info-boton"> ▶ Información </button>
+        <button class="info-boton" data-event-id="${evento._id}"> ▶ Información </button>
     `
 
     const infoBoton = info.querySelector('.info-boton')
-    infoBoton.dataset.eventId = evento._id
     infoBoton.addEventListener('click', (e) => {
       const eventoId = e.target.dataset.eventId
       const ruta = `/evento/${eventoId}`
@@ -94,6 +68,7 @@ export const infoEvento = async (e) => {
   const evento = await res.json()
   printEvento(evento)
 }
+
 const printEvento = (evento) => {
   const main = document.querySelector('main')
   const divEvento = document.createElement('div')
@@ -126,42 +101,21 @@ const printEvento = (evento) => {
         <p class="precio">Precio sin registro: ${precio}€</p>
         <p class="precio">Precio para usuarios registrados: ${precioUsuarios}€</p>
         <div class= "button-container">
-         <button class="asistencia">▶ Asistir sin registro</button>
-         <button class="registro-boton">▶ Asistir como usuario registrado</button>
        </div>
     `
-  const buttonAsistenciaSinRegistro = info.querySelector('.asistencia')
-  buttonAsistenciaSinRegistro.addEventListener('click', () => {
-    const ruta = `/${evento._id}/confirmar-asistencia-sin-registro`
-    router.navigate(ruta)
-  })
 
-  const buttonAsistenciaUsuario = info.querySelector('.registro-boton')
-  buttonAsistenciaUsuario.addEventListener('click', (e) => {
-    e.preventDefault()
-    router.navigate('/login')
-  })
-  divEvento.append(titulo, divCartel, info)
-  main.append(divEvento)
-  divEvento.append(titulo, divCartel, info)
-  main.append(divEvento)
+  const buttonContainer = info.querySelector('.button-container')
+
   if (localStorage.getItem('token')) {
-    if (
-      JSON.parse(localStorage.getItem('user')).eventosAsistencia.includes(
-        evento._id
-      )
-    ) {
-      const buttonContainer = document.querySelector('.button-container')
-      buttonContainer.removeChild(buttonAsistenciaSinRegistro)
-      buttonContainer.removeChild(buttonAsistenciaUsuario)
+    const user = JSON.parse(localStorage.getItem('user'))
+    console.log(user)
+    console.log(evento._id)
+    if (user && user.eventosAsistencia.includes(evento._id)) {
       const asistenciaYaConfirmada = document.createElement('button')
       asistenciaYaConfirmada.className = 'disabled'
       asistenciaYaConfirmada.innerText = '✅ Ya asistes a este evento'
       buttonContainer.append(asistenciaYaConfirmada)
     } else {
-      const buttonContainer = document.querySelector('.button-container')
-      buttonContainer.removeChild(buttonAsistenciaSinRegistro)
-      buttonContainer.removeChild(buttonAsistenciaUsuario)
       const buttonAsistirUsuarioLogueado = document.createElement('button')
       buttonAsistirUsuarioLogueado.textContent = '▶ Asistir'
       buttonAsistirUsuarioLogueado.className = 'asistencia'
@@ -172,9 +126,29 @@ const printEvento = (evento) => {
       })
     }
   } else {
-    return
+    const buttonAsistenciaSinRegistro = document.createElement('button')
+    buttonAsistenciaSinRegistro.textContent = '▶ Asistir sin registro'
+    buttonAsistenciaSinRegistro.className = 'asistencia'
+    buttonContainer.appendChild(buttonAsistenciaSinRegistro)
+    buttonAsistenciaSinRegistro.addEventListener('click', () => {
+      const ruta = `/${evento._id}/confirmar-asistencia-sin-registro`
+      router.navigate(ruta)
+    })
+
+    const buttonAsistenciaUsuario = document.createElement('button')
+    buttonAsistenciaUsuario.textContent = '▶ Asistir como usuario registrado'
+    buttonAsistenciaUsuario.className = 'registro-boton'
+    buttonContainer.appendChild(buttonAsistenciaUsuario)
+    buttonAsistenciaUsuario.addEventListener('click', (e) => {
+      e.preventDefault()
+      router.navigate('/login')
+    })
   }
+
+  divEvento.append(titulo, divCartel, info)
+  main.append(divEvento)
 }
+
 export const registroAsistenteUsuario = (evento) => {
   const eventoId = evento.id
   const nombreUsuario = datosUsuario.nombreUsuario
@@ -186,7 +160,9 @@ export const registroAsistenteUsuario = (evento) => {
 }
 const llamadaAsistenteUsuario = async (eventoId, nombreUsuario, email) => {
   const datos = JSON.stringify({ nombre: nombreUsuario, email: email })
-
+  const main = document.querySelector('main')
+  main.innerHTML = ''
+  showLoader(main)
   const opciones = {
     method: 'POST',
     body: datos,
@@ -202,38 +178,53 @@ const llamadaAsistenteUsuario = async (eventoId, nombreUsuario, email) => {
       opciones
     )
 
+    main.innerHTML = ''
     if (response.status === 200) {
       const data = await response.json()
       console.log(data)
       mensajeExito()
+      const user = JSON.parse(localStorage.getItem('user'))
+      user.eventosAsistencia.push(eventoId)
+      localStorage.setItem('user', JSON.stringify(user))
+
+      actualizarInterfazUsuario()
+    } else if (response.status === 400) {
+      console.log('El usuario ya está inscrito en el evento')
+
+      mostrarMensajeError()
     } else {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
       console.error('Mensaje de error:', errorMessage)
-      const divEvento = document.querySelector('.evento')
-      const pError = document.createElement('p')
-      pError.classList.add('error')
-      pError.textContent = 'Ya estás inscrito en este evento'
-      pError.style.color = '960303'
-      pError.style.webkitTextStroke = '1px #960303'
-      pError.style.fontWeight = 'bold'
-      pError.style.fontSize = '20px'
-      pError.style.padding = '10px'
-      divEvento.appendChild(pError)
+      mostrarMensajeError(
+        'Error en la solicitud. Inténtalo de nuevo más tarde.'
+      )
     }
   } catch (error) {
     console.error('Error en la solicitud:', error)
-    const divEvento = document.querySelector('.evento')
-    const pError = document.createElement('p')
-    pError.classList.add('error')
-    pError.textContent = 'Ya estás inscrito en este evento'
-    pError.style.color = '960303'
-    pError.style.webkitTextStroke = '1px #960303'
-    pError.style.fontWeight = 'bold'
-    pError.style.fontSize = '20px'
-    pError.style.padding = '10px'
-    divEvento.appendChild(pError)
+    mostrarMensajeError()
   }
+}
+
+const actualizarInterfazUsuario = () => {
+  const buttonAsistirUsuarioLogueado = document.querySelector('.asistencia')
+  if (buttonAsistirUsuarioLogueado) {
+    buttonAsistirUsuarioLogueado.textContent = 'Ya estás inscrito'
+    buttonAsistirUsuarioLogueado.disabled = true
+  }
+}
+
+const mostrarMensajeError = (mensaje) => {
+  const divEvento = document.querySelector('.evento')
+  const pError = document.createElement('p')
+  pError.classList.add('error')
+  pError.textContent = mensaje
+  pError.style.color = '#960303'
+  pError.style.webkitTextStroke = '1px #960303'
+  pError.style.fontWeight = 'bold'
+  pError.style.fontSize = '20px'
+  pError.style.padding = '10px'
+  divEvento.appendChild(pError)
 }
 
 const mensajeExito = () => {

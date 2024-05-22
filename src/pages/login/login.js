@@ -1,23 +1,14 @@
-import { Landing } from '../../../main'
-import {
-  Header,
-  HeaderRender,
-  HeaderUsuario
-} from '../../components/header/header'
+import { HeaderUsuario } from '../../components/header/header'
 import router from '../../utils/navigo'
-import {
-  API_URL,
-  User,
-  actualizarDatosUsuario,
-  showLoader
-} from '../../utils/variables'
-import { Home } from '../home/main/home'
-import { printRegister } from '../register/register'
+import { API_URL, actualizarDatosUsuario } from '../../utils/variables'
+import { showLoader } from '../../utils/showLoader'
 import './login.css'
 
 export const submitLogin = async (nombreUsuario, password, form) => {
   const datos = JSON.stringify({ nombreUsuario, password })
-
+  const main = document.querySelector('main')
+  main.innerHTML = ''
+  showLoader(main)
   const opciones = {
     method: 'POST',
     body: datos,
@@ -28,6 +19,7 @@ export const submitLogin = async (nombreUsuario, password, form) => {
 
   try {
     const response = await fetch(API_URL + '/auth/login', opciones)
+    main.innerHTML = ''
     if (response.ok) {
       const data = await response.json()
       console.log('Datos de la respuesta:', data)

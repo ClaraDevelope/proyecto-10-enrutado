@@ -1,4 +1,5 @@
 import router from '../../utils/navigo'
+import { showLoader } from '../../utils/showLoader'
 import {
   API_URL,
   datosActualizadosUsuario,
@@ -97,6 +98,9 @@ const datosEdicion = async (event) => {
   }
 }
 const editarDatosPerfil = async (usuarioId, formData) => {
+  const main = document.querySelector('main')
+  main.innerHTML = ''
+  showLoader(main)
   const opciones = {
     method: 'PATCH',
     headers: {
@@ -106,6 +110,7 @@ const editarDatosPerfil = async (usuarioId, formData) => {
   }
 
   try {
+    main.innerHTML = ''
     const response = await fetch(`${API_URL}/auth/${usuarioId}`, opciones)
 
     if (response.ok) {
@@ -143,35 +148,3 @@ const editarDatosPerfil = async (usuarioId, formData) => {
     main.appendChild(pError)
   }
 }
-
-// const editarDatosPerfil = async (usuarioId, formData) => {
-//   const opciones = {
-//     method: 'PATCH',
-//     headers: {
-//       Authorization: `Bearer ${localStorage.getItem('token')}`
-//     },
-//     body: formData
-//   }
-//   for (const [key, value] of formData.entries()) {
-//     console.log(key + ': ' + value)
-//   }
-//   try {
-//     const response = await fetch(`${API_URL}/auth/${usuarioId}`, opciones)
-
-//     console.log(response)
-
-//     if (response.ok) {
-//       const data = await response.json()
-//       console.log('Usuario editado exitosamente', data)
-//       alert('¡Editado con éxito!')
-//       // window.location.reload()
-//       if (data) {
-//         router.navigate('/inicio')
-//       }
-//     } else {
-//       console.error('Error al editar el usuario:', error.message)
-//     }
-//   } catch (error) {
-//     console.error('Error al editar el usuario:', error)
-//   }
-// }
