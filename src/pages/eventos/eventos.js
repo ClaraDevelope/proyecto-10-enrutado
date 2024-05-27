@@ -1,3 +1,5 @@
+import { printErrorMessage } from '../../components/errorMessage/errorMessage'
+import { formCreateEvent } from '../../components/forms/forms'
 import router from '../../utils/navigo'
 import { showLoader } from '../../utils/showLoader'
 import { API_URL, datosUsuario, usuarioId } from '../../utils/variables'
@@ -14,7 +16,7 @@ export const printEventos = async () => {
   createButton.className = 'create-button'
   createButton.innerText = 'Crear nuevo evento'
 
-  createButton.addEventListener('click', formCrearEvento)
+  createButton.addEventListener('click', formCreateEvent)
 
   divContainer.append(eventosContainer, createButton)
   main.innerHTML = ''
@@ -150,9 +152,19 @@ const eliminarEvento = async (eventoId) => {
       alert('Evento eliminado')
     } else {
       console.log('No se pudo eliminar el evento')
+      const main = document.querySelector('main')
+      printErrorMessage(
+        main,
+        'No se ha podido eliminar el evento. Inténtalo más tarde.'
+      )
     }
   } catch (error) {
     console.error('Error al eliminar el evento:', error)
+    const main = document.querySelector('main')
+    printErrorMessage(
+      main,
+      'No se ha podido eliminar el evento. Inténtalo más tarde.'
+    )
   }
 }
 
@@ -256,48 +268,7 @@ const editarEvento = async (eventoId, userId, formData) => {
   }
 }
 
-const formCrearEvento = () => {
-  const main = document.querySelector('main')
-  main.innerHTML = ''
-
-  const form = document.createElement('form')
-  form.id = 'eventoForm'
-
-  form.innerHTML = `
-      <h2 class='title-edit'>Crea un nuevo evento</h2>
-      <label for="titulo">Título:</label>
-      <input type="text" id="titulo" name="titulo" required><br>
-      
-      <label for="fecha">Fecha:</label>
-      <input type="date" id="fecha" name="fecha" required><br>
-      
-      <label for="ubicacion">Ubicación:</label>
-      <input type="text" id="ubicacion" name="ubicacion" required><br>
-      
-      <label for="descripcion">Descripción:</label><br>
-      <textarea id="descripcion" name="descripcion" required></textarea><br>
-      
-      <label for="precio">Precio:</label>
-      <input type="number" id="precio" name="precio" required><br>
-      
-      <label for="cartel">Cartel:</label>
-      <input type="file" id="cartel" name="cartel" accept="image/*"required><br>
-      
-      <button class='submit' type="submit">Enviar</button>
-  `
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    const userId = datosUsuario._id
-    console.log(userId)
-    const formData = new FormData(form)
-    await enviarFormulario(userId, formData, form)
-  })
-
-  main.appendChild(form)
-}
-
-const enviarFormulario = async (userId, formData, form) => {
+export const submitFormEvent = async (userId, formData, form) => {
   const opciones = {
     method: 'POST',
     body: formData,
@@ -309,7 +280,9 @@ const enviarFormulario = async (userId, formData, form) => {
   for (const [key, value] of formData.entries()) {
     console.log(key + ': ' + value)
   }
-
+  const main = document.querySelector('main')
+  main.innerHTML = ''
+  showLoader(main)
   try {
     const response = await fetch(API_URL + `/auth/${userId}/create`, opciones)
     if (response.status === 201) {
@@ -332,12 +305,6 @@ const enviarFormulario = async (userId, formData, form) => {
     }
   } catch (error) {
     console.error('Error en la solicitud:', error)
-    const pError = document.createElement('p')
-    pError.classList.add('error')
-    pError.textContent = error.message || 'Error al registrar el evento'
-    pError.style.color = '#E86C7E'
-    pError.style.fontWeight = 'bold'
-    pError.style.fontSize = '20px'
-    form.append(pError)
+    printErrorMessage(form, 'Error al registrar el evento')
   }
 }

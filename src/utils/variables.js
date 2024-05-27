@@ -10,7 +10,7 @@ function obtenerDatosUsuario() {
 export function actualizarDatosUsuario() {
   datosUsuario = obtenerDatosUsuario()
 }
-export let datosActualizadosUsuario = null
+// export let datosActualizadosUsuario = null
 export const usuarioId = datosUsuario?._id
 export const encontrarEventoPorId = async (eventoId) => {
   try {

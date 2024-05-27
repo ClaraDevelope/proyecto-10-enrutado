@@ -1,3 +1,5 @@
+import { printErrorMessage } from '../../components/errorMessage/errorMessage'
+import { registerForm } from '../../components/forms/forms'
 import { showLoader } from '../../utils/showLoader'
 import { API_URL } from '../../utils/variables'
 import { submitLogin } from '../login/login'
@@ -35,70 +37,9 @@ const submitRegister = async (nombreUsuario, email, password, img, form) => {
   } catch (error) {
     console.error('Error en la solicitud:', error)
     if (!form.querySelector('.error')) {
-      const pError = document.createElement('p')
-      pError.classList.add('error')
-      pError.textContent = error.message || 'Error al iniciar sesión'
-      pError.style.color = '#960303'
-      pError.style.webkitTextStroke = '1px #960303'
-      pError.style.fontWeight = 'bold'
-      pError.style.fontSize = '20px'
-      form.append(pError)
+      printErrorMessage(form)
     }
   }
-}
-
-const createForm = (elementoPadre) => {
-  const form = document.createElement('form')
-  form.className = 'form-register'
-  const inputNombreUsuario = document.createElement('input')
-  inputNombreUsuario.type = 'text'
-  inputNombreUsuario.name = 'userName'
-  inputNombreUsuario.placeholder = 'Nombre de Usuario'
-  const inputMail = document.createElement('input')
-  inputMail.type = 'email'
-  inputMail.name = 'email'
-  inputMail.placeholder = 'Email'
-  const inputContraseña = document.createElement('input')
-  inputContraseña.type = 'password'
-  inputContraseña.name = 'password'
-  inputContraseña.className = 'password'
-  inputContraseña.placeholder = 'Contraseña'
-  const inputConfirmContraseña = document.createElement('input')
-  inputConfirmContraseña.type = 'password'
-  inputConfirmContraseña.className = 'confirm-password'
-  inputConfirmContraseña.placeholder = 'Repite la contraseña'
-  const pImage = document.createElement('p')
-  pImage.className = 'paragraph'
-  pImage.innerText = 'Elige tu imagen de perfil:'
-  const inputImage = document.createElement('input')
-  inputImage.type = 'file'
-  inputImage.name = 'img'
-  inputImage.accept = 'image/*'
-  const submitButton = document.createElement('button')
-  submitButton.type = 'submit'
-  submitButton.className = 'submit'
-  submitButton.innerText = 'Registrarme'
-  form.append(
-    inputNombreUsuario,
-    inputMail,
-    inputContraseña,
-    inputConfirmContraseña,
-    pImage,
-    inputImage,
-    submitButton
-  )
-
-  inputConfirmContraseña.addEventListener('input', () => {
-    const password = inputContraseña.value
-    const confirmPassword = inputConfirmContraseña.value
-
-    if (password !== confirmPassword) {
-      inputConfirmContraseña.setCustomValidity('Las contraseñas no coinciden')
-    } else {
-      inputConfirmContraseña.setCustomValidity('')
-    }
-  })
-  elementoPadre.append(form)
 }
 
 export const printRegister = () => {
@@ -110,7 +51,7 @@ export const printRegister = () => {
   bienvenida.innerText =
     '¡Bienvenido a FandomFiesta, donde la diversión nunca termina! Esperamos que disfrutes siendo parte de nuestra vibrante comunidad. ¡Únete y comienza a explorar todo lo que tenemos para ofrecerte! 🎉'
   registroContainer.append(bienvenida)
-  createForm(registroContainer)
+  registerForm(registroContainer)
   main.append(registroContainer)
 
   const formElement = document.querySelector('.form-register')

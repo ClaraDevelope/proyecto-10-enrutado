@@ -1,10 +1,8 @@
+import { printErrorMessage } from '../../components/errorMessage/errorMessage'
+import { formEditHTML } from '../../components/forms/forms'
 import router from '../../utils/navigo'
 import { showLoader } from '../../utils/showLoader'
-import {
-  API_URL,
-  datosActualizadosUsuario,
-  datosUsuario
-} from '../../utils/variables'
+import { API_URL, datosUsuario } from '../../utils/variables'
 import './usuario.css'
 export const renderPerfil = () => {
   const main = document.querySelector('main')
@@ -52,20 +50,7 @@ export const formEdit = () => {
   main.innerHTML = ''
   const formulario = document.createElement('form')
   formulario.id = 'miFormulario'
-  formulario.innerHTML = ` 
-  <h2 class='title-edit'>Edita tus datos</h2>
-<label class='start' for="nombreUsuario">Nombre de usuario:</label>
-<input type="text" name="nombreUsuario">
-<label class='start' for="password">Nueva contraseña:</label>
-<input type="password" class="password" name="password">
-<label class='start'>Repite contraseña:</label>
-<input type="password" class="confirm-password" name="confirmPassword">
-<label class='start' for="email">Correo electrónico:</label>
-<input type="email"  name="email">
-<label class='start' for="img">Imagen:</label>
-<input id='transparent' type="file" name="img" accept="image/*">
-<button class='submit' id='editar-button'>Editar</button>
-`
+  formulario.innerHTML = formEditHTML
   const passwordInput = formulario.querySelector('.password')
   const confirmPasswordInput = formulario.querySelector('.confirm-password')
 
@@ -117,7 +102,6 @@ const editarDatosPerfil = async (usuarioId, formData) => {
       const data = await response.json()
       console.log('Usuario editado exitosamente', data)
       alert('¡Editado con éxito!')
-      // window.location.reload()
       if (data) {
         router.navigate('/inicio')
       }
@@ -125,26 +109,11 @@ const editarDatosPerfil = async (usuarioId, formData) => {
       const errorMessage = await response.text()
       console.error('Error al editar el usuario:', errorMessage)
       const main = document.querySelector('main')
-      const pError = document.createElement('p')
-      pError.classList.add('error')
-      pError.textContent =
-        'Error al editar los datos del perfil: ' + errorMessage
-      pError.style.color = '#960303'
-      pError.style.webkitTextStroke = '1px #960303'
-      pError.style.fontWeight = 'bold'
-      pError.style.fontSize = '20px'
-      main.appendChild(pError)
+      printErrorMessage(main)
     }
   } catch (error) {
     console.error('Error al editar el usuario:', error)
     const main = document.querySelector('main')
-    const pError = document.createElement('p')
-    pError.classList.add('error')
-    pError.textContent = 'Error al editar los datos del perfil'
-    pError.style.color = '#960303'
-    pError.style.webkitTextStroke = '1px #960303'
-    pError.style.fontWeight = 'bold'
-    pError.style.fontSize = '20px'
-    main.appendChild(pError)
+    printErrorMessage(main)
   }
 }

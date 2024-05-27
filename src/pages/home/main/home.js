@@ -1,7 +1,9 @@
 import router from '../../../utils/navigo'
-import { API_URL, User, datosUsuario } from '../../../utils/variables'
+import { API_URL, datosUsuario } from '../../../utils/variables'
 import { showLoader } from '../../../utils/showLoader'
 import './home.css'
+import { printErrorMessage } from '../../../components/errorMessage/errorMessage'
+import { printSuccessMessage } from '../../../components/successMessage/successMessage'
 export const Home = async () => {
   const main = document.querySelector('main')
   main.innerHTML = ''
@@ -14,7 +16,7 @@ export const Home = async () => {
     pintarEventos(eventos, main)
   } catch (error) {
     console.error('Error al cargar eventos:', error)
-    main.innerHTML = '<p>Ocurrió un error al cargar los eventos.</p>'
+    printErrorMessage(main, 'Ocurrió un error al cargar los eventos.')
   }
 }
 
@@ -182,7 +184,9 @@ const llamadaAsistenteUsuario = async (eventoId, nombreUsuario, email) => {
     if (response.status === 200) {
       const data = await response.json()
       console.log(data)
-      mensajeExito()
+      printSuccessMessage(
+        '¡Enhorabuena! te has inscrito correctamente en el evento'
+      )
       const user = JSON.parse(localStorage.getItem('user'))
       user.eventosAsistencia.push(eventoId)
       localStorage.setItem('user', JSON.stringify(user))
@@ -196,13 +200,18 @@ const llamadaAsistenteUsuario = async (eventoId, nombreUsuario, email) => {
       console.error('Error en la solicitud:', response.status)
       const errorMessage = await response.text()
       console.error('Mensaje de error:', errorMessage)
-      mostrarMensajeError(
+      const divEvento = document.querySelector('.evento')
+      printErrorMessage(
+        divEvento,
         'Error en la solicitud. Inténtalo de nuevo más tarde.'
       )
     }
   } catch (error) {
     console.error('Error en la solicitud:', error)
-    mostrarMensajeError()
+    printErrorMessage(
+      divEvento,
+      'Error en la solicitud. Inténtalo de nuevo más tarde.'
+    )
   }
 }
 
@@ -212,29 +221,4 @@ const actualizarInterfazUsuario = () => {
     buttonAsistirUsuarioLogueado.textContent = 'Ya estás inscrito'
     buttonAsistirUsuarioLogueado.disabled = true
   }
-}
-
-const mostrarMensajeError = (mensaje) => {
-  const divEvento = document.querySelector('.evento')
-  const pError = document.createElement('p')
-  pError.classList.add('error')
-  pError.textContent = mensaje
-  pError.style.color = '#960303'
-  pError.style.webkitTextStroke = '1px #960303'
-  pError.style.fontWeight = 'bold'
-  pError.style.fontSize = '20px'
-  pError.style.padding = '10px'
-  divEvento.append(pError)
-}
-
-const mensajeExito = () => {
-  const main = document.querySelector('main')
-  main.innerHTML = ''
-  const mensaje = document.createElement('p')
-  mensaje.innerText = '¡Enhorabuena! te has inscrito correctamente en el evento'
-  mensaje.style.width = '300px'
-  mensaje.style.fontSize = '18px'
-  mensaje.style.alignSelf = 'center'
-  mensaje.style.textAlign = 'center'
-  main.append(mensaje)
 }

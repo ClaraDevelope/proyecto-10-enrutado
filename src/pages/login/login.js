@@ -3,90 +3,18 @@ import router from '../../utils/navigo'
 import { API_URL, actualizarDatosUsuario } from '../../utils/variables'
 import { showLoader } from '../../utils/showLoader'
 import './login.css'
+import { loginForm } from '../../components/forms/forms'
+import { printErrorMessage } from '../../components/errorMessage/errorMessage'
+import { hideLoader } from '../../utils/hideLoader'
 
-export const submitLogin = async (nombreUsuario, password, form) => {
-  const datos = JSON.stringify({ nombreUsuario, password })
-  const main = document.querySelector('main')
-  main.innerHTML = ''
-  showLoader(main)
-  const opciones = {
-    method: 'POST',
-    body: datos,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  }
-
-  try {
-    const response = await fetch(API_URL + '/auth/login', opciones)
-    main.innerHTML = ''
-    if (response.ok) {
-      const data = await response.json()
-      console.log('Datos de la respuesta:', data)
-      localStorage.setItem('token', data.token)
-      console.log('Objeto de usuario almacenado:', data.usuario)
-      localStorage.setItem('user', JSON.stringify(data.usuario))
-
-      if (data) {
-        HeaderUsuario()
-        actualizarDatosUsuario()
-        router.navigate('/inicio')
-      }
-    } else {
-      console.error('Error en la solicitud:', response.status)
-      const errorMessage = await response.text()
-      console.error('Mensaje de error:', errorMessage)
-
-      const existingError = [...form.querySelectorAll('.error')].find(
-        (errorElement) => {
-          return errorElement.getAttribute('data-message') === errorMessage
-        }
-      )
-
-      if (!existingError) {
-        const pError = document.createElement('p')
-        pError.classList.add('error')
-        pError.textContent = errorMessage
-        pError.setAttribute('data-message', errorMessage)
-        pError.style.color = '#960303'
-        pError.style.webkitTextStroke = '1px #960303'
-        pError.style.fontWeight = 'bold'
-        pError.style.fontSize = '20px'
-        form.append(pError)
-      }
-    }
-  } catch (error) {
-    console.error('Error en la solicitud:', error)
-    const errorMessage = 'Error al iniciar sesión'
-
-    const existingError = [...form.querySelectorAll('.error')].find(
-      (errorElement) => {
-        return errorElement.getAttribute('data-message') === errorMessage
-      }
-    )
-
-    if (!existingError) {
-      const pError = document.createElement('p')
-      pError.classList.add('error')
-      pError.textContent = errorMessage
-      pError.setAttribute('data-message', errorMessage)
-      pError.style.color = '960303'
-      pError.style.webkitTextStroke = '1px #960303'
-      pError.style.fontWeight = 'bold'
-      pError.style.fontSize = '20px'
-      form.append(pError)
-    }
-  }
-}
-
-const formLogin = (elementoPadre) => {
+const formLogin = (elementoPadre, mostrarError = false, errorMessage = '') => {
   const renderForm = () => {
     const formLoginContainer = document.createElement('div')
     formLoginContainer.className = 'form-container'
     const title = document.createElement('h2')
     title.innerText = 'Iniciar sesión'
     formLoginContainer.append(title)
-    form(formLoginContainer)
+    loginForm(formLoginContainer)
     const pRegistro = document.createElement('p')
     pRegistro.className = 'parrafo-registro'
     pRegistro.innerHTML = `Si aún no tienes cuenta, <a class="anchor-registro" href="/login/registro">haz click aquí para registrarte</a>`
@@ -106,6 +34,10 @@ const formLogin = (elementoPadre) => {
       e.preventDefault()
       router.navigate('/login/registro')
     })
+
+    if (mostrarError && errorMessage) {
+      printErrorMessage(formLogin, errorMessage)
+    }
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', renderForm)
@@ -114,28 +46,69 @@ const formLogin = (elementoPadre) => {
   }
 }
 
-const form = (elementoPadre) => {
-  const formLogin = document.createElement('form')
-  formLogin.className = 'form-login'
-  const userNameInput = document.createElement('input')
-  userNameInput.type = 'text'
-  userNameInput.name = 'userName'
-  userNameInput.placeholder = 'Nombre de usuario'
-  const passwordInput = document.createElement('input')
-  passwordInput.type = 'password'
-  passwordInput.name = 'password'
-  passwordInput.placeholder = 'Contraseña'
-  const submitButton = document.createElement('button')
-  submitButton.className = 'submit'
-  submitButton.innerText = 'Iniciar sesión'
-  formLogin.append(userNameInput, passwordInput, submitButton)
-  elementoPadre.append(formLogin)
-}
-
 export const Login = () => {
   const main = document.querySelector('main')
   if (main) {
     main.innerHTML = ''
-    formLogin(main)
+    formLogin(main, false, '')
+  }
+}
+
+export const submitLogin = async (nombreUsuario, password, form) => {
+  const datos = JSON.stringify({ nombreUsuario, password })
+  const main = document.querySelector('main')
+
+  showLoader(main)
+
+  const opciones = {
+    method: 'POST',
+    body: datos,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+
+  try {
+    const response = await fetch(API_URL + '/auth/login', opciones)
+
+    if (response.ok) {
+      const data = await response.json()
+      console.log('Datos de la respuesta:', data)
+      localStorage.setItem('token', data.token)
+      console.log('Objeto de usuario almacenado:', data.usuario)
+      localStorage.setItem('user', JSON.stringify(data.usuario))
+
+      if (data) {
+        HeaderUsuario()
+        actualizarDatosUsuario()
+        router.navigate('/inicio')
+      }
+    } else {
+      console.error('Error en la solicitud:', response.status)
+
+      const errorMessage = await response.text()
+      console.error('Mensaje de error:', errorMessage)
+
+      const existingErrors = form.querySelectorAll('.error')
+      existingErrors.forEach((error) => error.remove())
+
+      let errorType = ''
+      if (errorMessage.toLowerCase().includes('usuario')) {
+        errorType = 'Usuario'
+      } else if (errorMessage.toLowerCase().includes('contraseña')) {
+        errorType = 'Contraseña'
+      }
+
+      printErrorMessage(form, `${errorType} incorrecto/a`)
+    }
+  } catch (error) {
+    console.error('Error en la solicitud:', error)
+    s
+    const existingErrors = form.querySelectorAll('.error')
+    existingErrors.forEach((error) => error.remove())
+
+    printErrorMessage(form, 'Error al iniciar sesión')
+  } finally {
+    hideLoader(main)
   }
 }
